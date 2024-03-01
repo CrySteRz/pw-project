@@ -1,0 +1,12 @@
+{
+    "name": "ionut/pw-project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ionut\\PwProject\\": "src/"
+        }
+    },
+    "require": {
+        "slim/slim": "3.*"
+    }
+}
