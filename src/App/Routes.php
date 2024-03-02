@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-#use App\Controller\Note;
+// use App\Controller\Note;
 // use App\Controller\Task;
 // use App\Controller\User;
 // use App\Middleware\Auth;
 
 return static function ($app) {
     $app->get('/', '\App\Controller\DefaultController:getHelp');
+    $app->get('/google/auth', '\App\Controller\User\Login:login');
+    $app->get('/google/auth/callback', '\App\Controller\User\Login:callback');
     // $app->get('/status', 'App\Controller\DefaultController:getStatus');
     // $app->post('/login', \App\Controller\User\Login::class);
 

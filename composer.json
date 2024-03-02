@@ -12,6 +12,8 @@
         "twig/twig": "3.0",
         "slim/slim": "3.*",
         "slim/twig-view": "^2.5",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "google/apiclient": "^2.14",
+        "firebase/php-jwt": "^6.4"
     }
 }
