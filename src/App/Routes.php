@@ -2,15 +2,20 @@
 
 declare(strict_types=1);
 
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+
 // use App\Controller\Note;
 // use App\Controller\Task;
 // use App\Controller\User;
 // use App\Middleware\Auth;
 
-return static function ($app) {
+return static function ($app) use ($container){
+    /// add the notfoundhandler from the dependency container
     $app->get('/', '\App\Controller\DefaultController:getHelp');
     $app->get('/google/auth', '\App\Controller\User\Login:login');
     $app->get('/google/auth/callback', '\App\Controller\User\Login:callback');
+    $app->add($container->get('notFoundHandler'));
     // $app->get('/status', 'App\Controller\DefaultController:getStatus');
     // $app->post('/login', \App\Controller\User\Login::class);
 
