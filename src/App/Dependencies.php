@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 use Psr\Container\ContainerInterface;
+use App\Handler\ApiError;
 
 $container['db'] = static function (ContainerInterface $container): PDO {
     $host = "localhost";
@@ -12,11 +13,12 @@ $container['db'] = static function (ContainerInterface $container): PDO {
     $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     return $db;
 };
+$container['errorHandler'] = static function (): ApiError {
+    return new ApiError();
+};
 
-$container['notFoundHandler'] = static function ($container) {
-    return function ($request, $response) use ($container) {
-        $response = $response->withStatus(404);
-        $response->getBody()->write('Not Found');
-        return $response->withHeader('Content-Type', 'text/html');
+$container['notFoundHandler'] = static function () {
+    return static function ($request, $response): void {
+        throw new \App\Exception\NotFound('Endpoint not found. Check your URL and try again.', 404);
     };
 };
