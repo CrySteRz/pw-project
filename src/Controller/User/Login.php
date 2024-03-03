@@ -15,12 +15,16 @@ class Login
     private $clientId;
     private $clientSecret;
     private $redirectUri;
+    private $jwtSecretKey;
+    private $encryptionKey;
 
     public function __construct()
     {
         $this->clientId = $_SERVER['GOOGLE_CLIENT_ID'];
         $this->clientSecret = $_SERVER['GOOGLE_CLIENT_SECRET'];
         $this->redirectUri = $_SERVER['GOOGLE_REDIRECT_URI'];
+        $this->jwtSecretKey = $_SERVER['JWT_SECRET_KEY'];
+        $this->encryptionKey = $_SERVER['ENCRYPTION_KEY'];
     }
 
     public function login(Request $request, Response $response, array $args): Response
@@ -41,7 +45,7 @@ class Login
         $client->setClientId($this->clientId);
         $client->setClientSecret($this->clientSecret);
         $client->setRedirectUri($this->redirectUri);
-
+        
         $code = $request->getQueryParams()['code'];
         $token = $client->fetchAccessTokenWithAuthCode($code);
 
@@ -58,8 +62,9 @@ class Login
             'email' => $userinfo['email'],
             'name' => $userinfo['name'], 
         ];
-        
-        $jwt = JWT::encode($payload, $_SERVER['JWT_SECRET_KEY'], 'HS256');
+        //$encryptedPayload = openssl_encrypt(json_encode($payload), 'aes-256-cbc', $this->encryptionKey, 0, $this->encryptionKey); VREM SA FACEM ENCRYPT LA PAYLOAD? DECODAM DATELE NUMAI PE BACKEND?
+
+        $jwt = JWT::encode($payload, $this->jwtSecretKey, 'HS256');
         return $response->withJson(['token' => $jwt]);
     }
 }

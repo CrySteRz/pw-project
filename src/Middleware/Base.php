@@ -9,12 +9,12 @@ use Firebase\JWT\JWT;
 
 abstract class Base
 {
-    protected function checkToken(string $token): object
+    protected function checkToken(string $token): array
     {
         try {
-            return JWT::decode($token, $_SERVER['SECRET_KEY'], ['HS256']);
+            return (JWT::decode($token, $_SERVER['JWT_SECRET_KEY'], 'HS256'));
         } catch (\UnexpectedValueException $e) {
-            throw new Auth('Forbidden: you are not authorized.', 403);
+            throw new Auth('Forbidden: you are not authorized.' . $e, 403);
         }
     }
-}
+} 

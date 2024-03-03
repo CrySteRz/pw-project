@@ -24,9 +24,7 @@ final class DefaultController extends BaseController
     public function getStatus(Request $request, Response $response): Response
     {
         $status = [
-            'stats' => $this->getDbStats(),
-            'MySQL' => 'OK',
-            'Redis' => $this->checkRedisConnection(),
+            'SQLite' => 'OK',
             'version' => self::API_VERSION,
             'timestamp' => time(),
         ];

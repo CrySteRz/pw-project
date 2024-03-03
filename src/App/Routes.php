@@ -18,9 +18,10 @@ return static function ($app) {
     // $app->get('/status', 'App\Controller\DefaultController:getStatus');
     // $app->post('/login', \App\Controller\User\Login::class);
 
-    $app->group('/api/v1', function () use ($app): void {
-        $app->group('/', function () use ($app): void {
-            
+    $app->group('/api', function () use ($app): void {
+        $app->group('/test', function () use ($app): void {
+
+            $app->get('/status', '\App\Controller\DefaultController:getStatus');
             // $app->get('', Task\GetAll::class);
             // $app->post('', Task\Create::class);
             // $app->get('/{id}', Task\GetOne::class);
