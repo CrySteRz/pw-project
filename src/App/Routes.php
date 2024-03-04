@@ -11,17 +11,15 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  use App\Middleware\Auth;
 
 return static function ($app) {
-    
+    //Public routes
     $app->get('/', '\App\Controller\DefaultController:getHelp');
-    $app->get('/google/auth', '\App\Controller\User\Login:login');
+    $app->get('/login', '\App\Controller\User\Login:login');
     $app->get('/google/auth/callback', '\App\Controller\User\Login:callback');
-    // $app->get('/status', 'App\Controller\DefaultController:getStatus');
-    // $app->post('/login', \App\Controller\User\Login::class);
 
     $app->group('/api', function () use ($app): void {
         $app->group('/test', function () use ($app): void {
 
-            $app->get('/status', '\App\Controller\DefaultController:getStatus');
+            $app->get('/status', '\App\Controller\DefaultController:getStatus'); // Am pus getStatus aici sa vad daca e securizat behind the middleware
             // $app->get('', Task\GetAll::class);
             // $app->post('', Task\Create::class);
             // $app->get('/{id}', Task\GetOne::class);
