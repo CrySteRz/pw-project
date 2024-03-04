@@ -10,21 +10,22 @@ use Google\Client as Google_Client;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client as GuzzleClient;
 
+
 class Login
 {
     private $clientId;
     private $clientSecret;
     private $redirectUri;
-    private $jwtSecretKey;
-    private $encryptionKey;
+    private $privateKey;
+    private $keyId;
 
     public function __construct()
     {
         $this->clientId = $_SERVER['GOOGLE_CLIENT_ID'];
         $this->clientSecret = $_SERVER['GOOGLE_CLIENT_SECRET'];
         $this->redirectUri = $_SERVER['GOOGLE_REDIRECT_URI'];
-        $this->jwtSecretKey = $_SERVER['JWT_SECRET_KEY'];
-        $this->encryptionKey = $_SERVER['ENCRYPTION_KEY'];
+        $this->privateKey = file_get_contents(__DIR__ . './../../../util/private_key.pem');
+        $this->keyId = "Dev_RSA_Pair";
     }
 
     public function login(Request $request, Response $response, array $args): Response
@@ -57,14 +58,17 @@ class Login
         ]);
 
         $userinfo = json_decode($responseGoogle->getBody()->getContents(), true);
-        $payload = [
-            'user_id' => $userinfo['id'], 
-            'email' => $userinfo['email'],
-            'name' => $userinfo['name'], 
-        ];
+        
+    $payload = [
+        'user_id' => $userinfo['id'], 
+        'exp' => time() + 3600 //1 ora for now  
+    ];
+    $header = [
+        'kid' => $this->keyId,
+        'alg' => 'RS256'
+    ];
         //$encryptedPayload = openssl_encrypt(json_encode($payload), 'aes-256-cbc', $this->encryptionKey, 0, $this->encryptionKey); VREM SA FACEM ENCRYPT LA PAYLOAD? DECODAM DATELE NUMAI PE BACKEND?
-
-        $jwt = JWT::encode($payload, $this->jwtSecretKey, 'HS256');
+        $jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, $header);
         return $response->withJson(['token' => $jwt]);
     }
 }
