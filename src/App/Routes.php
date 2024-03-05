@@ -18,30 +18,40 @@ return static function ($app) {
 
     $app->group('/api', function () use ($app): void {
         $app->group('/test', function () use ($app): void {
-
             $app->get('/status', '\App\Controller\DefaultController:getStatus'); // Am pus getStatus aici sa vad daca e securizat behind the middleware
-            // $app->get('', Task\GetAll::class);
-            // $app->post('', Task\Create::class);
-            // $app->get('/{id}', Task\GetOne::class);
-            // $app->put('/{id}', Task\Update::class);
-            // $app->delete('/{id}', Task\Delete::class);
         })->add(new Auth());
 
-        // $app->group('/users', function () use ($app): void {
-        //     $app->get('', User\GetAll::class)->add(new Auth());
-        //     $app->post('', User\Create::class);
-        //     $app->get('/{id}', User\GetOne::class)->add(new Auth());
-        //     $app->put('/{id}', User\Update::class)->add(new Auth());
-        //     $app->delete('/{id}', User\Delete::class)->add(new Auth());
-        // });
 
-        // $app->group('/notes', function () use ($app): void {
-        //     $app->get('', Note\GetAll::class);
-        //     $app->post('', Note\Create::class);
-        //     $app->get('/{id}', Note\GetOne::class);
-        //     $app->put('/{id}', Note\Update::class);
-        //     $app->delete('/{id}', Note\Delete::class);
-        // });
+
+        // poate facem un get student + /general, /scolaritate, /contact
+        
+        $app->group('/user', function () use ($app): void {
+            $app->get('', User\GetAll::class);
+            $app->get('/student', User\GetAllStudents::class);
+            $app->get('/teacher', User\GetAllTeachers::class);
+            $app->get('/teacher/discipline/{id}', User\GetOneTeacherByDiscipline::class);
+            $app->get('/{id}', User\GetOne::class);
+            $app->put('/{id}', User\Update::class);
+            $app->delete('/{id}', User\Delete::class);
+        });
+
+        $app->group('/discipline', function () use ($app): void {
+            $app->get('', Discipline\GetAll::class);
+            $app->get('/student/{stud_id}', Discipline\GetAllStudents::class);
+            $app->post('', Discipline\Create::class);
+            $app->get('/{id}', Discipline\GetOne::class);
+            $app->put('/{id}', Discipline\Update::class);
+            $app->delete('/{id}', Discipline\Delete::class);
+        });
+
+        // returneaza un json la grade cu examen, marire si restanta 
+        $app->group('/grade', function () use ($app): void {
+            $app->get('/student/{id}', Discipline\GetAll::class);
+            $app->get('/student/{stud_id}/exam/{exam_id}', Discipline\GetOne::class);
+            $app->post('', Discipline\Create::class);
+            $app->put('/{id}', Discipline\Update::class);
+            $app->delete('/{id}', Discipline\Delete::class);
+        });
     });
 
     return $app;
