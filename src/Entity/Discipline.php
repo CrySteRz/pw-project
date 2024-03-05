@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-final class Task
+final class Discipline
 {
     private int $id;
     private string $name;
