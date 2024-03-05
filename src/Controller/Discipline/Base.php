@@ -11,7 +11,7 @@ use App\Service\Discipline\DisciplineService;
 
 abstract class Base extends BaseController
 {
-    protected function getDisciplineService(): Find
+    protected function getDisciplineService(): DisciplineService
     {
         return $this->container->get('discipline_service');
     }

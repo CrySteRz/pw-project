@@ -13,7 +13,7 @@ final class GetAll extends Base
     {
         //TODO: add pagination 
         // $userId = $this->getAndValidateUserId($input);
-        $disciplines = $this->get()->getDisciplineService()->getAll();
+        $disciplines = $this->getDisciplineService()->getAll();
 
         return $this->jsonResponse($response, 'success', $disciplines, 200);
     }

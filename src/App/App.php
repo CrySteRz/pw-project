@@ -15,8 +15,8 @@ $app = new \Slim\App($settings);
 
 $container = $app->getContainer();
 
-// require_once __DIR__ . '/Services.php';
-// require_once __DIR__ . '/Repositories.php';
 require_once __DIR__ . '/Dependencies.php';
+require_once __DIR__ . '/Services.php';
+require_once __DIR__ . '/Repositories.php';
 (require_once __DIR__ . '/Routes.php')($app);
 

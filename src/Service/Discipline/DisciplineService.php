@@ -6,6 +6,7 @@ namespace App\Service\Discipline;
 
 use App\Entity\Discipline;
 use App\Exception\Discipline as DisciplineException;
+use App\Repository\DisciplineRepository;
 
 final class DisciplineService extends Base
 {
@@ -14,7 +15,7 @@ final class DisciplineService extends Base
     ) {
     }
 
-    protected function getDisciplineRepository(): TaskRepository
+    protected function getDisciplineRepository(): DisciplineRepository
     {
         return $this->disciplineRepository;
     }
@@ -22,7 +23,7 @@ final class DisciplineService extends Base
     /**
      * @return array<string>
      */
-    public function getAllDisciplines(): array
+    public function getAll(): array
     {
         return $this->getDisciplineRepository()->getAllDisciplines();
     }

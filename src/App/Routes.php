@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-// use App\Controller\Note;
-// use App\Controller\Task;
-// use App\Controller\User;
+ use App\Controller\Discipline;
+//  use App\Controller\Grade;
+//  use App\Controller\User;
  use App\Middleware\Auth;
 
 return static function ($app) {
