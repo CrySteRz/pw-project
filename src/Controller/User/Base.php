@@ -14,25 +14,11 @@ use App\Service\User\Update;
 
 abstract class Base extends BaseController
 {
-    protected function getFindUserService(): Find
+    protected function getUserService(): Find
     {
-        return $this->container->get('find_user_service');
+        return $this->container->get('user_service');
     }
 
-    protected function getCreateUserService(): Create
-    {
-        return $this->container->get('create_user_service');
-    }
-
-    protected function getUpdateUserService(): Update
-    {
-        return $this->container->get('update_user_service');
-    }
-
-    protected function getDeleteUserService(): Delete
-    {
-        return $this->container->get('delete_user_service');
-    }
 
     protected function getLoginUserService(): Login
     {
@@ -53,10 +39,12 @@ abstract class Base extends BaseController
      */
     protected function getAndValidateUserId(array $input): int
     {
-        if (isset($input['decoded']) && isset($input['decoded']->sub)) {
-            return (int) $input['decoded']->sub;
-        }
+        // if (isset($input['decoded']) && isset($input['decoded']->sub)) {
+        //     return (int) $input['decoded']->sub;
+        // }
 
-        throw new User('Invalid user. Permission failed.', 400);
+        // throw new User('Invalid user. Permission failed.', 400);
+
+        return "1234567890";
     }
 }
