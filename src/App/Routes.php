@@ -25,7 +25,7 @@ return static function ($app) {
 
         // poate facem un get student + /general, /scolaritate, /contact
         
-        $app->group('/user', function () use ($app): void {
+        $app->group('/users', function () use ($app): void {
             $app->get('', User\GetAll::class);
             $app->get('/student', User\GetAllStudents::class);
             $app->get('/teacher', User\GetAllTeachers::class);
@@ -35,20 +35,20 @@ return static function ($app) {
             $app->delete('/{id}', User\Delete::class);
         });
 
-        $app->group('/discipline', function () use ($app): void {
+        $app->group('/disciplines', function () use ($app): void {
             $app->get('', Discipline\GetAll::class);
             $app->get('/student/{stud_id}', Discipline\GetAllStudents::class);
-            $app->post('', Discipline\Create::class);
+            $app->post('/create', Discipline\Create::class);
             $app->get('/{id}', Discipline\GetOne::class);
             $app->put('/{id}', Discipline\Update::class);
             $app->delete('/{id}', Discipline\Delete::class);
         });
 
         // returneaza un json la grade cu examen, marire si restanta 
-        $app->group('/grade', function () use ($app): void {
+        $app->group('/grades', function () use ($app): void {
             $app->get('/student/{id}', Discipline\GetAll::class);
             $app->get('/student/{stud_id}/exam/{exam_id}', Discipline\GetOne::class);
-            $app->post('', Discipline\Create::class);
+            $app->post('/create', Discipline\Create::class);
             $app->put('/{id}', Discipline\Update::class);
             $app->delete('/{id}', Discipline\Delete::class);
         });
