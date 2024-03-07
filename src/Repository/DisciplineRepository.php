@@ -13,65 +13,73 @@ final class DisciplineRepository extends BaseRepository
      */
     public function getAllDisciplines(): array
     {
-        $query = 'SELECT * FROM `Disciplines` ORDER BY `id`';
+        $query = 'SELECT * FROM `Discipline` ORDER BY `id`';
         $statement = $this->getDb()->prepare($query);
         $statement->execute();
         return (array) $statement->fetchAll();
     }
 
-    public function create(Discipline $Discipline): Discipline
+    public function getAllDisciplinesByUserId(int $userId) : array
     {
-        // $query = '
-        //     INSERT INTO `Disciplines`
-        //         (`name`, `description`, `status`, `userId`)
-        //     VALUES
-        //         (:name, :description, :status, :userId)
-        // ';
-        // $statement = $this->getDb()->prepare($query);
-        // $name = $Discipline->getName();
-        // $desc = $Discipline->getDescription();
-        // $status = $Discipline->getStatus();
-        // $userId = $Discipline->getUserId();
-        // $statement->bindParam('name', $name);
-        // $statement->bindParam('description', $desc);
-        // $statement->bindParam('status', $status);
-        // $statement->bindParam('userId', $userId);
-        // $statement->execute();
-
-        // $DisciplineId = (int) $this->database->lastInsertId();
-
-        // return $this->checkAndGetDiscipline($DisciplineId, (int) $userId);
+        $query = "SELECT d.* FROM users_has_disciplines ud
+                  INNER JOIN Discipline d ON ud.id_discipline = d.id
+                  WHERE ud.id_user = :userId";
+        $db = $this->getDb();
+        $statement = $db->prepare($query);
+        $statement->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $statement->execute();
+        $entries = $statement->fetchAll(Discipline::class);
+        return $entries;
     }
 
-    public function update(Discipline $Discipline): Discipline
+    public function getOne(int $id) : Discipline
     {
-        // $query = '
-        //     UPDATE `Disciplines`
-        //     SET `name` = :name, `description` = :description, `status` = :status
-        //     WHERE `id` = :id AND `userId` = :userId
-        // ';
-        // $statement = $this->getDb()->prepare($query);
-        // $id = $Discipline->getId();
-        // $name = $Discipline->getName();
-        // $desc = $Discipline->getDescription();
-        // $status = $Discipline->getStatus();
-        // $userId = $Discipline->getUserId();
-        // $statement->bindParam('id', $id);
-        // $statement->bindParam('name', $name);
-        // $statement->bindParam('description', $desc);
-        // $statement->bindParam('status', $status);
-        // $statement->bindParam('userId', $userId);
-        // $statement->execute();
+        $query = "SELECT * FROM Discipline WHERE id = :id";
+        $statement = $this->getDb()->prepare($query);
+        $statement->execute(['id' => $id]);
+        $discipline = $statement->fetchObject(Discipline::class);
+        // if (! $discipline) {
+        //     throw new \App\Exception\Discipline('Task not found.', 404);
+        // }
 
-        // return $this->checkAndGetDiscipline((int) $id, (int) $userId);
+        return $discipline;
     }
 
-    public function delete(int $DisciplineId, int $userId): void
+    public function create(Discipline $discipline): Discipline
     {
-        // $query = 'DELETE FROM `Disciplines` WHERE `id` = :id AND `userId` = :userId';
-        // $statement = $this->getDb()->prepare($query);
-        // $statement->bindParam('id', $DisciplineId);
-        // $statement->bindParam('userId', $userId);
-        // $statement->execute();
+        $query = "INSERT INTO Discipline (name, idDiscipline, credits) VALUES (:name, :idDiscipline, :credits)";
+        $idDiscipline = $discipline->getIdDiscipline();
+        $name = $discipline->getName();
+        $credits = $discipline->getCredits();
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam(':name', $name);
+        $statement->bindParam(':idDiscipline', $idDiscipline);
+        $statement->bindParam(':credits', $credits);
+        $statement->execute();
+        $discipline->updateId(intval($this->getDb()->lastInsertId()));
+        return $discipline;
+    }
+
+    public function update(Discipline $discipline, int $disciplineId): Discipline
+    {
+        $query = "UPDATE Discipline SET name = :name, idDiscipline = :idDiscipline, credits = :credits WHERE id = :disciplineId";
+        $statement = $this->getDb()->prepare($query);
+        $name = $discipline->getName();
+        $idDiscipline = $discipline->getIdDiscipline();
+        $credits = $discipline->getCredits();
+        $statement->bindParam(':name', $name);
+        $statement->bindParam(':idDiscipline', $idDiscipline);
+        $statement->bindParam(':credits', $credits);
+        $statement->bindParam(':disciplineId', $disciplineId);
+        $statement->execute();
+        return $discipline;
+    }
+
+    public function delete(int $disciplineId): void
+    {
+        $query = 'DELETE FROM `discipline` WHERE `id` = :id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('id', $disciplineId);
+        $statement->execute();
     }
 }

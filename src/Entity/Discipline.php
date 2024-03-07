@@ -8,10 +8,8 @@ final class Discipline
 {
     private int $id;
     private string $name;
-    private string $category;
     private int $credits;
-    private int $userDisciplinesId;
-    private int $exanId;
+    private int $idDiscipline;
 
     public function toJson(): object
     {
@@ -28,35 +26,27 @@ final class Discipline
         return $this->name;
     }
 
-    public function getCategory(): string
-    {
-        return $this->category;
-    }
 
     public function getCredits(): int
     {
         return $this->credits;
     }
 
-    public function getUserDisciplinesId(): int
+    public function getIdDiscipline(): int
     {
-        return $this->userDisciplinesId;
+        return $this->idDiscipline;
     }
 
-    public function getExamId(): int
+
+    public function updateId(int $id): self
     {
-        return $this->examId;
+        $this->id = $id;
+        return $this;
     }
 
     public function updateName(string $name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    public function updateCategory(string $category): self
-    {
-        $this->category = $category;
         return $this;
     }
 
@@ -66,15 +56,11 @@ final class Discipline
         return $this;
     }
 
-    public function updateUserDisciplinesId(int $userDisciplinesId): self
+    public function updateIdDiscipline(int $idDiscipline): self
     {
-        $this->userDisciplinesId = $userDisciplinesId;
+        $this->idDiscipline = $idDiscipline;
         return $this;
     }
 
-    public function updateExamId(int $examId): self
-    {
-        $this->examId = $examId;
-        return $this;
-    }
+
 }

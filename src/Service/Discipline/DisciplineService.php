@@ -28,10 +28,15 @@ final class DisciplineService extends Base
         return $this->getDisciplineRepository()->getAllDisciplines();
     }
 
+    public function getAllByUserId(int $userId): array
+    {
+        return $this->getDisciplineRepository()->getAllDisciplinesByUserId($userId);
+    }
+
     public function getOne(int $disciplineId): object
     {
-        $Discipline = $this->getDisciplineFromDb($DisciplineId, $userId)->toJson();
-        return $Discipline;
+        $discipline = $this->getDisciplineRepository()->getOne($disciplineId);
+        return $discipline;
     }
 
     /**
@@ -39,75 +44,55 @@ final class DisciplineService extends Base
      */
     public function create(array $input): object
     {
-        // $data = json_decode((string) json_encode($input), false);
-        // if (! isset($data->name)) {
-        //     throw new \App\Exception\Discipline('The field "name" is required.', 400);
-        // }
-        // $myDiscipline = $this->createDiscipline($data);
-        // /** @var Discipline $Discipline */
-        // $Discipline = $this->getDisciplineRepository()->create($myDiscipline);
-        // return $Discipline->toJson();
+        $data = json_decode((string) json_encode($input), false);
+        $discipline = $this->createDiscipline($data);
+        $discipline = $this->getDisciplineRepository()->create($discipline);
+        return $discipline;
     }
 
     public function createDiscipline(object $data): Discipline
     {
-        // $Discipline = new Discipline();
-        // $Discipline->updateName(self::validateDisciplineName($data->name));
-        // $description = $data->description ?? null;
-        // $Discipline->updateDescription($description);
-        // $status = 0;
-        // if (isset($data->status)) {
-        //     $status = self::validateDisciplineStatus($data->status);
-        // }
-        // $Discipline->updateStatus($status);
-        // $userId = null;
-        // if (isset($data->decoded) && isset($data->decoded->sub)) {
-        //     $userId = (int) $data->decoded->sub;
-        // }
-        // $Discipline->updateUserId($userId);
-
-        // return $Discipline;
+        // TODO: validate the data before creating the entity
+         $discipline = new Discipline();
+         $discipline->updateName($data->name);
+         $discipline->updateCredits($data->credits);
+         $discipline->updateIdDiscipline($data->idDiscipline);  
+         return $discipline;
     }
 
     /**
      * @param array<string> $input
      */
-    public function update(array $input, int $DisciplineId): object
+    public function update(array $input, int $disciplineId): object
     {
-        // $data = $this->validateDiscipline($input, $DisciplineId);
-        // /** @var Discipline $Discipline */
-        // $Discipline = $this->getDisciplineRepository()->update($data);
-        // return $Discipline->toJson();
+        $data = $this->validateDiscipline($input, $disciplineId);
+        $discipline = $this->getDisciplineRepository()->update($data, $disciplineId);
+        return $discipline;
     }
 
-    public function delete(int $DisciplineId, int $userId): void
+    public function delete(int $disciplineId): Discipline
     {
-        // $this->getDisciplineFromDb($DisciplineId, $userId);
-        // $this->getDisciplineRepository()->delete($DisciplineId, $userId);
+        // TODO: this throws an exception if the discipline does not exist because getOne returns bool.
+        // add Discipline class for error handling
+        $discipline = $this->getDisciplineRepository()->getOne($disciplineId);
+        $this->getDisciplineRepository()->delete($disciplineId);
+        return $discipline;
     }
 
-    private function validateDiscipline(array $input, int $DisciplineId): Discipline
+    private function validateDiscipline(array $input, int $disciplineId): Discipline
     {
-        // $Discipline = $this->getDisciplineFromDb($DisciplineId, (int) $input['decoded']->sub);
-        // $data = json_decode((string) json_encode($input), false);
-        // if (! isset($data->name) && ! isset($data->status)) {
-        //     throw new DisciplineException('Enter the data to update the Discipline.', 400);
-        // }
-        // if (isset($data->name)) {
-        //     $Discipline->updateName(self::validateDisciplineName($data->name));
-        // }
-        // if (isset($data->description)) {
-        //     $Discipline->updateDescription($data->description);
-        // }
-        // if (isset($data->status)) {
-        //     $Discipline->updateStatus(self::validateDisciplineStatus($data->status));
-        // }
-        // $userId = null;
-        // if (isset($data->decoded) && isset($data->decoded->sub)) {
-        //     $userId = (int) $data->decoded->sub;
-        // }
-        // $Discipline->updateUserId($userId);
-
-        // return $Discipline;
+        //TODO: validate data here
+        $discipline = $this->getDisciplineRepository()->getOne($disciplineId);
+        $data = json_decode((string) json_encode($input), false);
+        if (isset($data->name)) {
+            $discipline->updateName($data->name);
+        }
+        if (isset($data->credits)) {
+            $discipline->updateCredits($data->credits);
+        }
+        if (isset($data->idDiscipline)) {
+            $discipline->updateIdDiscipline($data->idDiscipline);
+        }
+        return $discipline;
     }
 }

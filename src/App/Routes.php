@@ -24,7 +24,7 @@ return static function ($app) {
 
 
         // poate facem un get student + /general, /scolaritate, /contact
-        
+    
         $app->group('/users', function () use ($app): void {
             $app->get('', User\GetAll::class);
             $app->get('/student', User\GetAllStudents::class);
@@ -37,9 +37,9 @@ return static function ($app) {
 
         $app->group('/disciplines', function () use ($app): void {
             $app->get('', Discipline\GetAll::class);
-            $app->get('/student/{stud_id}', Discipline\GetAllStudents::class);
-            $app->post('/create', Discipline\Create::class);
+            $app->get('/student/{stud_id}', Discipline\getAllByUserId::class);
             $app->get('/{id}', Discipline\GetOne::class);
+            $app->post('/create', Discipline\Create::class);
             $app->put('/{id}', Discipline\Update::class);
             $app->delete('/{id}', Discipline\Delete::class);
         });
