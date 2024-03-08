@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
  use App\Controller\Discipline;
-//  use App\Controller\Grade;
+ use App\Controller\Grade;
 //  use App\Controller\User;
  use App\Middleware\Auth;
 
@@ -46,11 +46,11 @@ return static function ($app) {
 
         // returneaza un json la grade cu examen, marire si restanta 
         $app->group('/grades', function () use ($app): void {
-            $app->get('/student/{id}', Discipline\GetAll::class);
-            $app->get('/student/{stud_id}/exam/{exam_id}', Discipline\GetOne::class);
-            $app->post('/create', Discipline\Create::class);
-            $app->put('/{id}', Discipline\Update::class);
-            $app->delete('/{id}', Discipline\Delete::class);
+            $app->get('/student/{stud_id}', Grade\GetAllByStudentId::class);
+            $app->get('/student/{stud_id}/exam/{exam_id}', Grade\GetOne::class);
+            $app->post('/create', Grade\Create::class);
+            $app->put('/{id}', Grade\Update::class);
+            $app->delete('/{id}', Grade\Delete::class);
         });
     });
 

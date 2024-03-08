@@ -7,13 +7,12 @@ namespace App\Controller\Grade;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class GetOne extends Base
+final class GetAllByStudentId extends Base
 {
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $studentId= intval($args["stud_id"]);
-        $exam_id= intval($args["exam_id"]);
-        $disciplines = $this->getGradeService()->getOne($studentId, $exam_id)->toJson();
+        $disciplines = $this->getGradeService()->getAllByUserId($studentId);
         return $this->jsonResponse($response, 'success', $disciplines, 200);
     }
 }

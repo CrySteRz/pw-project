@@ -40,9 +40,5 @@ abstract class Base extends BaseService
     //     return $status;
     // }
 
-    protected function getDisciplineFromDb(int $DisciplineId, int $userId): Discipline
-    {
-        return $this->getDisciplineRepository()->checkAndGetDiscipline($DisciplineId, $userId);
-    }
-
+  
 }
