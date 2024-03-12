@@ -12,7 +12,24 @@ use Slim\Http\Response;
  * @OA\Delete(
  *     tags={"Users"},
  *     path="/users/{id}",
- *     @OA\Response(response="200", description="Delete user by id")
+ *     summary="Delete user by ID",
+ *     description="Deletes a user by their ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the user to delete",
+ *         @OA\Schema(type="integer", format="int64")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(ref="#/components/schemas/User")
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="User not found"
+ *     )
  * )
  */
 final class Delete extends Base

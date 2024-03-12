@@ -8,7 +8,13 @@ use App\Controller\BaseController;
 use App\Exception\Discipline;
 use App\Service\Discipline\DisciplineService;
 
-
+/**
+ * @OA\Info(
+ *     title="New StudentWeb",
+ *     version="1.0.0",
+ *     description="API for maintaining and showing academic status at the university"
+ * )
+ */
 abstract class Base extends BaseController
 {
     protected function getDisciplineService(): DisciplineService

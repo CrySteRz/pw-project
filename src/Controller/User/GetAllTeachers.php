@@ -12,7 +12,20 @@ use Slim\Http\Response;
  * @OA\Get(
  *     tags={"Users"},
  *     path="/users/teacher",
- *     @OA\Response(response="200", description="Get all teachers")
+ *     summary="Get all teachers",
+ *     description="Retrieves a list of all users with the teacher role.",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/User")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="No teachers found"
+ *     )
  * )
  */
 final class GetAllTeachers extends Base

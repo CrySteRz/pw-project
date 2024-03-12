@@ -12,7 +12,16 @@ use Slim\Http\Response;
  * @OA\Get(
  *     tags={"Users"},
  *     path="/users/",
- *     @OA\Response(response="200", description="Get all users")
+ *     summary="Get all users",
+ *     description="Returns a list of all users",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/User")
+ *         )
+ *     )
  * )
  */
 final class GetAll extends Base

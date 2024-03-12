@@ -8,11 +8,24 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 
- /**
+/**
  * @OA\Get(
  *     tags={"Users"},
  *     path="/users/student",
- *     @OA\Response(response="200", description="Get all students")
+ *     summary="Get all students",
+ *     description="Retrieves a list of all users with the student role.",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/User")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="No students found"
+ *     )
  * )
  */
 final class GetAllStudents extends Base

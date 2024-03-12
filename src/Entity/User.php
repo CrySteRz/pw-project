@@ -4,19 +4,135 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+/**
+ * @OA\Schema(
+ *     title="User",
+ *     description="User entity",
+ *     required={"id", "email", "name", "surname", "birthDate", "country", "state", "city", "address", "sex", "CNP", "roleId"}
+ * )
+ */
 final class User
 {
+    /**
+     * @OA\Property(
+     *     format="int64",
+     *     description="The unique identifier for the user",
+     *     example=1
+     * )
+     *
+     * @var int
+     */
     private int $id;
+
+    /**
+     * @OA\Property(
+     *     description="The email address of the user",
+     *     example="john.doe@example.com"
+     * )
+     *
+     * @var string
+     */
     private string $email;
+
+      /**
+     * @OA\Property(
+     *     description="The first name of the user",
+     *     example="John"
+     * )
+     *
+     * @var string
+     */
     private string $name;
+
+     /**
+     * @OA\Property(
+     *     description="The last name of the user",
+     *     example="Doe"
+     * )
+     *
+     * @var string
+     */
     private string $surname;
+
+     /**
+     * @OA\Property(
+     *     description="The birth date of the user",
+     *     example="1990-01-01"
+     * )
+     *
+     * @var string
+     */
     private date $birthDate;
+
+    /**
+     * @OA\Property(
+     *     description="The country of the user",
+     *     example="United States"
+     * )
+     *
+     * @var string
+     */
     private string $country;
+
+    /**
+     * @OA\Property(
+     *     description="The state of the user",
+     *     example="California"
+     * )
+     *
+     * @var string
+     */
     private string $state;
+
+    /**
+     * @OA\Property(
+     *     description="The city of the user",
+     *     example="Los Angeles"
+     * )
+     *
+     * @var string
+     */
     private string $city;
+
+     /**
+     * @OA\Property(
+     *     description="The address of the user",
+     *     example="123 Main Street"
+     * )
+     *
+     * @var string
+     */
     private string $address;
+
+    /**
+     * @OA\Property(
+     *     description="The sex of the user",
+     *     example=true
+     * )
+     *
+     * @var bool
+     */
     private boolval $sex;
+
+     /**
+     * @OA\Property(
+     *     description="The CNP (personal identification number) of the user",
+     *     example="1234567890123"
+     * )
+     *
+     * @var string
+     */
     private string $CNP;
+
+     /**
+     * @OA\Property(
+     *     format="int64",
+     *     description="The role ID of the user",
+     *     example=1
+     * )
+     *
+     * @var int
+     */
     private int $roleId;
 
     public function toJson(): object

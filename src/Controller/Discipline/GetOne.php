@@ -12,7 +12,24 @@ use Slim\Http\Response;
  * @OA\Get(
  *     tags={"Disciplines"},
  *     path="/disciplines/{id}",
- *     @OA\Response(response="200", description="Get discipline by id")
+ *     summary="Get discipline by ID",
+ *     description="Retrieves a discipline by its ID.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the discipline",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Discipline retrieved successfully",
+ *         @OA\JsonContent(ref="#/components/schemas/Discipline")
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Discipline not found"
+ *     )
  * )
  */
 final class GetOne extends Base

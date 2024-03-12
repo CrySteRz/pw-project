@@ -1,10 +1,4 @@
 <?php
-/**
- * @OA\Info(title="New StudentWeb", 
- * version="0.1", 
- * description="API for maintaining and showing academic status at the university")
- */
-
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 

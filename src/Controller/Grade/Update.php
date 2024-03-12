@@ -6,11 +6,32 @@ namespace App\Controller\Grade;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-   /**
+/**
  * @OA\Put(
  *     tags={"Grades"},
- *     path="/{id}",
- *     @OA\Response(response="200", description="Update a grade by id")
+ *     path="/grades/{id}",
+ *     summary="Update a grade by ID",
+ *     description="Updates the grade with the specified ID.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the grade to update",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64"
+ *         )
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="Grade data to update",
+ *         @OA\JsonContent(ref="#/components/schemas/Grade")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Updated grade",
+ *         @OA\JsonContent(ref="#/components/schemas/Grade")
+ *     )
  * )
  */
 final class Update extends Base

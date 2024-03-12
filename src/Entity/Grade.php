@@ -4,11 +4,59 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+
+/**
+ * @OA\Schema(
+ *     title="Grade",
+ *     description="Grade entity",
+ *     required={"id", "idExam", "idUser", "value"}
+ * )
+ */
 final class Grade
 {
+
+    /**
+     * @OA\Property(
+     *     format="int64",
+     *     description="The unique identifier for the grade",
+     *     example=1
+     * )
+     *
+     * @var int
+     */
     private int $id;
+
+    /**
+     * @OA\Property(
+     *     format="int64",
+     *     description="The unique identifier for the exam associated with the grade",
+     *     example=1001
+     * )
+     *
+     * @var int
+     */
     private int $idExam;
+
+     /**
+     * @OA\Property(
+     *     format="int64",
+     *     description="The unique identifier for the user associated with the grade",
+     *     example=2001
+     * )
+     *
+     * @var int
+     */
     private int $idUser;
+
+    /**
+     * @OA\Property(
+     *     format="int64",
+     *     description="The value of the grade",
+     *     example=85
+     * )
+     *
+     * @var int
+     */
     private int $value;
 
     public function toJson(): object

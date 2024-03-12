@@ -12,7 +12,26 @@ use Slim\Http\Response;
  * @OA\Get(
  *     tags={"Grades"},
  *     path="/grades/student/{stud_id}",
- *     @OA\Response(response="200", description="Get all grades of a student")
+ *     summary="Get all grades of a student",
+ *     description="Retrieves all grades associated with the specified student ID.",
+ *     @OA\Parameter(
+ *         name="stud_id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the student",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of grades",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/Grade")
+ *         )
+ *     )
  * )
  */
 final class GetAllByStudentId extends Base

@@ -12,7 +12,35 @@ use Slim\Http\Response;
  * @OA\Put(
  *     tags={"Users"},
  *     path="/users/{id}",
- *     @OA\Response(response="200", description="Update user by id")
+ *     summary="Update user by ID",
+ *     description="Updates a user identified by their ID with the provided user data.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the user",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64"
+ *         )
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="User data to update",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(ref="#/components/schemas/User")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User updated successfully",
+ *         @OA\JsonContent(ref="#/components/schemas/User")
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="User not found"
+ *     )
  * )
  */
 final class Update extends Base

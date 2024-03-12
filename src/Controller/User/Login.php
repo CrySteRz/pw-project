@@ -33,7 +33,12 @@ class Login
 /**
  * @OA\Get(
  *     path="/login",
- *     @OA\Response(response="200", description="Logs in the user")
+ *     summary="Redirects user to Google OAuth login",
+ *     description="Redirects the user to the Google OAuth login page for authentication.",
+ *     @OA\Response(
+ *         response=302,
+ *         description="Redirect to Google OAuth login page"
+ *     )
  * )
  */
     public function login(Request $request, Response $response, array $args): Response
@@ -49,7 +54,12 @@ class Login
 /**
  * @OA\Get(
  *     path="/google/auth/callback",
- *     @OA\Response(response="200", description="Callback for google auth")
+ *     summary="Callback for Google OAuth authentication",
+ *     description="Handles the callback from Google OAuth authentication and generates a JWT token for the user.",
+ *     @OA\Response(
+ *         response=200,
+ *         description="JWT token generated successfully"
+ *     )
  * )
  */
     public function callback(Request $request, Response $response, array $args): Response

@@ -12,7 +12,27 @@ use Slim\Http\Response;
  * @OA\Delete(
  *     tags={"Disciplines"},
  *     path="/disciplines/{id}",
- *     @OA\Response(response="200", description="Delete discipline by id")
+ *     summary="Delete discipline by ID",
+ *     description="Deletes a discipline by its ID.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the discipline to delete",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Discipline deleted successfully",
+ *         @OA\JsonContent(ref="#/components/schemas/Discipline")
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Discipline not found"
+ *     )
  * )
  */
 final class Delete extends Base

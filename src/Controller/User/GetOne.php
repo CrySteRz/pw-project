@@ -11,7 +11,27 @@ use Slim\Http\Response;
  * @OA\Get(
  *     tags={"Users"},
  *     path="/users/{id}",
- *     @OA\Response(response="200", description="Get user by id")
+ *     summary="Get user by ID",
+ *     description="Retrieves a user by their ID.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the user to retrieve",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(ref="#/components/schemas/User")
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="User not found"
+ *     )
  * )
  */
 final class GetOne extends Base

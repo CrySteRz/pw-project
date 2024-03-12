@@ -6,11 +6,29 @@ namespace App\Controller\Discipline;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
- /**
+/**
  * @OA\Post(
  *     tags={"Disciplines"},
  *     path="/disciplines/create",
- *     @OA\Response(response="200", description="Create a new discipline")
+ *     summary="Create a new discipline",
+ *     description="Creates a new discipline with the provided data.",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="Discipline data to create",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(ref="#/components/schemas/Discipline")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Discipline created successfully",
+ *         @OA\JsonContent(ref="#/components/schemas/Discipline")
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Bad request"
+ *     )
  * )
  */
 final class Create extends Base

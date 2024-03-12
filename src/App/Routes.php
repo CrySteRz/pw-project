@@ -9,9 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  use App\Controller\Grade;
 //  use App\Controller\User;
  use App\Middleware\Auth;
-
-
-
+ use OpenApi\Annotations as OA;
 
 
 return static function ($app) {

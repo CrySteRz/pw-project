@@ -1,116 +1,259 @@
 {
     "openapi": "3.0.0",
-    "info": {
-      "title": "StudentWeb Clone",
-      "description": "API for managing users, disciplines, and grades.",
-      "version": "1.0.0"
-    },
     "paths": {
-      "/login": {
-        "get": {
-          "tags": ["User Authentication"],
-          "summary": "Login endpoint",
-          "responses": {
-            "200": {
-              "description": "Successful login"
+        "/": {
+            "get": {
+                "operationId": "3caa474211581124fee57069f18130e9",
+                "responses": {
+                    "200": {
+                        "description": "Gets the current version of the API"
+                    }
+                }
             }
-          }
-        }
-      },
-      "/users": {
-        "get": {
-          "tags": ["User"],
-          "summary": "Get all users",
-          "responses": {
-            "200": {
-              "description": "A list of users."
-            }
-          }
-        }
-      },
-      "/users/{id}": {
-        "get": {
-          "tags": ["User"],
-          "summary": "Get a single user by ID",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "User ID"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "A single user.",
-              "content": {}
-            },
-            "404": {
-              "description": "User not found."
-            }
-          }
         },
-        "put": {
-          "tags": ["User"],
-          "summary": "Update a user by ID",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "User ID"
+        "/disciplines/create": {
+            "post": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "operationId": "9d1247daf3aab1ef9969936b8b401f4e",
+                "responses": {
+                    "200": {
+                        "description": "Create a new discipline"
+                    }
+                }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "User updated."
-            },
-            "404": {
-              "description": "User not found."
-            }
-          }
         },
-        "delete": {
-          "tags": ["User"],
-          "summary": "Delete a user by ID",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "User ID"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "User deleted."
+        "/disciplines/{id}": {
+            "get": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "operationId": "a66938c49acac19f9a5c6bbf8d9ae94a",
+                "responses": {
+                    "200": {
+                        "description": "Get discipline by id"
+                    }
+                }
             },
-            "404": {
-              "description": "User not found."
+            "put": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "operationId": "c3e0db97cadb03515ad1a14bca30d9fd",
+                "responses": {
+                    "200": {
+                        "description": "Update discipline by id"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "operationId": "8ebf3d03e218b984e6048e683b3e87ca",
+                "responses": {
+                    "200": {
+                        "description": "Delete discipline by id"
+                    }
+                }
             }
-          }
-        }
-      },
-      "/disciplines": {
-        "get": {
-          "tags": ["Discipline"],
-          "summary": "Get all disciplines",
-          "responses": {
-            "200": {
-              "description": "A list of disciplines."
+        },
+        "/disciplines/": {
+            "get": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "operationId": "2e066c598a0c01bbd40a8305608f68f7",
+                "responses": {
+                    "200": {
+                        "description": "Get all disciplines"
+                    }
+                }
             }
-          }
+        },
+        "/disciplines/student/{stud_id}": {
+            "get": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "operationId": "e9f1da640392e512e919571c4921bea9",
+                "responses": {
+                    "200": {
+                        "description": "Get all disciplines of a student"
+                    }
+                }
+            }
+        },
+        "/create": {
+            "post": {
+                "tags": [
+                    "Grades"
+                ],
+                "operationId": "6f8d6cff926ca2bcbed5ae01d00914a7",
+                "responses": {
+                    "200": {
+                        "description": "Get grade of a student at an exam"
+                    }
+                }
+            }
+        },
+        "/{id}": {
+            "put": {
+                "tags": [
+                    "Grades"
+                ],
+                "operationId": "0f103b21c342d5a40adb567990160d2c",
+                "responses": {
+                    "200": {
+                        "description": "Update a grade by id"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Grades"
+                ],
+                "operationId": "cbfe85b33f27ca18f7b97c00f6f8ddea",
+                "responses": {
+                    "200": {
+                        "description": "Delete a grade by id"
+                    }
+                }
+            }
+        },
+        "/grades/student/{stud_id}": {
+            "get": {
+                "tags": [
+                    "Grades"
+                ],
+                "operationId": "b14cc000b6ef75e4cc8a70ce22a9c802",
+                "responses": {
+                    "200": {
+                        "description": "Get all grades of a student"
+                    }
+                }
+            }
+        },
+        "/grades/student/{stud_id}/exam/{exam_id}": {
+            "get": {
+                "tags": [
+                    "Grades"
+                ],
+                "operationId": "b74232ec074a1bd30d4f33f6d317d531",
+                "responses": {
+                    "200": {
+                        "description": "Get grade of a student at an exam"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "operationId": "d103bf14afb1c9faecd7db100ccd1bfc",
+                "responses": {
+                    "200": {
+                        "description": "Get user by id"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "operationId": "4e73057119289c1852c31b99ead70192",
+                "responses": {
+                    "200": {
+                        "description": "Update user by id"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "operationId": "2e3cbd202fb5b06e4e385ea633ba7f06",
+                "responses": {
+                    "200": {
+                        "description": "Delete user by id"
+                    }
+                }
+            }
+        },
+        "/users/": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "operationId": "48192d682b7afc24b0cc087c6607dc7d",
+                "responses": {
+                    "200": {
+                        "description": "Get all users"
+                    }
+                }
+            }
+        },
+        "/users/student": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "operationId": "25e37e8f67be749e6f07ebcb3853fa05",
+                "responses": {
+                    "200": {
+                        "description": "Get all students"
+                    }
+                }
+            }
+        },
+        "/users/teacher": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "operationId": "14382920ccc3688c6f0f088dc257e40b",
+                "responses": {
+                    "200": {
+                        "description": "Get all teachers"
+                    }
+                }
+            }
+        },
+        "/users/teacher/discipline/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "operationId": "c7668ac63db164b4c1ecf4099a2c2913",
+                "responses": {
+                    "200": {
+                        "description": "Get the teacher's discipline"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "get": {
+                "operationId": "03745476c9f3ba99a87c915479c28cc0",
+                "responses": {
+                    "200": {
+                        "description": "Logs in the user"
+                    }
+                }
+            }
+        },
+        "/google/auth/callback": {
+            "get": {
+                "operationId": "703055b302ce7eef796eef9526119d4e",
+                "responses": {
+                    "200": {
+                        "description": "Callback for google auth"
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  
+}

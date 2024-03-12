@@ -12,7 +12,20 @@ use Slim\Http\Response;
  * @OA\Get(
  *     tags={"Disciplines"},
  *     path="/disciplines/",
- *     @OA\Response(response="200", description="Get all disciplines")
+ *     summary="Get all disciplines",
+ *     description="Retrieves a list of all disciplines.",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of all disciplines",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/Discipline")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Internal server error"
+ *     )
  * )
  */
 final class GetAll extends Base

@@ -7,11 +7,27 @@ namespace App\Controller\Grade;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
- /**
+/**
  * @OA\Delete(
  *     tags={"Grades"},
- *     path="/{id}",
- *     @OA\Response(response="200", description="Delete a grade by id")
+ *     path="/grades/{id}",
+ *     summary="Delete a grade by ID",
+ *     description="Deletes a grade by its ID.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the grade to delete",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Grade deleted successfully",
+ *         @OA\JsonContent(ref="#/components/schemas/Grade")
+ *     )
  * )
  */
 final class Delete extends Base

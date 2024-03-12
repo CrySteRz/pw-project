@@ -7,11 +7,33 @@ namespace App\Controller\Discipline;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-  /**
+/**
  * @OA\Put(
  *     tags={"Disciplines"},
  *     path="/disciplines/{id}",
- *     @OA\Response(response="200", description="Update discipline by id")
+ *     summary="Update discipline by ID",
+ *     description="Updates a discipline by its ID.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the discipline",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="Discipline object to be updated",
+ *         @OA\JsonContent(ref="#/components/schemas/Discipline")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Discipline updated successfully",
+ *         @OA\JsonContent(ref="#/components/schemas/Discipline")
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Discipline not found"
+ *     )
  * )
  */
 final class Update extends Base

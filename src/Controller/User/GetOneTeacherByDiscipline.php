@@ -7,11 +7,31 @@ namespace App\Controller\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
- /**
+/**
  * @OA\Get(
  *     tags={"Users"},
  *     path="/users/teacher/discipline/{id}",
- *     @OA\Response(response="200", description="Get the teacher's discipline")
+ *     summary="Get teacher by discipline ID",
+ *     description="Retrieves a teacher by their associated discipline ID.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the discipline",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(ref="#/components/schemas/User")
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Teacher not found"
+ *     )
  * )
  */
 final class GetOneTeacherByDiscipline extends Base

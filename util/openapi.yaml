@@ -1,0 +1,594 @@
+openapi: 3.0.0
+info:
+  title: 'New StudentWeb'
+  description: 'API for maintaining and showing academic status at the university'
+  version: 1.0.0
+paths:
+  /:
+    get:
+      summary: 'Get API version information'
+      description: 'Gets the current version of the API along with the timestamp.'
+      operationId: 3caa474211581124fee57069f18130e9
+      responses:
+        '200':
+          description: 'Successful response'
+          content:
+            application/json:
+              schema:
+                properties:
+                  version: { type: string, example: 1.0.0 }
+                  timestamp: { type: integer, example: 1646744833 }
+                type: object
+  /disciplines/create:
+    post:
+      tags:
+        - Disciplines
+      summary: 'Create a new discipline'
+      description: 'Creates a new discipline with the provided data.'
+      operationId: 9d1247daf3aab1ef9969936b8b401f4e
+      requestBody:
+        description: 'Discipline data to create'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Discipline'
+      responses:
+        '200':
+          description: 'Discipline created successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Discipline'
+        '400':
+          description: 'Bad request'
+  '/disciplines/{id}':
+    get:
+      tags:
+        - Disciplines
+      summary: 'Get discipline by ID'
+      description: 'Retrieves a discipline by its ID.'
+      operationId: a66938c49acac19f9a5c6bbf8d9ae94a
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the discipline'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Discipline retrieved successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Discipline'
+        '404':
+          description: 'Discipline not found'
+    put:
+      tags:
+        - Disciplines
+      summary: 'Update discipline by ID'
+      description: 'Updates a discipline by its ID.'
+      operationId: c3e0db97cadb03515ad1a14bca30d9fd
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the discipline'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: 'Discipline object to be updated'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Discipline'
+      responses:
+        '200':
+          description: 'Discipline updated successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Discipline'
+        '404':
+          description: 'Discipline not found'
+    delete:
+      tags:
+        - Disciplines
+      summary: 'Delete discipline by ID'
+      description: 'Deletes a discipline by its ID.'
+      operationId: 8ebf3d03e218b984e6048e683b3e87ca
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the discipline to delete'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Discipline deleted successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Discipline'
+        '404':
+          description: 'Discipline not found'
+  /disciplines/:
+    get:
+      tags:
+        - Disciplines
+      summary: 'Get all disciplines'
+      description: 'Retrieves a list of all disciplines.'
+      operationId: 2e066c598a0c01bbd40a8305608f68f7
+      responses:
+        '200':
+          description: 'List of all disciplines'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Discipline'
+        '500':
+          description: 'Internal server error'
+  '/disciplines/student/{stud_id}':
+    get:
+      tags:
+        - Disciplines
+      summary: 'Get all disciplines of a student'
+      description: 'Retrieves a list of all disciplines associated with the specified student.'
+      operationId: e9f1da640392e512e919571c4921bea9
+      parameters:
+        -
+          name: stud_id
+          in: path
+          description: 'ID of the student'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'List of all disciplines for the specified student'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Discipline'
+        '404':
+          description: 'Student not found'
+  /grades/create:
+    post:
+      tags:
+        - Grades
+      summary: 'Create a new grade'
+      description: 'Creates a new grade for a student at an exam.'
+      operationId: ec9c1d3646e781dff72a98020cb9c2d7
+      requestBody:
+        description: 'Grade object to be created'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Grade'
+      responses:
+        '200':
+          description: 'Grade created successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grade'
+  '/grades/{id}':
+    put:
+      tags:
+        - Grades
+      summary: 'Update a grade by ID'
+      description: 'Updates the grade with the specified ID.'
+      operationId: 84cfc67f949bbcd657399f134c9aadf2
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the grade to update'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: 'Grade data to update'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Grade'
+      responses:
+        '200':
+          description: 'Updated grade'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grade'
+    delete:
+      tags:
+        - Grades
+      summary: 'Delete a grade by ID'
+      description: 'Deletes a grade by its ID.'
+      operationId: e2c30c98d05ca1e80b7dfe7e0bc52e9c
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the grade to delete'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Grade deleted successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grade'
+  '/grades/student/{stud_id}':
+    get:
+      tags:
+        - Grades
+      summary: 'Get all grades of a student'
+      description: 'Retrieves all grades associated with the specified student ID.'
+      operationId: b14cc000b6ef75e4cc8a70ce22a9c802
+      parameters:
+        -
+          name: stud_id
+          in: path
+          description: 'ID of the student'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'List of grades'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Grade'
+  '/grades/student/{stud_id}/exam/{exam_id}':
+    get:
+      tags:
+        - Grades
+      summary: 'Get grade of a student at an exam'
+      description: 'Retrieves the grade of the specified student at the specified exam.'
+      operationId: b74232ec074a1bd30d4f33f6d317d531
+      parameters:
+        -
+          name: stud_id
+          in: path
+          description: 'ID of the student'
+          required: true
+          schema:
+            type: integer
+            format: int64
+        -
+          name: exam_id
+          in: path
+          description: 'ID of the exam'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Grade of the student at the exam'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grade'
+  '/users/{id}':
+    get:
+      tags:
+        - Users
+      summary: 'Get user by ID'
+      description: 'Retrieves a user by their ID.'
+      operationId: d103bf14afb1c9faecd7db100ccd1bfc
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the user to retrieve'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: 'User not found'
+    put:
+      tags:
+        - Users
+      summary: 'Update user by ID'
+      description: 'Updates a user identified by their ID with the provided user data.'
+      operationId: 4e73057119289c1852c31b99ead70192
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the user'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: 'User data to update'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 'User updated successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: 'User not found'
+    delete:
+      tags:
+        - Users
+      summary: 'Delete user by ID'
+      description: 'Deletes a user by their ID'
+      operationId: 2e3cbd202fb5b06e4e385ea633ba7f06
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the user to delete'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: 'User not found'
+  /users/:
+    get:
+      tags:
+        - Users
+      summary: 'Get all users'
+      description: 'Returns a list of all users'
+      operationId: 48192d682b7afc24b0cc087c6607dc7d
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/student:
+    get:
+      tags:
+        - Users
+      summary: 'Get all students'
+      description: 'Retrieves a list of all users with the student role.'
+      operationId: 25e37e8f67be749e6f07ebcb3853fa05
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '404':
+          description: 'No students found'
+  /users/teacher:
+    get:
+      tags:
+        - Users
+      summary: 'Get all teachers'
+      description: 'Retrieves a list of all users with the teacher role.'
+      operationId: 14382920ccc3688c6f0f088dc257e40b
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '404':
+          description: 'No teachers found'
+  '/users/teacher/discipline/{id}':
+    get:
+      tags:
+        - Users
+      summary: 'Get teacher by discipline ID'
+      description: 'Retrieves a teacher by their associated discipline ID.'
+      operationId: c7668ac63db164b4c1ecf4099a2c2913
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the discipline'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: 'Teacher not found'
+  /login:
+    get:
+      summary: 'Redirects user to Google OAuth login'
+      description: 'Redirects the user to the Google OAuth login page for authentication.'
+      operationId: 03745476c9f3ba99a87c915479c28cc0
+      responses:
+        '302':
+          description: 'Redirect to Google OAuth login page'
+  /google/auth/callback:
+    get:
+      summary: 'Callback for Google OAuth authentication'
+      description: 'Handles the callback from Google OAuth authentication and generates a JWT token for the user.'
+      operationId: 703055b302ce7eef796eef9526119d4e
+      responses:
+        '200':
+          description: 'JWT token generated successfully'
+components:
+  schemas:
+    Discipline:
+      title: Discipline
+      description: 'Discipline entity'
+      required:
+        - id
+        - name
+        - credits
+      properties:
+        id:
+          description: 'The unique identifier for the discipline'
+          type: integer
+          format: int64
+          example: 1
+        name:
+          description: 'The name of the discipline'
+          type: string
+        credits:
+          description: 'The number of credits associated with the discipline'
+          type: integer
+          example: 3
+        idDiscipline:
+          description: 'The unique identifier for the discipline (if different from ''id'')'
+          type: integer
+          format: int64
+          example: 1001
+      type: object
+    Grade:
+      title: Grade
+      description: 'Grade entity'
+      required:
+        - id
+        - idExam
+        - idUser
+        - value
+      properties:
+        id:
+          description: 'The unique identifier for the grade'
+          type: integer
+          format: int64
+          example: 1
+        idExam:
+          description: 'The unique identifier for the exam associated with the grade'
+          type: integer
+          format: int64
+          example: 1001
+        idUser:
+          description: 'The unique identifier for the user associated with the grade'
+          type: integer
+          format: int64
+          example: 2001
+        value:
+          description: 'The value of the grade'
+          type: integer
+          format: int64
+          example: 85
+      type: object
+    User:
+      title: User
+      description: 'User entity'
+      required:
+        - id
+        - email
+        - name
+        - surname
+        - birthDate
+        - country
+        - state
+        - city
+        - address
+        - sex
+        - CNP
+        - roleId
+      properties:
+        id:
+          description: 'The unique identifier for the user'
+          type: integer
+          format: int64
+          example: 1
+        email:
+          description: 'The email address of the user'
+          type: string
+          example: john.doe@example.com
+        name:
+          description: 'The first name of the user'
+          type: string
+          example: John
+        surname:
+          description: 'The last name of the user'
+          type: string
+          example: Doe
+        birthDate:
+          description: 'The birth date of the user'
+          type: string
+          example: '1990-01-01'
+        country:
+          description: 'The country of the user'
+          type: string
+          example: 'United States'
+        state:
+          description: 'The state of the user'
+          type: string
+          example: California
+        city:
+          description: 'The city of the user'
+          type: string
+          example: 'Los Angeles'
+        address:
+          description: 'The address of the user'
+          type: string
+          example: '123 Main Street'
+        sex:
+          description: 'The sex of the user'
+          type: boolean
+          example: true
+        CNP:
+          description: 'The CNP (personal identification number) of the user'
+          type: string
+          example: '1234567890123'
+        roleId:
+          description: 'The role ID of the user'
+          type: integer
+          format: int64
+          example: 1
+      type: object

@@ -15,7 +15,17 @@ final class DefaultController extends BaseController
 /**
  * @OA\Get(
  *     path="/",
- *     @OA\Response(response="200", description="Gets the current version of the API")
+ *     summary="Get API version information",
+ *     description="Gets the current version of the API along with the timestamp.",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="version", type="string", example="1.0.0"),
+ *             @OA\Property(property="timestamp", type="integer", example=1646744833)
+ *         )
+ *     )
  * )
  */
     public function getHelp(Request $request, Response $response): Response
