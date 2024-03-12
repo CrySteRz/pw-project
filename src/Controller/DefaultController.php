@@ -56,9 +56,26 @@ final class DefaultController extends BaseController
     }
 
     public function getOpenApiDefinition(Request $request, Response $response): Response
-    {
-        $serializer = new Serializer();
-        $openapi = $serializer->deserialize($jsonString, 'OpenApi\Annotations\OpenApi');
-        return $this->jsonResponse($response, 'success', $openapi->toJson(), 200);
+{
+    // Assuming you have the OpenAPI definition in a JSON file or string. You need to retrieve it first.
+    // For example, if you have a JSON file, you might use file_get_contents to get the JSON string.
+    // Replace '/path/to/your/openapi.json' with the actual path to your OpenAPI JSON file.
+    $jsonString = file_get_contents( __DIR__ . '/../../util/openapi.json');
+
+    // Check if $jsonString is actually retrieved and not false or null
+    if ($jsonString === false) {
+        // Handle the error, maybe return an error response or throw an exception
+        return $this->jsonResponse($response, 'error', 'Failed to retrieve OpenAPI definition.', 400);
     }
+
+    $serializer = new Serializer();
+    try {
+        $openapi = $serializer->deserialize($jsonString, 'OpenApi\Annotations\OpenApi');
+        return $this->jsonResponse($response, 'success', json_decode($openapi->toJson()), 200);
+    } catch (\Exception $e) {
+        // Handle deserialization error, maybe log it and return an error response
+        return $this->jsonResponse($response, 'error', 'Failed to deserialize OpenAPI definition.', 400);
+    }
+}
+
 }

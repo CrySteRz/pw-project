@@ -1,0 +1,116 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "StudentWeb Clone",
+      "description": "API for managing users, disciplines, and grades.",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/login": {
+        "get": {
+          "tags": ["User Authentication"],
+          "summary": "Login endpoint",
+          "responses": {
+            "200": {
+              "description": "Successful login"
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "tags": ["User"],
+          "summary": "Get all users",
+          "responses": {
+            "200": {
+              "description": "A list of users."
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "tags": ["User"],
+          "summary": "Get a single user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "User ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A single user.",
+              "content": {}
+            },
+            "404": {
+              "description": "User not found."
+            }
+          }
+        },
+        "put": {
+          "tags": ["User"],
+          "summary": "Update a user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "User ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User updated."
+            },
+            "404": {
+              "description": "User not found."
+            }
+          }
+        },
+        "delete": {
+          "tags": ["User"],
+          "summary": "Delete a user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "User ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted."
+            },
+            "404": {
+              "description": "User not found."
+            }
+          }
+        }
+      },
+      "/disciplines": {
+        "get": {
+          "tags": ["Discipline"],
+          "summary": "Get all disciplines",
+          "responses": {
+            "200": {
+              "description": "A list of disciplines."
+            }
+          }
+        }
+      }
+    }
+  }
+  
