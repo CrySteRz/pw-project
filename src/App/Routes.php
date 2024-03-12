@@ -10,6 +10,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 //  use App\Controller\User;
  use App\Middleware\Auth;
 
+
+
+
+
 return static function ($app) {
     //Public routes
     $app->get('/', '\App\Controller\DefaultController:getHelp');
@@ -21,10 +25,7 @@ return static function ($app) {
             $app->get('/status', '\App\Controller\DefaultController:getStatus'); // Am pus getStatus aici sa vad daca e securizat behind the middleware
         })->add(new Auth());
 
-
-
-        // poate facem un get student + /general, /scolaritate, /contact
-    
+        $app->get('/openapi', '\App\Controller\DefaultController:getOpenApiDefinition');
         $app->group('/users', function () use ($app): void {
             $app->get('', User\GetAll::class);
             $app->get('/student', User\GetAllStudents::class);

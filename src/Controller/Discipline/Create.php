@@ -6,7 +6,13 @@ namespace App\Controller\Discipline;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-
+ /**
+ * @OA\Post(
+ *     tags={"Disciplines"},
+ *     path="/disciplines/create",
+ *     @OA\Response(response="200", description="Create a new discipline")
+ * )
+ */
 final class Create extends Base
 {
     public function __invoke(Request $request, Response $response, array $args): Response

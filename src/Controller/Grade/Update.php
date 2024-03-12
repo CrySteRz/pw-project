@@ -6,7 +6,13 @@ namespace App\Controller\Grade;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-
+   /**
+ * @OA\Put(
+ *     tags={"Grades"},
+ *     path="/{id}",
+ *     @OA\Response(response="200", description="Update a grade by id")
+ * )
+ */
 final class Update extends Base
 {
     public function __invoke(Request $request, Response $response, array $args): Response

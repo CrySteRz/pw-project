@@ -6,6 +6,13 @@ namespace App\Controller\Discipline;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+ /**
+ * @OA\Get(
+ *     tags={"Disciplines"},
+ *     path="/disciplines/student/{stud_id}",
+ *     @OA\Response(response="200", description="Get all disciplines of a student")
+ * )
+ */
 
 final class getAllByUserId extends Base
 {

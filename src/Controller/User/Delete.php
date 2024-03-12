@@ -7,14 +7,15 @@ namespace App\Controller\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
- /**
- * @OA\Get(
+
+/**
+ * @OA\Delete(
  *     tags={"Users"},
- *     path="/users/teacher/discipline/{id}",
- *     @OA\Response(response="200", description="Get the teacher's discipline")
+ *     path="/users/{id}",
+ *     @OA\Response(response="200", description="Delete user by id")
  * )
  */
-final class GetOneTeacherByDiscipline extends Base
+final class Delete extends Base
 {
     public function __invoke(Request $request, Response $response): Response
     {

@@ -7,6 +7,14 @@ namespace App\Controller\Discipline;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+
+/**
+ * @OA\Get(
+ *     tags={"Disciplines"},
+ *     path="/disciplines/",
+ *     @OA\Response(response="200", description="Get all disciplines")
+ * )
+ */
 final class GetAll extends Base
 {
     public function __invoke(Request $request, Response $response): Response

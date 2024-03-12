@@ -6,11 +6,18 @@ namespace App\Controller;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-
+use OpenApi\Serializer;
 final class DefaultController extends BaseController
 {
     private const API_VERSION = '1.0';
 
+
+/**
+ * @OA\Get(
+ *     path="/",
+ *     @OA\Response(response="200", description="Gets the current version of the API")
+ * )
+ */
     public function getHelp(Request $request, Response $response): Response
     {
         $message = [
@@ -48,5 +55,10 @@ final class DefaultController extends BaseController
         ];
     }
 
-   
+    public function getOpenApiDefinition(Request $request, Response $response): Response
+    {
+        $serializer = new Serializer();
+        $openapi = $serializer->deserialize($jsonString, 'OpenApi\Annotations\OpenApi');
+        return $this->jsonResponse($response, 'success', $openapi->toJson(), 200);
+    }
 }

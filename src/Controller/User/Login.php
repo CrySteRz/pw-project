@@ -29,6 +29,13 @@ class Login
         $this->keyId = $_SERVER['KID'] ?? 'DEV';
     }
 
+
+/**
+ * @OA\Get(
+ *     path="/login",
+ *     @OA\Response(response="200", description="Logs in the user")
+ * )
+ */
     public function login(Request $request, Response $response, array $args): Response
     {   
         $client = new Google_Client();
@@ -39,6 +46,12 @@ class Login
         return $response->withHeader('Location', $client->createAuthUrl())->withStatus(302);
     }
 
+/**
+ * @OA\Get(
+ *     path="/google/auth/callback",
+ *     @OA\Response(response="200", description="Callback for google auth")
+ * )
+ */
     public function callback(Request $request, Response $response, array $args): Response
     {
         $client = new Google_Client();
