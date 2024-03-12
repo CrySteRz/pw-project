@@ -1,4 +1,3 @@
 /vendor/
 .env
-/util/private_key.pem
-/util/public_key.pem
+*.pem

@@ -25,7 +25,7 @@ return static function ($app) {
 
         $app->get('/openapi', '\App\Controller\DefaultController:getOpenApiDefinition');
         $app->group('/users', function () use ($app): void {
-            $app->get('', User\GetAll::class);
+            $app->get('/', User\GetAll::class);
             $app->get('/student', User\GetAllStudents::class);
             $app->get('/teacher', User\GetAllTeachers::class);
             $app->get('/teacher/discipline/{id}', User\GetOneTeacherByDiscipline::class);
@@ -35,7 +35,7 @@ return static function ($app) {
         });
 
         $app->group('/disciplines', function () use ($app): void {
-            $app->get('', Discipline\GetAll::class);
+            $app->get('/', Discipline\GetAll::class);
             $app->get('/student/{stud_id}', Discipline\getAllByUserId::class);
             $app->get('/{id}', Discipline\GetOne::class);
             $app->post('/create', Discipline\Create::class);
