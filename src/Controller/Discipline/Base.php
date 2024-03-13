@@ -9,6 +9,7 @@ use App\Exception\Discipline;
 use App\Service\Discipline\DisciplineService;
 
 /**
+ * @OA\Server(url="http://localhost:8080")
  * @OA\Info(
  *     title="New StudentWeb",
  *     version="1.0.0",

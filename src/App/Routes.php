@@ -18,10 +18,10 @@ return static function ($app) {
     $app->get('/login', '\App\Controller\User\Login:login');
     $app->get('/google/auth/callback', '\App\Controller\User\Login:callback');
 
-    $app->group('/api', function () use ($app): void {
-        $app->group('/test', function () use ($app): void {
-            $app->get('/status', '\App\Controller\DefaultController:getStatus'); // Am pus getStatus aici sa vad daca e securizat behind the middleware
-        })->add(new Auth());
+    // $app->group('/api', function () use ($app): void {
+    //     $app->group('/test', function () use ($app): void {
+    //         $app->get('/status', '\App\Controller\DefaultController:getStatus'); // Am pus getStatus aici sa vad daca e securizat behind the middleware
+    //     })->add(new Auth());
 
         $app->get('/openapi', '\App\Controller\DefaultController:getOpenApiDefinition');
         $app->group('/users', function () use ($app): void {
@@ -51,7 +51,7 @@ return static function ($app) {
             $app->put('/{id}', Grade\Update::class);
             $app->delete('/{id}', Grade\Delete::class);
         });
-    });
+    // });
 
     return $app;
 };
