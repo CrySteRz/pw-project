@@ -3,6 +3,9 @@ info:
   title: 'New StudentWeb'
   description: 'API for maintaining and showing academic status at the university'
   version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8080'
 paths:
   /:
     get:
@@ -19,13 +22,30 @@ paths:
                   version: { type: string, example: 1.0.0 }
                   timestamp: { type: integer, example: 1646744833 }
                 type: object
-  /disciplines/create:
+  /disciplines/:
+    get:
+      tags:
+        - Disciplines
+      summary: 'Get all disciplines'
+      description: 'Retrieves a list of all disciplines.'
+      operationId: 2e066c598a0c01bbd40a8305608f68f7
+      responses:
+        '200':
+          description: 'List of all disciplines'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Discipline'
+        '500':
+          description: 'Internal server error'
     post:
       tags:
         - Disciplines
       summary: 'Create a new discipline'
       description: 'Creates a new discipline with the provided data.'
-      operationId: 9d1247daf3aab1ef9969936b8b401f4e
+      operationId: 17f0f213d8c3facf5a72ee97c26f2a9a
       requestBody:
         description: 'Discipline data to create'
         required: true
@@ -66,36 +86,6 @@ paths:
                 $ref: '#/components/schemas/Discipline'
         '404':
           description: 'Discipline not found'
-    put:
-      tags:
-        - Disciplines
-      summary: 'Update discipline by ID'
-      description: 'Updates a discipline by its ID.'
-      operationId: c3e0db97cadb03515ad1a14bca30d9fd
-      parameters:
-        -
-          name: id
-          in: path
-          description: 'ID of the discipline'
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        description: 'Discipline object to be updated'
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Discipline'
-      responses:
-        '200':
-          description: 'Discipline updated successfully'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Discipline'
-        '404':
-          description: 'Discipline not found'
     delete:
       tags:
         - Disciplines
@@ -120,24 +110,36 @@ paths:
                 $ref: '#/components/schemas/Discipline'
         '404':
           description: 'Discipline not found'
-  /disciplines/:
-    get:
+    patch:
       tags:
         - Disciplines
-      summary: 'Get all disciplines'
-      description: 'Retrieves a list of all disciplines.'
-      operationId: 2e066c598a0c01bbd40a8305608f68f7
+      summary: 'Partially update discipline by ID'
+      description: 'Updates a discipline by its ID.'
+      operationId: 0b532224b607050756734b24b95c027a
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the discipline'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: 'Discipline object to be updated'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Discipline'
       responses:
         '200':
-          description: 'List of all disciplines'
+          description: 'Discipline updated successfully'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Discipline'
-        '500':
-          description: 'Internal server error'
+                $ref: '#/components/schemas/Discipline'
+        '404':
+          description: 'Discipline not found'
   '/disciplines/student/{stud_id}':
     get:
       tags:
@@ -164,13 +166,13 @@ paths:
                   $ref: '#/components/schemas/Discipline'
         '404':
           description: 'Student not found'
-  /grades/create:
+  /grades/:
     post:
       tags:
         - Grades
       summary: 'Create a new grade'
       description: 'Creates a new grade for a student at an exam.'
-      operationId: ec9c1d3646e781dff72a98020cb9c2d7
+      operationId: 284b29e994ce52d09e531735f66898c2
       requestBody:
         description: 'Grade object to be created'
         required: true
@@ -186,12 +188,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/Grade'
   '/grades/{id}':
-    put:
+    delete:
       tags:
         - Grades
-      summary: 'Update a grade by ID'
+      summary: 'Delete a grade by ID'
+      description: 'Deletes a grade by its ID.'
+      operationId: e2c30c98d05ca1e80b7dfe7e0bc52e9c
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the grade to delete'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Grade deleted successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grade'
+    patch:
+      tags:
+        - Grades
+      summary: 'Partially update a grade by ID'
       description: 'Updates the grade with the specified ID.'
-      operationId: 84cfc67f949bbcd657399f134c9aadf2
+      operationId: a4c9bb779ee6208d3c60704476fd9ce5
       parameters:
         -
           name: id
@@ -211,28 +235,6 @@ paths:
       responses:
         '200':
           description: 'Updated grade'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Grade'
-    delete:
-      tags:
-        - Grades
-      summary: 'Delete a grade by ID'
-      description: 'Deletes a grade by its ID.'
-      operationId: e2c30c98d05ca1e80b7dfe7e0bc52e9c
-      parameters:
-        -
-          name: id
-          in: path
-          description: 'ID of the grade to delete'
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: 'Grade deleted successfully'
           content:
             application/json:
               schema:
@@ -318,12 +320,36 @@ paths:
                 $ref: '#/components/schemas/User'
         '404':
           description: 'User not found'
-    put:
+    delete:
       tags:
         - Users
-      summary: 'Update user by ID'
+      summary: 'Delete user by ID'
+      description: 'Deletes a user by their ID'
+      operationId: 2e3cbd202fb5b06e4e385ea633ba7f06
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the user to delete'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: 'User not found'
+    patch:
+      tags:
+        - Users
+      summary: 'Partially update user by ID'
       description: 'Updates a user identified by their ID with the provided user data.'
-      operationId: 4e73057119289c1852c31b99ead70192
+      operationId: e5ea28a41a364ef2768bf77bc0f78ab7
       parameters:
         -
           name: id
@@ -343,30 +369,6 @@ paths:
       responses:
         '200':
           description: 'User updated successfully'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          description: 'User not found'
-    delete:
-      tags:
-        - Users
-      summary: 'Delete user by ID'
-      description: 'Deletes a user by their ID'
-      operationId: 2e3cbd202fb5b06e4e385ea633ba7f06
-      parameters:
-        -
-          name: id
-          in: path
-          description: 'ID of the user to delete'
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: 'Successful operation'
           content:
             application/json:
               schema:
@@ -425,13 +427,13 @@ paths:
                   $ref: '#/components/schemas/User'
         '404':
           description: 'No teachers found'
-  '/users/teacher/discipline/{id}':
+  '/users/teachersByDiscId/{id}':
     get:
       tags:
         - Users
       summary: 'Get teacher by discipline ID'
       description: 'Retrieves a teacher by their associated discipline ID.'
-      operationId: c7668ac63db164b4c1ecf4099a2c2913
+      operationId: 69ad22ff1b3635e10ea00ddb12eea3cc
       parameters:
         -
           name: id
@@ -458,14 +460,6 @@ paths:
       responses:
         '302':
           description: 'Redirect to Google OAuth login page'
-  /google/auth/callback:
-    get:
-      summary: 'Callback for Google OAuth authentication'
-      description: 'Handles the callback from Google OAuth authentication and generates a JWT token for the user.'
-      operationId: 703055b302ce7eef796eef9526119d4e
-      responses:
-        '200':
-          description: 'JWT token generated successfully'
 components:
   schemas:
     Discipline:
