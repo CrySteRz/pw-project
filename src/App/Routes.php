@@ -28,9 +28,9 @@ return static function ($app) {
             $app->get('/', User\GetAll::class);
             $app->get('/student', User\GetAllStudents::class);
             $app->get('/teacher', User\GetAllTeachers::class);
-            $app->get('/teacher/discipline/{id}', User\GetOneTeacherByDiscipline::class);
+            $app->get('/teachersByDiscId/{id}', User\GetOneTeacherByDiscipline::class);
             $app->get('/{id}', User\GetOne::class);
-            $app->put('/{id}', User\Update::class);
+            $app->patch('/{id}', User\Update::class);
             $app->delete('/{id}', User\Delete::class);
         });
 
@@ -38,8 +38,8 @@ return static function ($app) {
             $app->get('/', Discipline\GetAll::class);
             $app->get('/student/{stud_id}', Discipline\getAllByUserId::class);
             $app->get('/{id}', Discipline\GetOne::class);
-            $app->post('/create', Discipline\Create::class);
-            $app->put('/{id}', Discipline\Update::class);
+            $app->post('/', Discipline\Create::class);
+            $app->patch('/{id}', Discipline\Update::class);
             $app->delete('/{id}', Discipline\Delete::class);
         });
 
@@ -47,8 +47,8 @@ return static function ($app) {
         $app->group('/grades', function () use ($app): void {
             $app->get('/student/{stud_id}', Grade\GetAllByStudentId::class);
             $app->get('/student/{stud_id}/exam/{exam_id}', Grade\GetOne::class);
-            $app->post('/create', Grade\Create::class);
-            $app->put('/{id}', Grade\Update::class);
+            $app->post('/', Grade\Create::class);
+            $app->patch('/{id}', Grade\Update::class);
             $app->delete('/{id}', Grade\Delete::class);
         });
     // });

@@ -10,7 +10,7 @@ use Slim\Http\Response;
 /**
  * @OA\Get(
  *     tags={"Users"},
- *     path="/users/teacher/discipline/{id}",
+ *     path="/users/teachersByDiscId/{id}",
  *     summary="Get teacher by discipline ID",
  *     description="Retrieves a teacher by their associated discipline ID.",
  *     @OA\Parameter(

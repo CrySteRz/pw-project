@@ -7,10 +7,10 @@ namespace App\Controller\Grade;
 use Slim\Http\Request;
 use Slim\Http\Response;
 /**
- * @OA\Put(
+ * @OA\Patch(
  *     tags={"Grades"},
  *     path="/grades/{id}",
- *     summary="Update a grade by ID",
+ *     summary="Partially update a grade by ID",
  *     description="Updates the grade with the specified ID.",
  *     @OA\Parameter(
  *         name="id",

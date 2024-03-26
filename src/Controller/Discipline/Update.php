@@ -8,10 +8,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * @OA\Put(
+ * @OA\Patch(
  *     tags={"Disciplines"},
  *     path="/disciplines/{id}",
- *     summary="Update discipline by ID",
+ *     summary="Partially update discipline by ID",
  *     description="Updates a discipline by its ID.",
  *     @OA\Parameter(
  *         name="id",

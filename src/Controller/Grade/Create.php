@@ -9,7 +9,7 @@ use Slim\Http\Response;
 /**
  * @OA\Post(
  *     tags={"Grades"},
- *     path="/grades/create",
+ *     path="/grades/",
  *     summary="Create a new grade",
  *     description="Creates a new grade for a student at an exam.",
  *     @OA\RequestBody(

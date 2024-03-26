@@ -51,17 +51,17 @@ class Login
         return $response->withHeader('Location', $client->createAuthUrl())->withStatus(302);
     }
 
-/**
- * @OA\Get(
- *     path="/google/auth/callback",
- *     summary="Callback for Google OAuth authentication",
- *     description="Handles the callback from Google OAuth authentication and generates a JWT token for the user.",
- *     @OA\Response(
- *         response=200,
- *         description="JWT token generated successfully"
- *     )
- * )
- */
+// /**
+//  * @OA\Get(
+//  *     path="/google/auth/callback",
+//  *     summary="Callback for Google OAuth authentication",
+//  *     description="Handles the callback from Google OAuth authentication and generates a JWT token for the user.",
+//  *     @OA\Response(
+//  *         response=200,
+//  *         description="JWT token generated successfully"
+//  *     )
+//  * )
+//  */
     public function callback(Request $request, Response $response, array $args): Response
     {
         $client = new Google_Client();

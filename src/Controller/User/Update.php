@@ -9,10 +9,10 @@ use Slim\Http\Response;
 
 
 /**
- * @OA\Put(
+ * @OA\Patch(
  *     tags={"Users"},
  *     path="/users/{id}",
- *     summary="Update user by ID",
+ *     summary="Partially update user by ID",
  *     description="Updates a user identified by their ID with the provided user data.",
  *     @OA\Parameter(
  *         name="id",

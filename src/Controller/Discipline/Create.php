@@ -9,7 +9,7 @@ use Slim\Http\Response;
 /**
  * @OA\Post(
  *     tags={"Disciplines"},
- *     path="/disciplines/create",
+ *     path="/disciplines/",
  *     summary="Create a new discipline",
  *     description="Creates a new discipline with the provided data.",
  *     @OA\RequestBody(
