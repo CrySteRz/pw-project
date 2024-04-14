@@ -28,11 +28,6 @@ final class DisciplineService extends Base
         return $this->getDisciplineRepository()->getAllDisciplines();
     }
 
-    public function getAllByUserId(int $userId): array
-    {
-        return $this->getDisciplineRepository()->getAllDisciplinesByUserId($userId);
-    }
-
     public function getOne(int $disciplineId): object
     {
         $discipline = $this->getDisciplineRepository()->getOne($disciplineId);
@@ -94,5 +89,10 @@ final class DisciplineService extends Base
             $discipline->updateIdDiscipline($data->idDiscipline);
         }
         return $discipline;
+    }
+
+    public function getDisciplinesByUserEmail(string $email): array
+    {
+        return $this->getDisciplineRepository()->getDisciplinesByUserEmail($email);
     }
 }

@@ -82,4 +82,41 @@ final class DisciplineRepository extends BaseRepository
         $statement->bindParam('id', $disciplineId);
         $statement->execute();
     }
+
+    public function getDisciplinesByUserEmail(string $email): array
+    {
+        $getUserQuery = "SELECT id FROM User WHERE email = :email";
+        $getDisciplinesIdsQuery = "SELECT id_discipline FROM users_has_disciplines WHERE id_user = :userId";
+        $getDisciplinesQuery = "SELECT * FROM Discipline WHERE id IN (%s)";
+
+        // Get userId from User table
+        $stmt = $this->getDb()->prepare($getUserQuery);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch();
+
+        if (!$user) {
+            throw new Exception("User not found");
+        }
+
+        $userId = $user['id'];
+
+        // Get id_discipline from users_has_disciplines table
+        $stmt = $this->getDb()->prepare($getDisciplinesIdsQuery);
+        $stmt->bindParam(':userId', $userId);
+        $stmt->execute();
+        $disciplinesIds = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+
+        if (!$disciplinesIds) {
+            return [];
+        }
+
+        // Get all rows from Discipline table
+        $placeholders = str_repeat('?,', count($disciplinesIds) - 1) . '?';
+        $stmt = $this->getDb()->prepare(sprintf($getDisciplinesQuery, $placeholders));
+        $stmt->execute($disciplinesIds);
+        $disciplines = $stmt->fetchAll();
+
+        return $disciplines;
+    }
 }

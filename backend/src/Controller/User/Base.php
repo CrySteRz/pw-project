@@ -7,12 +7,18 @@ namespace App\Controller\User;
 use App\Controller\BaseController;
 use App\Exception\User;
 use App\Service\User\UserService;
+use App\Service\Discipline\DisciplineService;
 
 abstract class Base extends BaseController
 {
     protected function getUserService(): UserService
     {
         return $this->container->get('user_service');
+    }
+
+    protected function getDisciplineService(): DisciplineService 
+    {
+        return $this->container->get('discipline_service');
     }
 
 

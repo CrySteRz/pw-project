@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\User;
+use App\Dtos\UserData;
 
 final class UserRepository extends BaseRepository
 {
   
-    public function GetStudentByEmail(string $email): User
+    public function GetStudentByEmail(string $email): UserData
     {
         $query = 'SELECT * FROM `User` WHERE `email` = :email';
         $statement = $this->getDb()->prepare($query);
@@ -23,14 +23,14 @@ final class UserRepository extends BaseRepository
         return $this->buildUser($user);
     }
 
-    private function buildUser(array $row): User
+    private function buildUser(array $row): UserData
     {
-        $user = new User();
+        $user = new UserData();
         $user->updateEmail($row['email']);
         $user->updateRoleId((int)$row['roleId']);
         $user->updateName($row['name']);
         $user->updateSurname($row['surname']);
-        $user->updateBirthDate(new \DateTime($row['birthDate']));
+        $user->updateBirthDate((new \DateTime($row['birthDate']))->format('c'));
         $user->updateCountry($row['country']);
         $user->updateState($row['state']);
         $user->updateCity($row['city']);
