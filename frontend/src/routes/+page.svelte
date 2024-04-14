@@ -7,7 +7,11 @@
 </svelte:head>
 
 <section>
+	<div class="card w-96 glass">
+		<div class="card-body">
 <p> hello</p>
+		</div>
+	</div>
 </section>
 
 <style>

@@ -5,13 +5,7 @@
 
 <div class="app">
 	<main>
-		<div class="card w-96 glass">
-			<div class="card-body">
 			  <slot />
-			</div>
-		  </div>
-
-			
 	</main>
 </div>
 
