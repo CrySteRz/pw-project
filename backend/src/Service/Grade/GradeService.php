@@ -23,9 +23,9 @@ final class GradeService extends Base
         return $this->getGradeRepository()->getAllGrades();
     }
 
-    public function getAllByUserId(int $userId): array
+    public function getAllGradesByUserEmail(string $email): array
     {
-        return $this->getGradeRepository()->getAllGradesByUserId($userId);
+        return $this->getGradeRepository()->getAllGradesByUserEmail($email);
     }
 
     public function getOne(int $studentId,int $examId): object

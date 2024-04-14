@@ -8,6 +8,7 @@ use App\Controller\BaseController;
 use App\Exception\User;
 use App\Service\User\UserService;
 use App\Service\Discipline\DisciplineService;
+use App\Service\Grade\GradeService;
 
 abstract class Base extends BaseController
 {
@@ -21,6 +22,10 @@ abstract class Base extends BaseController
         return $this->container->get('discipline_service');
     }
 
+    protected function getGradeService(): GradeService 
+    {
+        return $this->container->get('grade_service');
+    }
 
     protected function getLoginUserService(): Login
     {

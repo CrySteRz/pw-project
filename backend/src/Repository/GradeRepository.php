@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Grade;
+use App\Dtos\GradeDto;
 
 final class GradeRepository extends BaseRepository
 {
@@ -81,4 +82,37 @@ final class GradeRepository extends BaseRepository
         $statement->bindParam('id', $gradeId);
         $statement->execute();
     }
+
+    public function getAllGradesByUserEmail(string $email) : array {
+        $query = "
+            SELECT Grade.*, User.email, Exam.examDate, Discipline.name, Discipline.credits
+            FROM Grade
+            INNER JOIN User ON Grade.idUser = User.id
+            INNER JOIN Exam ON Grade.idExam = Exam.id
+            INNER JOIN Discipline ON Exam.idDiscipline = Discipline.id
+            WHERE User.email = :email
+        ";
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam(':email', $email);
+        $statement->execute();
+        $grades = $statement->fetchAll();
+        $gradeDtos = [];
+        foreach ($grades as $grade) {
+            $gradeDtos[] = $this->buildGradeDto($grade);
+        }
+        return $gradeDtos;
+    }
+
+    private function buildGradeDto(array $grade): GradeDto
+    {
+
+        $gradeDto = new GradeDto();
+        $gradeDto->setEmail($grade['email'])
+                ->setExamDate($grade['examDate'])
+                ->setDisciplineName($grade['name'])
+                ->setGradeValue(intval($grade['value']))
+                ->setCredits(intval($grade['credits']));
+        return $gradeDto;
+    }
+
 }

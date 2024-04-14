@@ -10,7 +10,7 @@ use Slim\Http\Response;
 
 final class getDisciplinesByUserEmail extends Base
 {
-    // example: http://localhost:8081/students/data?email=user1@example.com
+    // example: http://localhost:8081/students/disciplines?email=user1@example.com
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $email= $request->getQueryParams()['email'];

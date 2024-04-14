@@ -26,7 +26,7 @@ return static function ($app) {
         $app->get('/', User\GetAllStudents::class);
         $app->get('/data', User\GetStudentByEmail::class);
         $app->get('/disciplines', User\getDisciplinesByUserEmail::class);
-        $app->get('/{stud_id}/grades', Grade\GetAllByStudentId::class);
+        $app->get('/grades', User\GetAllGradesByUserEmail::class);
     });
 
     $app->group('/teachers', function () use ($app): void {
