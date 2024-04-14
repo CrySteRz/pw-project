@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 use Psr\Container\ContainerInterface;
+//TODO: UNCOMMENT API ERROR IN PRODUCTION
 use App\Handler\ApiError;
 
 $container['db'] = static function (ContainerInterface $container): PDO {

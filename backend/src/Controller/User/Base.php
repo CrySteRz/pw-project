@@ -6,15 +6,11 @@ namespace App\Controller\User;
 
 use App\Controller\BaseController;
 use App\Exception\User;
-use App\Service\User\Create;
-use App\Service\User\Delete;
-use App\Service\User\Find;
-use App\Service\User\Login;
-use App\Service\User\Update;
+use App\Service\User\UserService;
 
 abstract class Base extends BaseController
 {
-    protected function getUserService(): Find
+    protected function getUserService(): UserService
     {
         return $this->container->get('user_service');
     }

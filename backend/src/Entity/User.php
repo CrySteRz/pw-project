@@ -62,7 +62,7 @@ final class User
      *
      * @var string
      */
-    private date $birthDate;
+    private \DateTime $birthDate;
 
     /**
      * @OA\Property(
@@ -112,7 +112,7 @@ final class User
      *
      * @var bool
      */
-    private boolval $sex;
+    private bool $sex;
 
      /**
      * @OA\Property(
@@ -166,7 +166,7 @@ final class User
         return $this->surname;
     }
 
-    public function getBirthDate(): DateTime
+    public function getBirthDate(): \DateTime
     {
         return $this->birthDate;
     }
@@ -225,7 +225,7 @@ final class User
         return $this;
     }
 
-    public function updateBirthDate(DateTime $birthDate): self
+    public function updateBirthDate(\DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
         return $this;

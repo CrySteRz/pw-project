@@ -11,7 +11,7 @@ if (file_exists($envFile)) {
 }
 $settings = require __DIR__ . '/Settings.php';
 $app = new \Slim\App($settings);
-#$app->add(new \CorsSlim\CorsSlim()); // composer require palanik/corsslim inca nu stiu daca vrem sa folosim asta
+$app->add(new \CorsSlim\CorsSlim()); // composer require palanik/corsslim inca nu stiu daca vrem sa folosim asta
 
 $container = $app->getContainer();
 
