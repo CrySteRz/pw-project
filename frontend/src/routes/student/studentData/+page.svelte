@@ -1,18 +1,21 @@
 <script>
 	// fetch url: http://localhost:8081/students/data?email=user1@example.com
 	// where user1@example.com is the email
+	import { onMount } from 'svelte';
+
 	let studentData = "Loading...";
 
-    fetch('http://localhost:8081/students/data?email=user1@example.com')
-        .then(response => response.json())
-        .then(data => {
-            studentData = data.message;
-			studentData.birthDate = new Date(studentData.birthDate).toLocaleDateString();
-			// console.log(studentData);
-        })
-        .catch(error => {
-            studentData = "Error: " + error;
-        });
+	onMount(() => {
+		fetch('http://localhost:8081/students/data?email=user1@example.com')
+			.then(response => response.json())
+			.then(data => {
+				studentData = data.message;
+				studentData.birthDate = new Date(studentData.birthDate).toLocaleDateString();
+			})
+			.catch(error => {
+				studentData = "Error: " + error;
+			});
+	});
 </script>
 
 <svelte:head>
