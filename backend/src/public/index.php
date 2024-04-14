@@ -6,3 +6,5 @@ use OpenApi\Annotations as OA;
 require __DIR__ . './../App/App.php';
 
 $app->run();
+
+?>
