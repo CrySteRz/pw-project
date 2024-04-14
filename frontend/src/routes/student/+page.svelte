@@ -1,4 +1,5 @@
 <script>
+	
 </script>
 
 <svelte:head>
@@ -6,10 +7,10 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
+
 <section>
-	 home
+	Nothing selected
 </section>
 
 <style>
-
 </style>
