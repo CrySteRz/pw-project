@@ -19,11 +19,23 @@ return static function ($app) {
     $app->get('/google/auth/callback', '\App\Controller\User\Login:callback');
 
         $app->get('/openapi', '\App\Controller\DefaultController:getOpenApiDefinition');
+
+        $app->group('/students', function () use ($app): void {
+            $app->get('/', User\GetAllStudents::class);
+            $app->get('/{stud_id}/disciplines', Discipline\getAllByUserId::class);
+            $app->get('/{stud_id}/grades', Grade\GetAllByStudentId::class);
+
+
+        });
+
+        $app->group('/teachers', function () use ($app): void {
+            $app->get('/', User\GetAllTeachers::class);
+            $app->get('/{discipline_id}', User\GetOneTeacherByDiscipline::class);
+        });
+
+
         $app->group('/users', function () use ($app): void {
             $app->get('/', User\GetAll::class);
-            $app->get('/student', User\GetAllStudents::class);
-            $app->get('/teacher', User\GetAllTeachers::class);
-            $app->get('/teachersByDiscId/{id}', User\GetOneTeacherByDiscipline::class);
             $app->get('/{id}', User\GetOne::class);
             $app->patch('/{id}', User\Update::class);
             $app->delete('/{id}', User\Delete::class);
@@ -31,7 +43,6 @@ return static function ($app) {
 
         $app->group('/disciplines', function () use ($app): void {
             $app->get('/', Discipline\GetAll::class);
-            $app->get('/student/{stud_id}', Discipline\getAllByUserId::class);
             $app->get('/{id}', Discipline\GetOne::class);
             $app->post('/', Discipline\Create::class);
             $app->patch('/{id}', Discipline\Update::class);
@@ -40,8 +51,7 @@ return static function ($app) {
 
         // returneaza un json la grade cu examen, marire si restanta 
         $app->group('/grades', function () use ($app): void {
-            $app->get('/student/{stud_id}', Grade\GetAllByStudentId::class);
-            $app->get('/student/{stud_id}/exam/{exam_id}', Grade\GetOne::class);
+            $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
             $app->post('/', Grade\Create::class);
             $app->patch('/{id}', Grade\Update::class);
             $app->delete('/{id}', Grade\Delete::class);
