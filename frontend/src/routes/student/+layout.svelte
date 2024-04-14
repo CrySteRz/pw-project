@@ -5,9 +5,9 @@
 
 <div class="app">
 	<main>
-		<div class="card container glass">
+		<div class="card container myGlassEffect">
 			<div class="card-header">
-				<div class="loggedInHeader px-8 glass">
+				<div class="loggedInHeader px-8 myGlassEffect">
 					<h1> Salut, Cristian-Alexandru</h1>
 					<div>
 						<button class="btnLocalization">en</button>
@@ -18,7 +18,7 @@
 			<div class="card-body layoutCardBody">
 				<section class="sectionMainCard">
 					<HeaderStudentWeb />
-					<div class="mainContent glass">
+					<div class="mainContent myGlassEffect">
 						<ContextMenu />
 						<div class="ActualContent">
 							<slot />
@@ -37,7 +37,7 @@
 		background-repeat: no-repeat;
 		background-position: center;
 		/* background-image: url('$lib/images/wraper_back.jpg'); */
-		background-image: url('$lib/images/cool-background.svg');
+		background-image: url('$lib/images/cool-background2.png');
 	}
 
 	main{
