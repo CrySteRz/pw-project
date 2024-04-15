@@ -9,15 +9,22 @@ use App\Dtos\GradeDto;
 
 final class GradeRepository extends BaseRepository
 {
-    /**
-     * @return array<string>
-     */
+
     public function getAllGrades(): array
     {
-        $query = 'SELECT * FROM `Grade` ORDER BY `id`';
+        $query = 'SELECT * FROM `Grade`
+        INNER JOIN User ON Grade.idUser = User.id
+        INNER JOIN Exam ON Grade.idExam = Exam.id
+        INNER JOIN Discipline ON Exam.idDiscipline = Discipline.id 
+        ORDER BY `id`';
         $statement = $this->getDb()->prepare($query);
         $statement->execute();
-        return (array) $statement->fetchAll();
+        $grades =  $statement->fetchAll();
+        $gradeDtos = [];
+        foreach ($grades as $grade) {
+            $gradeDtos[] = $this->buildGradeDto($grade);
+        }
+        return $gradeDtos;
     }
 
     public function getAllGradesByUserId(int $userId) : array

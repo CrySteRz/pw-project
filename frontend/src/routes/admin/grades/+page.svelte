@@ -1,7 +1,7 @@
 <script>
     let grades = [];
 
-    fetch('http://localhost:8081/students/grades?email=user1@example.com')
+    fetch('http://localhost:8081/grades/')
         .then(response => response.json())
         .then(data => grades = data.message);
 </script>

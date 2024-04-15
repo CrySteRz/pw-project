@@ -50,6 +50,7 @@ return static function ($app) {
 
     // returneaza un json la grade cu examen, marire si restanta 
     $app->group('/grades', function () use ($app): void {
+        $app->get('/', Grade\GetAll::class);
         $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
         $app->post('/', Grade\Create::class);
         $app->patch('/{id}', Grade\Update::class);
