@@ -36,6 +36,7 @@ return static function ($app) {
 
     $app->group('/users', function () use ($app): void {
         $app->get('/', User\GetAll::class);
+        $app->post('/', User\Create::class);
         $app->patch('/{id}', User\Update::class);
         $app->delete('/{id}', User\Delete::class);
     });

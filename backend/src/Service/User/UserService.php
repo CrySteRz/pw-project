@@ -32,4 +32,9 @@ final class UserService extends Base
         return $this->getUserRepository()->getAllTeachers();
     }
 
+    public function Create($user) : UserData
+    {
+        return $this->getUserRepository()->Create($user);
+    }
+
 }
