@@ -23,6 +23,38 @@ final class UserRepository extends BaseRepository
         return $this->buildUser($user);
     }
 
+    public function getAllStudents() : array {
+        $query = 'SELECT * FROM `User` WHERE `roleId` = 3';
+        $statement = $this->getDb()->prepare($query);
+        $statement->execute();
+        $users = $statement->fetchAll();
+
+        if (!$users) {
+            return null;
+        }
+        $students = [];
+        foreach ($users as $user) {
+            $students[] = $this->buildUser($user);
+        }
+        return $students;
+    }
+
+    public function getAllTeachers() : array {
+        $query = 'SELECT * FROM `User` WHERE `roleId` = 2';
+        $statement = $this->getDb()->prepare($query);
+        $statement->execute();
+        $users = $statement->fetchAll();
+
+        if (!$users) {
+            return null;
+        }
+        $students = [];
+        foreach ($users as $user) {
+            $students[] = $this->buildUser($user);
+        }
+        return $students;
+    }
+
     private function buildUser(array $row): UserData
     {
         $user = new UserData();

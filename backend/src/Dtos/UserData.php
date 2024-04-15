@@ -22,7 +22,7 @@ final class UserData
      *
      * @var int
      */
-    private int $id;
+    public int $id;
 
     /**
      * @OA\Property(
@@ -32,7 +32,7 @@ final class UserData
      *
      * @var string
      */
-    private string $email;
+    public string $email;
 
       /**
      * @OA\Property(
@@ -42,7 +42,7 @@ final class UserData
      *
      * @var string
      */
-    private string $name;
+    public string $name;
 
      /**
      * @OA\Property(
@@ -52,7 +52,7 @@ final class UserData
      *
      * @var string
      */
-    private string $surname;
+    public string $surname;
 
      /**
      * @OA\Property(
@@ -62,7 +62,7 @@ final class UserData
      *
      * @var string
      */
-    private string $birthDate;
+    public string $birthDate;
 
     /**
      * @OA\Property(
@@ -72,7 +72,7 @@ final class UserData
      *
      * @var string
      */
-    private string $country;
+    public string $country;
 
     /**
      * @OA\Property(
@@ -82,7 +82,7 @@ final class UserData
      *
      * @var string
      */
-    private string $state;
+    public string $state;
 
     /**
      * @OA\Property(
@@ -92,7 +92,7 @@ final class UserData
      *
      * @var string
      */
-    private string $city;
+    public string $city;
 
      /**
      * @OA\Property(
@@ -102,7 +102,7 @@ final class UserData
      *
      * @var string
      */
-    private string $address;
+    public string $address;
 
     /**
      * @OA\Property(
@@ -112,7 +112,7 @@ final class UserData
      *
      * @var bool
      */
-    private bool $sex;
+    public bool $sex;
 
      /**
      * @OA\Property(
@@ -122,7 +122,7 @@ final class UserData
      *
      * @var string
      */
-    private string $CNP;
+    public string $CNP;
 
      /**
      * @OA\Property(
@@ -133,7 +133,7 @@ final class UserData
      *
      * @var int
      */
-    private int $roleId;
+    public int $roleId;
 
     public function toJson(): object
     {

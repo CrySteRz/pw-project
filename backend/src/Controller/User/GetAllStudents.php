@@ -32,11 +32,8 @@ final class GetAllStudents extends Base
 {
     public function __invoke(Request $request, Response $response): Response
     {
-        $message = [
-            'version' => self::API_VERSION,
-            'timestamp' => time(),
-        ];
+        $students = $this->getUserService()->getAllStudents();
 
-        return $this->jsonResponse($response, 'success', $message, 200);
+        return $this->jsonResponse($response, 'success', $students, 200);
     }
 }

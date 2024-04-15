@@ -21,4 +21,15 @@ final class UserService extends Base
         return $this->getUserRepository()->GetStudentByEmail($email);
     }
 
+    public function getAllStudents() : array 
+    {
+        return $this->getUserRepository()->getAllStudents();
+    }
+
+    
+    public function getAllTeachers() : array 
+    {
+        return $this->getUserRepository()->getAllTeachers();
+    }
+
 }
