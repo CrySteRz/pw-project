@@ -2,89 +2,76 @@
 	import { onMount } from 'svelte';
 
 	let students = [];
-    const newStudentData = {
-        "email": "",
-        "name": "",
-        "surname": "",
-        "birthDate": "2002-07-26",
-        "country": "",
-        "state": "",
-        "city": "",
-        "address": "",
-        "sex": false,
-        "CNP": "",
-        "roleId": 3
-    }
-    
+
     const inputDatas = [
         {
             "label": "Email",
             "DtoField": "email", 
             "type": "email",
-            "value": newStudentData.email, 
+            "value": "", 
             "placeholder": "user4@example.com"
         },
         {
             "label": "Name",
             "DtoField": "name", 
             "type": "text",
-            "value": newStudentData.name, 
+            "value": "", 
             "placeholder": "Jane"
         },
         {
             "label": "Surname",
             "DtoField": "surname", 
             "type": "text",
-            "value": newStudentData.surname, 
+            "value": "", 
             "placeholder": "Smith"
         },
         {
             "label": "Birth Date",
             "DtoField": "birthDate", 
             "type": "date",
-            "value": newStudentData.birthDate, 
+            "value": "2002-07-26", 
             "placeholder": ""
         },
         {
             "label": "Country",
             "DtoField": "country", 
             "type": "text",
-            "value": newStudentData.country, 
+            "value": "", 
             "placeholder": "UK"
         },
         {
             "label": "State",
             "DtoField": "state", 
             "type": "text",
-            "value": newStudentData.state, 
+            "value": "", 
             "placeholder": "England"
         },
         {
             "label": "City",
             "DtoField": "city", 
             "type": "text",
-            "value": newStudentData.city, 
+            "value": "", 
             "placeholder": "London"
         },
         {
             "label": "Address",
             "DtoField": "address", 
             "type": "text",
-            "value": newStudentData.address, 
+            "value": "", 
             "placeholder": "456 Oak St"
         },
         {
             "label": "Sex",
             "DtoField": "sex", 
             "type": "checkbox",
-            "value": newStudentData.sex, 
+            "value": false, 
             "placeholder": ""
         },
         {
             "label": "CNP",
             "DtoField": "CNP", 
             "type": "text",
-            "value": newStudentData.CNP, 
+            "value": "", 
             "placeholder": "9876543210987"
         }
     ]
@@ -112,19 +99,16 @@
     return data;
   }
 
+  function getValue(htmlElt){
+      if(htmlElt.type === 'checkbox')
+          return htmlElt.checked;
+      if(htmlElt.type === 'date')
+          return new Date(htmlElt.value).toISOString();
+      return htmlElt.value;
+  }
 
     function handleSubmit(event) {
-    
-    function getValue(htmlElt){
-        if(htmlElt.type === 'checkbox')
-            return htmlElt.checked;
-        if(htmlElt.type === 'date')
-            return new Date(htmlElt.value).toISOString();
-        return htmlElt.value;
-    }
-    
     event.preventDefault();
-
     const newInputsData = inputDatas.map((el) => {
         return {
             ...el,
