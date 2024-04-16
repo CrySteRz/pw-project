@@ -135,6 +135,7 @@
     // close the dialog
     document.getElementById('my_modal_1').close();
   }
+  
     function padDateWith0(strDate){
        return ('0' + strDate).slice(-2);
     }
@@ -222,7 +223,7 @@
                 <th>Name</th>
                 <th>Address</th>
                 <th>Birth Date</th>
-                <th>Update</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>

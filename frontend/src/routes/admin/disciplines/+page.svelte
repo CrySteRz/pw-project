@@ -1,6 +1,8 @@
 <script>
     import { onMount } from 'svelte';
     let disciplines = [];
+    let deletingDiscipline = {'name': ''};
+    let updatingDiscipline = {'name': ''};
 
 
 	// all disciplines
@@ -31,15 +33,21 @@
         throw new Error(`HTTP error! status: ${response.status}`);
         }
     }
+
+    function GetDisciplineDto(event){
+        let disciplineDto = {};
+        disciplineDto.name = event.target['input_name'].value;
+        disciplineDto.credits = Number.parseInt(
+            event.target['input_credits'].value);
+        disciplineDto.idDiscipline = Number.parseInt(
+            event.target['input_disciplineType'].value);
+        return disciplineDto;
+    }
+
     function handleSubmit(event) {
     event.preventDefault();
     
-    let disciplineDto = {};
-    disciplineDto.name = document.getElementById('input_name').value;
-    disciplineDto.credits = Number.parseInt(
-            document.getElementById('input_credits').value);
-    disciplineDto.idDiscipline = Number.parseInt(
-        document.getElementById('input_disciplineType').value);
+    let disciplineDto = GetDisciplineDto(event);
 
     createDiscipline(disciplineDto)
     .then(e => { 
@@ -49,8 +57,63 @@
     .catch(e => console.error('There was a problem with the request.', e));
     // close the dialog
     document.getElementById('my_modal_1').close();
-    
   }
+
+  function openEditModal(discipline) {
+        const editModal = document.getElementById('update_modal');
+        updatingDiscipline = discipline;
+        editModal.querySelector('#input_name').value = discipline.name;
+        editModal.querySelector('#input_credits').value = discipline.credits;
+        editModal.querySelector('#input_disciplineType').value = discipline.idDiscipline;
+        editModal.showModal();
+    }
+
+    async function handleUpdate(event){
+        let disciplineDto = GetDisciplineDto(event);
+        const response = await fetch(`http://localhost:8081/disciplines/${updatingDiscipline.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(disciplineDto)
+        });
+
+        if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log(data);
+        window.location.reload();
+    }
+
+
+
+    async function deleteDiscipline() {
+        const response = await fetch(`http://localhost:8081/disciplines/${deletingDiscipline.id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        });
+
+        if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    }
+
+  function openRemoveModal(disciplineDto){
+        deletingDiscipline = disciplineDto;
+        document.getElementById('delete_modal').showModal();
+    }
+
+    function handleDelete(){
+        deleteDiscipline()
+        .then(e => console.log(e))
+        .catch(e => console.error('There was a problem with the request.', e));
+
+        window.location.reload();
+    }
 
 </script>
 
@@ -70,6 +133,7 @@
                     <th>Name</th>
                     <th>Discipline ID</th>
                     <th>Credits</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,6 +143,10 @@
                         <td>{discipline.name}</td>
                         <td>{discipline.idDiscipline}</td>
                         <td>{discipline.credits}</td>
+                        <td>
+                            <button class="btn" on:click={() => openEditModal(discipline)}>Update</button>
+                            <button class="btn" on:click={() => openRemoveModal(discipline)}>Delete</button>
+                        </td>
                     </tr>
                 {/each}
             </tbody>
@@ -89,7 +157,6 @@
       <h3 class="font-bold text-lg">Create student entry</h3>
         <form method="dialog" class="modal-backdrop w-full" on:submit={handleSubmit}>
             <div class="grid grid-cols-2 gap-2 mb-2 ">
-
             <label class="input input-bordered flex items-center gap-2 text-black">
                 Discipline Name
                 <input id="input_name" type="text" value="" 
@@ -101,14 +168,6 @@
                 <input id="input_credits" type="text" value="" 
                 class="grow" placeholder="5" />
             </label>
-
-            <!-- <label class="input input-bordered flex items-center gap-2 text-black">
-                Discipline Type
-                <input id="input_disciplineType" 
-                type="text" value="" class="grow"
-                 placeholder="Optional" />
-            </label> -->
-
             <select id="input_disciplineType"  class="select select-bordered w-full">
                 <option disabled selected>Discipline type</option>
                 <option value="1">Optionala</option>
@@ -123,6 +182,55 @@
         </form>
     </div>
   </dialog>
+  <dialog id="update_modal" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl">
+      <h3 class="font-bold text-lg">Update student entry</h3>
+        <form method="dialog" class="modal-backdrop w-full" on:submit={handleUpdate}>
+            <div class="grid grid-cols-2 gap-2 mb-2 ">
+
+                <label class="input input-bordered flex items-center gap-2 text-black">
+                    Discipline Name
+                    <input id="input_name" type="text" value="" 
+                    class="grow" placeholder="Programare Web" />
+                </label>
+    
+                <label class="input input-bordered flex items-center gap-2 text-black">
+                   Credits
+                    <input id="input_credits" type="text" value="" 
+                    class="grow" placeholder="5" />
+                </label>
+            
+    
+                <select id="input_disciplineType"  class="select select-bordered w-full">
+                    <option disabled selected>Discipline type</option>
+                    <option value="1">Optionala</option>
+                    <option value="2">Facultativa</option>
+                    <option value="3">Obligatorie </option>
+                  </select>
+            </div>
+            <div>
+                <button class="btn btn-secondary">Close</button>
+                <button class="btn btn-primary" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+  </dialog>
+  <dialog id="delete_modal" class="modal">
+    <div class="modal-box w-11/12 max-w-sm ">
+      <h3 class="font-bold text-lg mb-2">Update student entry</h3>
+      <form method="dialog" class="modal-backdrop w-full" on:submit={handleDelete}>
+        <div class="gap-2 mb-2 text-black">
+
+           Are you sure you want to delete "{deletingDiscipline.name}"?
+        </div>
+    <div>
+        <button class="btn btn-secondary">Close</button>
+        <button class="btn btn-primary" type="submit">Delete</button>
+    </div>
+    </form>
+    </div>
+  </dialog>
+
 
 <style>
     select{

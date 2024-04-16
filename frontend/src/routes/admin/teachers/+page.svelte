@@ -222,7 +222,7 @@
                 <th>Name</th>
                 <th>Address</th>
                 <th>Birth Date</th>
-                <th>Update</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
