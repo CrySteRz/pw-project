@@ -6,96 +6,144 @@
         "email": "",
         "name": "",
         "surname": "",
-        "birthDate": "",
+        "birthDate": "2002-07-26",
         "country": "",
         "state": "",
         "city": "",
         "address": "",
-        "sex": undefined,
+        "sex": false,
         "CNP": "",
-        "roleId": 2
+        "roleId": 3
     }
     
     const inputDatas = [
         {
             "label": "Email",
+            "DtoField": "email", 
             "type": "email",
             "value": newStudentData.email, 
             "placeholder": "user4@example.com"
         },
         {
             "label": "Name",
+            "DtoField": "name", 
             "type": "text",
             "value": newStudentData.name, 
             "placeholder": "Jane"
         },
         {
             "label": "Surname",
+            "DtoField": "surname", 
             "type": "text",
             "value": newStudentData.surname, 
             "placeholder": "Smith"
         },
         {
             "label": "Birth Date",
+            "DtoField": "birthDate", 
             "type": "date",
             "value": newStudentData.birthDate, 
             "placeholder": ""
         },
         {
             "label": "Country",
+            "DtoField": "country", 
             "type": "text",
             "value": newStudentData.country, 
             "placeholder": "UK"
         },
         {
             "label": "State",
+            "DtoField": "state", 
             "type": "text",
             "value": newStudentData.state, 
             "placeholder": "England"
         },
         {
             "label": "City",
+            "DtoField": "city", 
             "type": "text",
             "value": newStudentData.city, 
             "placeholder": "London"
         },
         {
             "label": "Address",
+            "DtoField": "address", 
             "type": "text",
             "value": newStudentData.address, 
             "placeholder": "456 Oak St"
         },
         {
             "label": "Sex",
+            "DtoField": "sex", 
             "type": "checkbox",
             "value": newStudentData.sex, 
             "placeholder": ""
         },
         {
             "label": "CNP",
+            "DtoField": "CNP", 
             "type": "text",
             "value": newStudentData.CNP, 
             "placeholder": "9876543210987"
         }
     ]
+    
+    onMount(async () => {
+        const response = await fetch('http://localhost:8081/students/');
+        const data = await response.json();
+        students = data.message;
+    });
 
+    async function createStudent(studentDto) {
+        const response = await fetch('http://localhost:8081/users/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(studentDto)
+    });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-	onMount(async () => {
-		const response = await fetch('http://localhost:8081/students/');
-		const data = await response.json();
-		students = data.message;
-	});
+    const data = await response.json();
+    return data;
+  }
 
 
     function handleSubmit(event) {
+    
+    function getValue(htmlElt){
+        if(htmlElt.type === 'checkbox')
+            return htmlElt.checked;
+        if(htmlElt.type === 'date')
+            return new Date(htmlElt.value).toISOString();
+        return htmlElt.value;
+    }
+    
     event.preventDefault();
-    for(let i=0; i<inputDatas.length;i++)
-        inputDatas[i].value = event.target[`input_${inputDatas[i].label}`].value;
-    console.log(inputDatas);
 
+    const newInputsData = inputDatas.map((el) => {
+        return {
+            ...el,
+            value: getValue(event.target[`input_${el.label}`])
+        }
+    })
+    let createStudentObject = {};
+    for(let i=0;i< newInputsData.length;i++)
+            createStudentObject[newInputsData[i].DtoField] = newInputsData[i].value;
+    createStudentObject.roleId = 3;
+    createStudent(createStudentObject)
+    .then(e => { 
+        window.location.reload();
+        console.log('Success:', e);
+    })
+    .catch(e => console.error('There was a problem with the request.', e));
     // close the dialog
     document.getElementById('my_modal_1').close();
+    
   }
 </script>
 
@@ -136,7 +184,7 @@
             {#each inputDatas as inputData (inputData.label)}
             <label class="input input-bordered flex items-center gap-2 text-black">
                 {inputData.label}
-                <input id={`input_${inputData.label}`} type={inputData.type} class="grow" placeholder={inputData.placeholder} />
+                <input id={`input_${inputData.label}`} type={inputData.type} value={inputData.value} class="grow" placeholder={inputData.placeholder} />
             </label>
         {/each}
           <button class="btn btn-secondary">Close</button>
