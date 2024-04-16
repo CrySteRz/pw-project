@@ -7,7 +7,7 @@
 </svelte:head>
 
 <section>
-	 home
+
 </section>
 
 <style>
