@@ -81,6 +81,50 @@ final class UserRepository extends BaseRepository
         return $this->buildUser($user); 
     }
 
+    public function Update($user, $email) : UserData
+    {
+        $sql = "UPDATE User SET 
+        email = :email,
+        name = :name,
+        surname = :surname,
+        birthDate = :birthDate,
+        country = :country,
+        state = :state,
+        city = :city,
+        address = :address,
+        sex = :sex,
+        CNP = :CNP,
+        roleId = :roleId
+        WHERE email = :oldEmail";
+        $stmt = $this->getDb()->prepare($sql);
+        $stmt->bindParam(':email', $user['email']);
+        $stmt->bindParam(':name', $user['name']);
+        $stmt->bindParam(':surname', $user['surname']);
+        $stmt->bindParam(':birthDate', $user['birthDate']);
+        $stmt->bindParam(':country', $user['country']);
+        $stmt->bindParam(':state', $user['state']);
+        $stmt->bindParam(':city', $user['city']);
+        $stmt->bindParam(':address', $user['address']);
+        $stmt->bindParam(':sex', $user['sex'], \PDO::PARAM_BOOL);
+        $stmt->bindParam(':CNP', $user['CNP']);
+        $stmt->bindParam(':roleId', $user['roleId'], \PDO::PARAM_INT);
+        $stmt->bindParam(':oldEmail', $email);
+        $stmt->execute();
+
+        return $this->buildUser($user);
+    }
+
+    public function Delete($email) : UserData
+    {
+        $user = $this->GetStudentByEmail($email);
+        $sql = "DELETE FROM User WHERE email = :email";
+        $stmt = $this->getDb()->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $this->buildUser($user);
+    }
+
+
     private function buildUser(array $row): UserData
     {
         $user = new UserData();
@@ -97,6 +141,5 @@ final class UserRepository extends BaseRepository
         $user->updateCNP($row['CNP']);
         return $user;
     }
-    
   
 }

@@ -36,11 +36,9 @@ final class Delete extends Base
 {
     public function __invoke(Request $request, Response $response): Response
     {
-        $message = [
-            'version' => self::API_VERSION,
-            'timestamp' => time(),
-        ];
+        $email= $request->getQueryParams()['email'];
+        $deletedUser = $this->getUserService()->Delete($email);
 
-        return $this->jsonResponse($response, 'success', $message, 200);
+        return $this->jsonResponse($response, 'success', $deletedUser, 200);
     }
 }

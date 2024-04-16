@@ -37,4 +37,14 @@ final class UserService extends Base
         return $this->getUserRepository()->Create($user);
     }
 
+    public function Update($user, $email) : UserData
+    {
+        return $this->getUserRepository()->Update($user, $email);
+    }
+
+    public function Delete($email) : UserData
+    {
+        return $this->getUserRepository()->Delete($email);
+    }
+
 }
