@@ -16,3 +16,7 @@ border: 1px solid rgba(255, 255, 255, 0.3);
 .select {
     color: black;
 }
+
+.svelte-autocomplete input{
+    width: 100%;
+}

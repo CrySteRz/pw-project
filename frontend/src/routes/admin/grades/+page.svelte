@@ -1,7 +1,13 @@
 <script>
    import { onMount } from 'svelte';
+   import AutoComplete from 'simply-svelte-autocomplete'
+    let studentsEmails = [];
+    let disciplineNames = [];
     let grades = [];
-
+    let selectedUser = '';
+    let selectedDiscipline = '';
+    const handleAutocompleteUser = (e) => {selectedUser = e }
+    const handleAutocompleteDiscipline = (e) => {selectedDiscipline = e }
 
 	// all grades
 	// http://localhost:8081/grades/
@@ -11,6 +17,26 @@
             .then(response => response.json())
             .then(data => {
                 grades = data.message;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+
+        // Fetch all students
+        fetch('http://localhost:8081/students/')
+            .then(response => response.json())
+            .then(data => {
+                studentsEmails = data.message.map(user => user.email);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+
+        // Fetch all disciplines
+        fetch('http://localhost:8081/disciplines/')
+            .then(response => response.json())
+            .then(data => {
+                disciplineNames = data.message.map(discipline => discipline.name);
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -35,8 +61,6 @@
     event.preventDefault();
     
     let gradeDto = {};
-    // disciplineDto.name = document.getElementById('input_name').value;
-   
 
     createGrade(gradeDto)
     .then(e => { 
@@ -86,7 +110,7 @@
     <div class="modal-box w-11/12 max-w-5xl">
       <h3 class="font-bold text-lg">Create student entry</h3>
         <form method="dialog" class="modal-backdrop w-full" on:submit={handleSubmit}>
-            <div class="grid grid-cols-2 gap-2 mb-2 ">
+            <div class="grid grid-cols-2 gap-2 mb-2 text-black">
 
             <label class="input input-bordered flex items-center gap-2 text-black">
                 Grade
@@ -94,21 +118,18 @@
                 class="grow" placeholder="9" />
             </label>
 
-           
-
-            <select id="input_user"  class="select select-bordered w-full">
-                <option disabled selected>User</option>
-                <option value="1">Optionala</option>
-                <option value="2">Facultativa</option>
-                <option value="3">Obligatorie </option>
-              </select>
-
-              <select id="input_discipline"  class="select select-bordered w-full">
-                <option disabled selected>Discipline</option>
-                <option value="1">Optionala</option>
-                <option value="2">Facultativa</option>
-                <option value="3">Obligatorie </option>
-              </select>
+              {#if studentsEmails.length > 0}
+                <AutoComplete className="w-full svelte-autocomplete" options={studentsEmails} 
+                onSubmit={handleAutocompleteUser} selectedValue={selectedUser}
+                keepValueOnSubmit={true}
+                />
+            {/if}
+            {#if disciplineNames.length > 0}
+            <AutoComplete className="w-full svelte-autocomplete" options={disciplineNames} 
+            onSubmit={handleAutocompleteDiscipline} selectedValue={selectedDiscipline}
+            keepValueOnSubmit={true}
+            />
+                {/if}
 
               <select id="input_exam"  class="select select-bordered w-full">
                 <option disabled selected>Exam date</option>
@@ -137,4 +158,5 @@
     th {
         background-color: #f2f2f2;
     }
+   
 </style>
