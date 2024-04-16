@@ -43,6 +43,7 @@ return static function ($app) {
 
     $app->group('/disciplines', function () use ($app): void {
         $app->get('/', Discipline\GetAll::class);
+        $app->get('/get-types', Discipline\GetDisciplineTypes::class);
         $app->get('/{id}', Discipline\GetOne::class);
         $app->post('/', Discipline\Create::class);
         $app->patch('/{id}', Discipline\Update::class);

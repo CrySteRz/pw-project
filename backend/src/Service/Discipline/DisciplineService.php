@@ -95,4 +95,9 @@ final class DisciplineService extends Base
     {
         return $this->getDisciplineRepository()->getDisciplinesByUserEmail($email);
     }
+
+    public function GetDisciplineTypes(): array
+    {
+        return $this->getDisciplineRepository()->GetDisciplineTypes();
+    }
 }

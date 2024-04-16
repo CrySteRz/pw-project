@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     let disciplines = [];
+    let disciplineTypes = [];
     let deletingDiscipline = {'name': ''};
     let updatingDiscipline = {'name': ''};
 
@@ -17,7 +18,15 @@
             .catch(error => {
                 console.error("Error:", error);
             });
-  
+        
+        fetch('http://localhost:8081/disciplines/get-types')
+            .then(response => response.json())
+            .then(data => {
+                disciplineTypes = data.message;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
     });
 
     async function createDiscipline(disciplineDto) {
@@ -168,11 +177,18 @@
                 <input id="input_credits" type="text" value="" 
                 class="grow" placeholder="5" />
             </label>
-            <select id="input_disciplineType"  class="select select-bordered w-full">
+            <!-- <select id="input_disciplineType"  class="select select-bordered w-full">
                 <option disabled selected>Discipline type</option>
                 <option value="1">Optionala</option>
                 <option value="2">Facultativa</option>
                 <option value="3">Obligatorie </option>
+              </select> -->
+
+              <select id="input_disciplineType"  class="select select-bordered w-full">
+                <option disabled selected>Discipline type</option>
+                {#each disciplineTypes as disciplineType (disciplineType.id)}
+                    <option value={disciplineType.id}>{disciplineType.type}</option>
+                {/each}
               </select>
         </div>
         <div>
@@ -199,13 +215,12 @@
                     <input id="input_credits" type="text" value="" 
                     class="grow" placeholder="5" />
                 </label>
-            
     
                 <select id="input_disciplineType"  class="select select-bordered w-full">
                     <option disabled selected>Discipline type</option>
-                    <option value="1">Optionala</option>
-                    <option value="2">Facultativa</option>
-                    <option value="3">Obligatorie </option>
+                    {#each disciplineTypes as disciplineType (disciplineType.id)}
+                        <option value={disciplineType.id}>{disciplineType.type}</option>
+                    {/each}
                   </select>
             </div>
             <div>

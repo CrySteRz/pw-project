@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Discipline;
+use App\Dtos\DisciplineTypeDto;
 
 final class DisciplineRepository extends BaseRepository
 {
@@ -116,7 +117,24 @@ final class DisciplineRepository extends BaseRepository
         $stmt = $this->getDb()->prepare(sprintf($getDisciplinesQuery, $placeholders));
         $stmt->execute($disciplinesIds);
         $disciplines = $stmt->fetchAll();
-
         return $disciplines;
     }
+
+    public function getDisciplineTypes(): array
+    {
+        $sql = "SELECT * FROM DisciplineType";
+        $stmt = $this->getDb()->prepare($sql);
+        $stmt->execute();
+    
+        $disciplineTypes = [];
+        while ($row = $stmt->fetch()) {
+            $disciplineTypeDto = new DisciplineTypeDto();
+            $disciplineTypeDto->setId(intval($row['id']));
+            $disciplineTypeDto->setType($row['type']);
+            $disciplineTypes[] = $disciplineTypeDto;
+        }
+    
+        return $disciplineTypes;
+    }
+
 }
