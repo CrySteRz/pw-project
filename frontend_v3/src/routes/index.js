@@ -6,9 +6,10 @@ import AdminTeachers from "./admin/AdminTeachers.svelte";
 import StudentData from "./student/StudentData.svelte";
 import StudentDisciplines from "./student/StudentDisciplines.svelte";
 import StudentGrades from "./student/StudentGrades.svelte";
+import Login from "./login/Login.svelte";
 
 
 export {
-    Home, AdminDisciplines, AdminGrades, AdminStudents, AdminTeachers, StudentData,
+    Home, Login, AdminDisciplines, AdminGrades, AdminStudents, AdminTeachers, StudentData,
     StudentDisciplines, StudentGrades
 }; 

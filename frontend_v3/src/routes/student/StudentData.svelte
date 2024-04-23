@@ -1,6 +1,4 @@
 <script>
-	// fetch url: http://localhost:8081/students/data?email=user1@example.com
-	// where user1@example.com is the email
 	import { onMount } from 'svelte';
     import StudentLayout from './StudentLayout.svelte';
 
@@ -11,6 +9,7 @@
 			.then(response => response.json())
 			.then(data => {
 				studentData = data.message;
+				// @ts-ignore
 				studentData.birthDate = new Date(studentData.birthDate).toLocaleDateString();
 			})
 			.catch(error => {
