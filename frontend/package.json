@@ -30,6 +30,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"simply-svelte-autocomplete": "^1.4.0"
+		"simply-svelte-autocomplete": "^1.4.0",
+		"svelte-google-auth": "^0.7.2"
 	}
 }

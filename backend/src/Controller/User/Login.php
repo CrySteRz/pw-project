@@ -41,15 +41,15 @@ class Login
  *     )
  * )
  */
-    public function login(Request $request, Response $response, array $args): Response
-    {   
-        $client = new Google_Client();
-        $client->setClientId($this->clientId);
-        $client->setClientSecret($this->clientSecret);
-        $client->setRedirectUri($this->redirectUri);
-        $client->setScopes($this->scopes);
-        return $response->withHeader('Location', $client->createAuthUrl())->withStatus(302);
-    }
+    // public function login(Request $request, Response $response, array $args): Response
+    // {   
+    //     $client = new Google_Client();
+    //     $client->setClientId($this->clientId);
+    //     $client->setClientSecret($this->clientSecret);
+    //     $client->setRedirectUri($this->redirectUri);
+    //     $client->setScopes($this->scopes);
+    //     return $response->withHeader('Location', $client->createAuthUrl())->withStatus(302);
+    // }
 
 // /**
 //  * @OA\Get(
@@ -62,14 +62,14 @@ class Login
 //  *     )
 //  * )
 //  */
-    public function callback(Request $request, Response $response, array $args): Response
+    public function login(Request $request, Response $response, array $args): Response
     {
         $client = new Google_Client();
         $client->setClientId($this->clientId);
         $client->setClientSecret($this->clientSecret);
         $client->setRedirectUri($this->redirectUri);
         
-        $code = $request->getQueryParams()['code'];
+        $code = $request->getParsedBody()['code'];
         $token = $client->fetchAccessTokenWithAuthCode($code);
 
         $httpClient = new GuzzleClient();

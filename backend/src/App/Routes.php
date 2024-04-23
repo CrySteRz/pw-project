@@ -15,13 +15,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 return static function ($app) {
     //Public routes
     $app->get('/', '\App\Controller\DefaultController:getHelp');
-    $app->get('/login', '\App\Controller\User\Login:login');
-    $app->get('/google/auth/callback', '\App\Controller\User\Login:callback');
-   
-
+    $app->post('/login/google', '\App\Controller\User\Login:login');
+    
 
     $app->get('/openapi', '\App\Controller\DefaultController:getOpenApiDefinition');
-    
+
     $app->group('/students', function () use ($app): void {
         $app->get('/', User\GetAllStudents::class);
         $app->get('/data', User\GetStudentByEmail::class);
@@ -58,7 +56,5 @@ return static function ($app) {
         $app->patch('/{id}', Grade\Update::class);
         $app->delete('/{id}', Grade\Delete::class);
     });
-    // });
-
     return $app;
 };
