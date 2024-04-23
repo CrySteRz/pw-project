@@ -4,19 +4,23 @@
   import { Router, Link, Route } from "svelte-routing";
   import {
     Home, AdminDisciplines, AdminGrades, AdminStudents, AdminTeachers, StudentData,
-    StudentDisciplines, StudentGrades
+    StudentDisciplines, StudentGrades, HomeAdmin
+
   } from './routes';
+    import HomeStudent from './routes/student/HomeStudent.svelte';
   export let url = "";
 </script>
 
 <Router {url}>
 
-    <Route path="/admin/disciplines" component={AdminDisciplines} />
-    <Route path="/admin/grades" component={AdminGrades} />
-    <Route path="/admin/students" component={AdminStudents} />
-    <Route path="/admin/teachers" component={AdminTeachers} />
+  <Route path="/admin/disciplines" component={AdminDisciplines} />
+  <Route path="/admin/grades" component={AdminGrades} />
+  <Route path="/admin/students" component={AdminStudents} />
+  <Route path="/admin/teachers" component={AdminTeachers} />
+  <Route path="/admin" component={HomeAdmin} />
     <Route path="/student/studentData" component={StudentData} />
     <Route path="/student/disciplines" component={StudentDisciplines} />
     <Route path="/student/grades" component={StudentGrades} />
+    <Route path="/student" component={HomeStudent} />
     <Route path="/"><Home /></Route>
 </Router>
