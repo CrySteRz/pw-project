@@ -1,8 +1,12 @@
+<script>
+    import { Link } from "svelte-routing";
+
+</script>
 <nav  data-sveltekit-reload class="contextMenu">
-    <a href="/student/studentData"> Date student</a>
-    <a href="/student/disciplines"> Discipline</a>
-    <a href="/student/grades"> Note </a>
-    <a href="/logout"> Deconectare </a>
+    <Link class="myNavSidebarLink" to="/student/studentData"> Date student</Link>
+    <Link class="myNavSidebarLink" to="/student/disciplines"> Discipline</Link>
+    <Link class="myNavSidebarLink" to="/student/grades"> Note </Link>
+    <Link class="myNavSidebarLink" to="/logout"> Deconectare </Link>
 </nav>
 
 <style>

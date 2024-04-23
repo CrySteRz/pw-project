@@ -37,7 +37,7 @@
 		background-repeat: no-repeat;
 		background-position: center;
 		/* background-image: url('$lib/images/wraper_back.jpg'); */
-		background-image: url('$lib/images/cool-background2.png');
+		background-image: url('/cool-background2.png');
 	}
 
 	main{

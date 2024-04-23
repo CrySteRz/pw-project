@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.myNavSidebarLink{
+		padding: 10px;
+		border-bottom: 1px solid  rgb(107 114 128);
+		display: block;
+}

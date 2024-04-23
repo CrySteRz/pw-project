@@ -1,9 +1,13 @@
+<script>
+    import { Link } from "svelte-routing";
+
+</script>
 <nav  data-sveltekit-reload class="admin-menu">
-    <a href="/admin/students"> Students</a>
-    <a href="/admin/teachers"> Teachers</a>
-    <a href="/admin/disciplines"> Disciplines </a>
-    <a href="/admin/grades"> Grades </a>
-    <a href="/logout"> Deconectare </a>
+    <Link class="myNavSidebarLink" to="/admin/students"> Students</Link>
+    <Link class="myNavSidebarLink" to="/admin/teachers"> Teachers</Link>
+    <Link class="myNavSidebarLink" to="/admin/disciplines"> Disciplines </Link>
+    <Link class="myNavSidebarLink" to="/admin/grades"> Grades </Link>
+    <Link class="myNavSidebarLink" to="/logout"> Deconectare </Link>
 </nav>
 
 <style>
@@ -12,10 +16,5 @@
 		border-right: 1px solid  rgb(107 114 128);
 	}
 
-	.admin-menu a{
-		padding: 10px;
-		border-bottom: 1px solid  rgb(107 114 128);
-		display: block;
-	}
 
 </style>
