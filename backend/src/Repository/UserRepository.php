@@ -28,14 +28,15 @@ final class UserRepository extends BaseRepository
         $statement = $this->getDb()->prepare($query);
         $statement->execute();
         $users = $statement->fetchAll();
-
-        if (!$users) {
-            return null;
+        
+        if (!$users || empty($users)) {
+            return [];
         }
         $students = [];
         foreach ($users as $user) {
             $students[] = $this->buildUser($user);
         }
+       
         return $students;
     }
 
@@ -45,8 +46,8 @@ final class UserRepository extends BaseRepository
         $statement->execute();
         $users = $statement->fetchAll();
 
-        if (!$users) {
-            return null;
+        if (!$users || empty($users)) {
+            return [];
         }
         $students = [];
         foreach ($users as $user) {
