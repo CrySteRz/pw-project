@@ -63,29 +63,6 @@ paths:
         '400':
           description: 'Bad request'
   '/disciplines/{id}':
-    get:
-      tags:
-        - Disciplines
-      summary: 'Get discipline by ID'
-      description: 'Retrieves a discipline by its ID.'
-      operationId: a66938c49acac19f9a5c6bbf8d9ae94a
-      parameters:
-        -
-          name: id
-          in: path
-          description: 'ID of the discipline'
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: 'Discipline retrieved successfully'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Discipline'
-        '404':
-          description: 'Discipline not found'
     delete:
       tags:
         - Disciplines
@@ -140,32 +117,6 @@ paths:
                 $ref: '#/components/schemas/Discipline'
         '404':
           description: 'Discipline not found'
-  '/disciplines/student/{stud_id}':
-    get:
-      tags:
-        - Disciplines
-      summary: 'Get all disciplines of a student'
-      description: 'Retrieves a list of all disciplines associated with the specified student.'
-      operationId: e9f1da640392e512e919571c4921bea9
-      parameters:
-        -
-          name: stud_id
-          in: path
-          description: 'ID of the student'
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: 'List of all disciplines for the specified student'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Discipline'
-        '404':
-          description: 'Student not found'
   /grades/:
     post:
       tags:
@@ -239,31 +190,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Grade'
-  '/grades/student/{stud_id}':
-    get:
-      tags:
-        - Grades
-      summary: 'Get all grades of a student'
-      description: 'Retrieves all grades associated with the specified student ID.'
-      operationId: b14cc000b6ef75e4cc8a70ce22a9c802
-      parameters:
-        -
-          name: stud_id
-          in: path
-          description: 'ID of the student'
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: 'List of grades'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Grade'
   '/grades/student/{stud_id}/exam/{exam_id}':
     get:
       tags:
@@ -338,37 +264,6 @@ paths:
       responses:
         '200':
           description: 'Successful operation'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          description: 'User not found'
-    patch:
-      tags:
-        - Users
-      summary: 'Partially update user by ID'
-      description: 'Updates a user identified by their ID with the provided user data.'
-      operationId: e5ea28a41a364ef2768bf77bc0f78ab7
-      parameters:
-        -
-          name: id
-          in: path
-          description: 'ID of the user'
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        description: 'User data to update'
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-      responses:
-        '200':
-          description: 'User updated successfully'
           content:
             application/json:
               schema:
@@ -462,6 +357,74 @@ paths:
           description: 'Redirect to Google OAuth login page'
 components:
   schemas:
+    UserData:
+      title: User
+      description: 'User entity'
+      required:
+        - id
+        - email
+        - name
+        - surname
+        - birthDate
+        - country
+        - state
+        - city
+        - address
+        - sex
+        - CNP
+        - roleId
+      properties:
+        id:
+          description: 'The unique identifier for the user'
+          type: integer
+          format: int64
+          example: 1
+        email:
+          description: 'The email address of the user'
+          type: string
+          example: john.doe@example.com
+        name:
+          description: 'The first name of the user'
+          type: string
+          example: John
+        surname:
+          description: 'The last name of the user'
+          type: string
+          example: Doe
+        birthDate:
+          description: 'The birth date of the user'
+          type: string
+          example: '1990-01-01'
+        country:
+          description: 'The country of the user'
+          type: string
+          example: 'United States'
+        state:
+          description: 'The state of the user'
+          type: string
+          example: California
+        city:
+          description: 'The city of the user'
+          type: string
+          example: 'Los Angeles'
+        address:
+          description: 'The address of the user'
+          type: string
+          example: '123 Main Street'
+        sex:
+          description: 'The sex of the user'
+          type: boolean
+          example: true
+        CNP:
+          description: 'The CNP (personal identification number) of the user'
+          type: string
+          example: '1234567890123'
+        roleId:
+          description: 'The role ID of the user'
+          type: integer
+          format: int64
+          example: 1
+      type: object
     Discipline:
       title: Discipline
       description: 'Discipline entity'
@@ -555,6 +518,7 @@ components:
         birthDate:
           description: 'The birth date of the user'
           type: string
+          format: date-time
           example: '1990-01-01'
         country:
           description: 'The country of the user'
