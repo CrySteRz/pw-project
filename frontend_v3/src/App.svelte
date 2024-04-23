@@ -1,5 +1,6 @@
 <script>
   import './app.css'
+  import './styles.css'
   import { Router, Link, Route } from "svelte-routing";
   import Home from "./routes/Home.svelte";
     import AdminDisciplines from "./routes/admin/AdminDisciplines.svelte";
@@ -10,16 +11,10 @@
 </script>
 
 <Router {url}>
-  <nav>
-    <Link to="/admin/disciplines">Admin disciplines</Link>
-    <Link to="/about">About</Link>
-    <Link to="/blog">Blog</Link>
-  </nav>
-  <div>
+
     <Route path="/admin/disciplines" component={AdminDisciplines} />
     <Route path="/admin/grades" component={AdminGrades} />
     <Route path="/admin/students" component={AdminStudents} />
     <Route path="/admin/teachers" component={AdminTeachers} />
     <Route path="/"><Home /></Route>
-  </div>
 </Router>

@@ -1,6 +1,7 @@
 <script>
    import { onMount } from 'svelte';
    import AutoComplete from 'simply-svelte-autocomplete'
+    import AdminLayout from './AdminLayout.svelte';
     let studentsEmails = [];
     let disciplineNames = [];
     let grades = [];
@@ -78,7 +79,7 @@
     <title>Home</title>
     <meta name="description" content="Svelte demo app" />
 </svelte:head>
-
+<AdminLayout>
 <section class="flex flex-col gap-2">
 	<div class="flex gap-2">
 		<button class="btn btn-primary rounded" onclick="my_modal_1.showModal()">create</button>
@@ -145,7 +146,7 @@
         </form>
     </div>
   </dialog>
-
+</AdminLayout>
 <style>
 	table {
         width: 100%;
