@@ -1,4 +1,6 @@
 <script>
+    import StudentLayout from "./StudentLayout.svelte";
+
     let grades = [];
 
     fetch('http://localhost:8081/students/grades?email=user1@example.com')
@@ -11,6 +13,7 @@
     <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
+<StudentLayout>
 <section>
     <table>
         <thead>
@@ -35,6 +38,7 @@
         </tbody>
     </table>
 </section>
+</StudentLayout>
 
 <style>
 	table {

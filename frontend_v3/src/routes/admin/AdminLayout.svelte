@@ -1,5 +1,5 @@
 <script>
-	import AdminMenu from "./AdminMenu.svelte";
+	import AdminMenu from "../../lib/components/AdminMenu.svelte";
 </script>
 
 <div class="app">

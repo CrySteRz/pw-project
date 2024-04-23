@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+    import AdminLayout from './AdminLayout.svelte';
 
 	let students = [];
 
@@ -211,6 +212,9 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
+
+<AdminLayout>
+
 <section class="flex flex-col gap-2">
 	<div class="flex gap-2">
 		<button class="btn btn-primary rounded" onclick="my_modal_1.showModal()">create</button>
@@ -287,6 +291,7 @@
         </form>
     </div>
   </dialog>
+</AdminLayout>
 
 
 <style>

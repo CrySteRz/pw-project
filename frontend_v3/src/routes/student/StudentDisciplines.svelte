@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import StudentLayout from './StudentLayout.svelte';
 
 
 	let activeButton = 'mine';
@@ -44,14 +45,15 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
+<StudentLayout>
 
-<section class="flex flex-col gap-2">
-	<div class="button-group">
-        <button class="{activeButton === 'mine' ? 'active' : ''}" on:click={() => switchButton('mine')}>Mine</button>
-		<button class="{activeButton === 'all' ? 'active' : ''}" on:click={() => switchButton('all')}>All</button>
-	</div>
-
-	{#if activeButton === 'all'}
+    <section class="flex flex-col gap-2">
+        <div class="button-group">
+            <button class="{activeButton === 'mine' ? 'active' : ''}" on:click={() => switchButton('mine')}>Mine</button>
+            <button class="{activeButton === 'all' ? 'active' : ''}" on:click={() => switchButton('all')}>All</button>
+        </div>
+        
+        {#if activeButton === 'all'}
         <table>
             <thead>
                 <tr>
@@ -63,12 +65,12 @@
             </thead>
             <tbody>
                 {#each disciplines as discipline (discipline.id)}
-                    <tr>
-                        <td>{discipline.id}</td>
-                        <td>{discipline.name}</td>
-                        <td>{discipline.idDiscipline}</td>
-                        <td>{discipline.credits}</td>
-                    </tr>
+                <tr>
+                    <td>{discipline.id}</td>
+                    <td>{discipline.name}</td>
+                    <td>{discipline.idDiscipline}</td>
+                    <td>{discipline.credits}</td>
+                </tr>
                 {/each}
             </tbody>
         </table>
@@ -84,27 +86,28 @@
             </thead>
             <tbody>
                 {#each myDisciplines as discipline (discipline.id)}
-                    <tr>
-                        <td>{discipline.id}</td>
-                        <td>{discipline.name}</td>
-                        <td>{discipline.idDiscipline}</td>
-                        <td>{discipline.credits}</td>
-                    </tr>
+                <tr>
+                    <td>{discipline.id}</td>
+                    <td>{discipline.name}</td>
+                    <td>{discipline.idDiscipline}</td>
+                    <td>{discipline.credits}</td>
+                </tr>
                 {/each}
             </tbody>
         </table>
-    {/if}
-
-</section>
-
-<style>
-	  .button-group {
-        display: flex;
-        gap: 10px;
-    }
-    .button-group button {
-        padding: 10px;
-        border: none;
+        {/if}
+        
+    </section>
+</StudentLayout>
+    
+    <style>
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        .button-group button {
+            padding: 10px;
+            border: none;
         background-color: white;
         cursor: pointer;
     }

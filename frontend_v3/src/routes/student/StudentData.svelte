@@ -2,6 +2,7 @@
 	// fetch url: http://localhost:8081/students/data?email=user1@example.com
 	// where user1@example.com is the email
 	import { onMount } from 'svelte';
+    import StudentLayout from './StudentLayout.svelte';
 
 	let studentData = "Loading...";
 
@@ -23,9 +24,10 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
+<StudentLayout>
 
-<section>
-    {#if typeof studentData === 'object'}
+	<section>
+		{#if typeof studentData === 'object'}
         <div class="gridNoQueries">
 			{#each Object.entries(studentData) as [propertyName, propertyValue]}
 			<div class="flex gap-2">
@@ -34,10 +36,11 @@
 			</div>
 			{/each}
 		</div>
-    {:else}
+		{:else}
         {studentData}
-    {/if}
-</section>
+		{/if}
+	</section>
+</StudentLayout>
 
 <style>
 
