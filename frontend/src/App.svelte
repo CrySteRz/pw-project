@@ -3,7 +3,7 @@
   import './styles.css'
   import { Router, Link, Route } from "svelte-routing";
   import {
-    Login, Home, AdminDisciplines, AdminGrades, AdminStudents, AdminTeachers, StudentData,
+    Login, Callback, Home,  AdminDisciplines, AdminGrades, AdminStudents, AdminTeachers, StudentData,
     StudentDisciplines, StudentGrades, HomeAdmin
 
   } from './routes';
@@ -23,6 +23,7 @@
     <Route path="/student/grades" component={StudentGrades} />
     <Route path="/student" component={HomeStudent} />
     <Route path="/login" component={Login} />
+    <Route path="/login/callback" component={Callback} />
     <Route path="/"><Home /></Route>
 
 </Router>

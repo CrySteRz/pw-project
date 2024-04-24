@@ -64,12 +64,13 @@ class Login
 //  */
     public function login(Request $request, Response $response, array $args): Response
     {
+        $body = json_decode($request->getBody()->getContents(), true);
+        $code = $body['code'];
+        
         $client = new Google_Client();
         $client->setClientId($this->clientId);
         $client->setClientSecret($this->clientSecret);
         $client->setRedirectUri($this->redirectUri);
-        
-        $code = $request->getParsedBody()['code'];
         $token = $client->fetchAccessTokenWithAuthCode($code);
 
         $httpClient = new GuzzleClient();
@@ -82,8 +83,8 @@ class Login
         $userinfo = json_decode($responseGoogle->getBody()->getContents(), true);
         
     $payload = [
-        'user_id' => $userinfo['id'], 
-        'exp' => time() + 3600 //1 ora for now  
+        'user_email' => $userinfo['email'],
+        'exp' => time() + 3600
     ];
     $header = [
         'kid' => $this->keyId,

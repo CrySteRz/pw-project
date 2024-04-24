@@ -13,7 +13,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 
 return static function ($app) {
-    //Public routes
     $app->get('/', '\App\Controller\DefaultController:getHelp');
     $app->post('/login/google', '\App\Controller\User\Login:login');
     

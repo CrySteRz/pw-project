@@ -9,9 +9,10 @@ import StudentDisciplines from "./student/StudentDisciplines.svelte";
 import StudentGrades from "./student/StudentGrades.svelte";
 import HomeStudent from "./student/HomeStudent.svelte";
 import Login from "./login/Login.svelte";
+import Callback from "./login/Callback.svelte";
 
 
 export {
-    Home, Login, AdminDisciplines, AdminGrades, AdminStudents, AdminTeachers, StudentData,
+    Home, Callback, Login, AdminDisciplines, AdminGrades, AdminStudents, AdminTeachers, StudentData,
     StudentDisciplines, StudentGrades, HomeStudent, HomeAdmin
 }; 
