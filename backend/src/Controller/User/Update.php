@@ -15,7 +15,6 @@ final class Update extends Base
         $user = $request->getParsedBody();
         $email= $request->getQueryParams()['email'];
         $createdUser = $this->getUserService()->Update($user, $email);
-
         return $this->jsonResponse($response, 'success', $createdUser, 200);
     }
 }

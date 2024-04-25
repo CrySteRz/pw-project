@@ -8,17 +8,15 @@ use App\Dtos\UserData;
 
 final class UserRepository extends BaseRepository
 {
-  
-    public function GetStudentByEmail(string $email): UserData
+    public function getUserByEmail(string $email): UserData
     {
         $query = 'SELECT * FROM `User` WHERE `email` = :email';
         $statement = $this->getDb()->prepare($query);
         $statement->bindValue('email', $email);
         $statement->execute();
         $user = $statement->fetch();
-
-        if (!$user) {
-            return null;
+        if (!$user || empty($user)) {
+            return new UserData();
         }
         return $this->buildUser($user);
     }
@@ -82,53 +80,56 @@ final class UserRepository extends BaseRepository
         return $this->buildUser($user); 
     }
 
-    public function Update($user, $email) : UserData
+    public function Update($user, $email) : void
+{
+    $sql = "UPDATE User SET 
+            email = :email,
+            name = :name,
+            surname = :surname,
+            birthDate = :birthDate,
+            country = :country,
+            state = :state,
+            city = :city,
+            address = :address,
+            sex = :sex,
+            CNP = :CNP,
+            roleId = :roleId,
+            google_id = :google_id
+            WHERE email = :oldEmail";
+    
+    $stmt = $this->getDb()->prepare($sql);
+    $stmt->bindParam(':email', $user->email);
+    $stmt->bindParam(':name', $user->name);
+    $stmt->bindParam(':surname', $user->surname);
+    $stmt->bindParam(':birthDate', $user->birthDate);
+    $stmt->bindParam(':country', $user->country);
+    $stmt->bindParam(':state', $user->state);
+    $stmt->bindParam(':city', $user->city);
+    $stmt->bindParam(':address', $user->address);
+    $stmt->bindParam(':sex', $user->sex, \PDO::PARAM_BOOL);
+    $stmt->bindParam(':CNP', $user->CNP);
+    $stmt->bindParam(':roleId', $user->roleId, \PDO::PARAM_INT);
+    $stmt->bindParam(':google_id', $user->google_id);
+    $stmt->bindParam(':oldEmail', $email);
+    $stmt->execute();
+    
+}
+    public function Delete($email) : void
     {
-        $sql = "UPDATE User SET 
-        email = :email,
-        name = :name,
-        surname = :surname,
-        birthDate = :birthDate,
-        country = :country,
-        state = :state,
-        city = :city,
-        address = :address,
-        sex = :sex,
-        CNP = :CNP,
-        roleId = :roleId
-        WHERE email = :oldEmail";
-        $stmt = $this->getDb()->prepare($sql);
-        $stmt->bindParam(':email', $user['email']);
-        $stmt->bindParam(':name', $user['name']);
-        $stmt->bindParam(':surname', $user['surname']);
-        $stmt->bindParam(':birthDate', $user['birthDate']);
-        $stmt->bindParam(':country', $user['country']);
-        $stmt->bindParam(':state', $user['state']);
-        $stmt->bindParam(':city', $user['city']);
-        $stmt->bindParam(':address', $user['address']);
-        $stmt->bindParam(':sex', $user['sex'], \PDO::PARAM_BOOL);
-        $stmt->bindParam(':CNP', $user['CNP']);
-        $stmt->bindParam(':roleId', $user['roleId'], \PDO::PARAM_INT);
-        $stmt->bindParam(':oldEmail', $email);
-        $stmt->execute();
-
-        return $this->buildUser($user);
-    }
-
-    public function Delete($email) : UserData
-    {
-        $user = $this->GetStudentByEmail($email);
+        $user = $this->GetUserByEmail($email);
         $sql = "DELETE FROM User WHERE email = :email";
         $stmt = $this->getDb()->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-        return $this->buildUser($user);
+
+        
     }
 
 
     private function buildUser(array $row): UserData
     {
         $user = new UserData();
+        $user->setId((int)$row['id']);
         $user->updateEmail($row['email']);
         $user->updateRoleId((int)$row['roleId']);
         $user->updateName($row['name']);
@@ -140,6 +141,7 @@ final class UserRepository extends BaseRepository
         $user->updateAddress($row['address']);
         $user->updateSex((bool)$row['sex']);
         $user->updateCNP($row['CNP']);
+        $user->updateGoogleId($row['google_id']);
         return $user;
     }
   

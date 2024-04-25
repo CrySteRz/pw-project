@@ -15,10 +15,9 @@ final class UserService extends Base
     ) {
     }
 
-
-    public function GetStudentByEmail(string $email): UserData
+    public function getUserByEmail(string $email): UserData
     {
-        return $this->getUserRepository()->GetStudentByEmail($email);
+        return $this->getUserRepository()->getUserByEmail($email);
     }
 
     public function getAllStudents() : array 
@@ -37,12 +36,12 @@ final class UserService extends Base
         return $this->getUserRepository()->Create($user);
     }
 
-    public function Update($user, $email) : UserData
+    public function Update($user, $email)
     {
         return $this->getUserRepository()->Update($user, $email);
     }
 
-    public function Delete($email) : UserData
+    public function Delete($email)
     {
         return $this->getUserRepository()->Delete($email);
     }

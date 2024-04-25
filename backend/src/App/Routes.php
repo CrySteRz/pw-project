@@ -14,14 +14,13 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 return static function ($app) {
     $app->get('/', '\App\Controller\DefaultController:getHelp');
-    $app->post('/login/google', '\App\Controller\User\Login:login');
+    $app->post('/login', User\Login::class);
     
-
     $app->get('/openapi', '\App\Controller\DefaultController:getOpenApiDefinition');
 
     $app->group('/students', function () use ($app): void {
         $app->get('/', User\GetAllStudents::class);
-        $app->get('/data', User\GetStudentByEmail::class);
+        $app->get('/data', User\GetUserByEmail::class);
         $app->get('/disciplines', User\getDisciplinesByUserEmail::class);
         $app->get('/grades', User\GetAllGradesByUserEmail::class);
     });

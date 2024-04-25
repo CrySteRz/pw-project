@@ -8,7 +8,7 @@ namespace App\Dtos;
  * @OA\Schema(
  *     title="User",
  *     description="User entity",
- *     required={"id", "email", "name", "surname", "birthDate", "country", "state", "city", "address", "sex", "CNP", "roleId"}
+ *     required={"id", "email", "name", "surname", "birthDate", "country", "state", "city", "address", "sex", "CNP", "roleId", "google_id"}
  * )
  */
 final class UserData
@@ -22,7 +22,7 @@ final class UserData
      *
      * @var int
      */
-    public int $id;
+    public ?int $id = null;
 
     /**
      * @OA\Property(
@@ -32,7 +32,7 @@ final class UserData
      *
      * @var string
      */
-    public string $email;
+    public ?string $email = null;
 
       /**
      * @OA\Property(
@@ -42,7 +42,7 @@ final class UserData
      *
      * @var string
      */
-    public string $name;
+    public ?string $name = null;
 
      /**
      * @OA\Property(
@@ -52,7 +52,7 @@ final class UserData
      *
      * @var string
      */
-    public string $surname;
+    public ?string $surname = null;
 
      /**
      * @OA\Property(
@@ -62,7 +62,7 @@ final class UserData
      *
      * @var string
      */
-    public string $birthDate;
+    public ?string $birthDate = null;
 
     /**
      * @OA\Property(
@@ -72,7 +72,7 @@ final class UserData
      *
      * @var string
      */
-    public string $country;
+    public ?string $country = null;
 
     /**
      * @OA\Property(
@@ -82,7 +82,7 @@ final class UserData
      *
      * @var string
      */
-    public string $state;
+    public ?string $state = null;
 
     /**
      * @OA\Property(
@@ -92,7 +92,7 @@ final class UserData
      *
      * @var string
      */
-    public string $city;
+    public ?string $city = null;
 
      /**
      * @OA\Property(
@@ -102,7 +102,7 @@ final class UserData
      *
      * @var string
      */
-    public string $address;
+    public ?string $address = null;
 
     /**
      * @OA\Property(
@@ -112,7 +112,7 @@ final class UserData
      *
      * @var bool
      */
-    public bool $sex;
+    public ?bool $sex = null;
 
      /**
      * @OA\Property(
@@ -122,7 +122,7 @@ final class UserData
      *
      * @var string
      */
-    public string $CNP;
+    public ?string $CNP = null;
 
      /**
      * @OA\Property(
@@ -133,7 +133,17 @@ final class UserData
      *
      * @var int
      */
-    public int $roleId;
+    public ?int $roleId = null;
+
+     /**
+     * @OA\Property(
+     *     description="The google unique id of the user",
+     *     example="7182471293561238974102742010457"
+     * )
+     *
+     * @var string
+     */
+    public ?string $google_id = null;
 
     public function toJson(): object
     {
@@ -141,131 +151,144 @@ final class UserData
     }
 
     
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function getRoleId(): int
+    public function getRoleId(): ?int
     {
         return $this->roleId;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getSurname(): string
+    public function getSurname(): ?string
     {
         return $this->surname;
     }
 
-    public function getBirthDate(): string
+    public function getBirthDate(): ?string
     {
         return $this->birthDate;
     }
 
-    public function getCountry(): string
+    public function getCountry(): ?string
     {
         return $this->country;
     }
 
-    public function getState(): string
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    public function getSex(): bool
+    public function getSex(): ?bool
     {
         return $this->sex;
     }
 
-    public function getCNP(): string
+    public function getCNP(): ?string
     {
         return $this->CNP;
     }
+    public function getGoogleId(): ?string
+    {
+        return $this->google_id;
+    }
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
 
-    public function updateEmail(string $email): self
+    public function updateEmail(?string $email): self
     {
         $this->email = $email;
         return $this;
     }
 
-    public function updateRoleId(int $roleId): self
+    public function updateRoleId(?int $roleId): self
     {
         $this->roleId = $roleId;
         return $this;
     }
 
-    public function updateName(string $name): self
+    public function updateName(?string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    public function updateSurname(string $surname): self
+    public function updateSurname(?string $surname): self
     {
         $this->surname = $surname;
         return $this;
     }
 
-    public function updateBirthDate(string $birthDate): self
+    public function updateBirthDate(?string $birthDate): self
     {
         $this->birthDate = $birthDate;
         return $this;
     }
 
-    public function updateCountry(string $country): self
+    public function updateCountry(?string $country): self
     {
         $this->country = $country;
         return $this;
     }
 
-    public function updateState(string $state): self
+    public function updateState(?string $state): self
     {
         $this->state = $state;
         return $this;
     }
 
-    public function updateCity(string $city): self
+    public function updateCity(?string $city): self
     {
         $this->city = $city;
         return $this;
     }
 
-    public function updateAddress(string $address): self
+    public function updateAddress(?string $address): self
     {
         $this->address = $address;
         return $this;
     }
 
-    public function updateSex(bool $sex): self
+    public function updateSex(?bool $sex): self
     {
         $this->sex = $sex;
         return $this;
     }
 
-    public function updateCNP(string $CNP): self
+    public function updateCNP(?string $CNP): self
     {
         $this->CNP = $CNP;
         return $this;
     }
 
-  
+    public function updateGoogleId(?string $google_id): self
+    {
+        $this->google_id = $google_id;
+        return $this;
+    }
 }

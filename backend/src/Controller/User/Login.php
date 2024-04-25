@@ -3,32 +3,13 @@
 declare(strict_types=1);
 
 namespace App\Controller\User;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Google\Client as Google_Client;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client as GuzzleClient;
-
-
-class Login
+class Login extends Base
 {
-    private $clientId;
-    private $clientSecret;
-    private $redirectUri;
-    private $scopes;
-    private $privateKey;
-    private $keyId;
-
-    public function __construct()
-    {
-        $this->clientId = $_SERVER['GOOGLE_CLIENT_ID'];
-        $this->clientSecret = $_SERVER['GOOGLE_CLIENT_SECRET'];
-        $this->redirectUri = $_SERVER['GOOGLE_REDIRECT_URI'];
-        $this->scopes = ['email', 'profile'];
-        $this->privateKey = file_get_contents(__DIR__ . './../../../util/private_key.pem');
-        $this->keyId = $_SERVER['KID'] ?? 'DEV';
-    }
-
 
 /**
  * @OA\Get(
@@ -62,37 +43,55 @@ class Login
 //  *     )
 //  * )
 //  */
-    public function login(Request $request, Response $response, array $args): Response
-    {
-        $body = json_decode($request->getBody()->getContents(), true);
-        $code = $body['code'];
-        
-        $client = new Google_Client();
-        $client->setClientId($this->clientId);
-        $client->setClientSecret($this->clientSecret);
-        $client->setRedirectUri($this->redirectUri);
-        $token = $client->fetchAccessTokenWithAuthCode($code);
+    
+    public function __invoke(Request $request, Response $response): Response{
+    
+    $body = json_decode($request->getBody()->getContents(), true);
+    $code = $body['code'];
 
-        $httpClient = new GuzzleClient();
-        $responseGoogle = $httpClient->get('https://www.googleapis.com/oauth2/v2/userinfo', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token['access_token']
-            ]
-        ]);
+    $client = new Google_Client();
+    $client->setClientId($_SERVER['GOOGLE_CLIENT_ID']);
+    $client->setClientSecret($_SERVER['GOOGLE_CLIENT_SECRET']);
+    $client->setRedirectUri($_SERVER['GOOGLE_REDIRECT_URI']);
+    $token = $client->fetchAccessTokenWithAuthCode($code);
 
-        $userinfo = json_decode($responseGoogle->getBody()->getContents(), true);
-        
-    $payload = [
-        'user_email' => $userinfo['email'],
-        'exp' => time() + 3600
-    ];
-    $header = [
-        'kid' => $this->keyId,
-        'alg' => 'RS256'
-    ];
-        $jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, $header);
+    $httpClient = new GuzzleClient();
+    $responseGoogle = $httpClient->get('https://www.googleapis.com/oauth2/v2/userinfo', [
+        'headers' => [
+            'Authorization' => 'Bearer ' . $token['access_token']
+        ]
+    ]);
+
+    $userinfo = json_decode($responseGoogle->getBody()->getContents(), true);
+    try {
+        $user = $this->getUserService()->getUserByEmail($userinfo['email']);
+        if ($user->id === null) {
+            return $this->jsonResponse($response, 'error', "User not found", 404);
+        }
+        if ($user->google_id === null || $user->google_id !== $userinfo['id']) {
+            $user->updateGoogleId($userinfo['id']);
+            $this->getUserService()->Update($user, $userinfo['email']);
+        }
+
+        $updatedUser = $this->getUserService()->getUserByEmail($userinfo['email']);
+        $payload = [
+            'user_email' => $userinfo['email'],
+            'exp' => time() + 3600,
+            'user_id'=> $updatedUser->id,
+            'user_roleId' => $updatedUser->roleId,
+        ];
+        $header = [
+            'kid' => $_SERVER['KID'] ?? 'DEV',
+            'alg' => 'RS256'
+        ];
+        $jwt = JWT::encode($payload, file_get_contents(__DIR__ . '/../../../util/private_key.pem'), 'RS256', null, $header);
         $responseData = json_encode(['token' => $jwt]);
         $response->getBody()->write($responseData);
-        return $response->withHeader('Content-Type', 'application/json');
+    } catch (\Exception $e) {
+        $response->getBody()->write('Error: ' . $e->getMessage());
+        return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
     }
+
+    return $response->withHeader('Content-Type', 'application/json');
+}
 }

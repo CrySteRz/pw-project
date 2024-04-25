@@ -11,6 +11,8 @@ if (file_exists($envFile)) {
 }
 $settings = require __DIR__ . '/Settings.php';
 $app = new \Slim\App($settings);
+
+
 $app->add(new \CorsSlim\CorsSlim());
 $container = $app->getContainer();
 

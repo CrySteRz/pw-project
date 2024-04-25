@@ -34,15 +34,12 @@ use Slim\Http\Response;
  *     )
  * )
  */
-final class GetOne extends Base
+final class GetUserByEmail extends Base
 {
     public function __invoke(Request $request, Response $response): Response
     {
-        $message = [
-            'version' => self::API_VERSION,
-            'timestamp' => time(),
-        ];
-
-        return $this->jsonResponse($response, 'success', $message, 200);
+        $email = $request->getQueryParams()['email'];
+        $discipline = $this->getUserService()->GetUserByEmail($email)->toJson();
+        return $this->jsonResponse($response, 'success', $discipline, 200);
     }
 }
