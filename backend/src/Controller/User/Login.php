@@ -10,40 +10,6 @@ use Firebase\JWT\JWT;
 use GuzzleHttp\Client as GuzzleClient;
 class Login extends Base
 {
-
-/**
- * @OA\Get(
- *     path="/login",
- *     summary="Redirects user to Google OAuth login",
- *     description="Redirects the user to the Google OAuth login page for authentication.",
- *     @OA\Response(
- *         response=302,
- *         description="Redirect to Google OAuth login page"
- *     )
- * )
- */
-    // public function login(Request $request, Response $response, array $args): Response
-    // {   
-    //     $client = new Google_Client();
-    //     $client->setClientId($this->clientId);
-    //     $client->setClientSecret($this->clientSecret);
-    //     $client->setRedirectUri($this->redirectUri);
-    //     $client->setScopes($this->scopes);
-    //     return $response->withHeader('Location', $client->createAuthUrl())->withStatus(302);
-    // }
-
-// /**
-//  * @OA\Get(
-//  *     path="/google/auth/callback",
-//  *     summary="Callback for Google OAuth authentication",
-//  *     description="Handles the callback from Google OAuth authentication and generates a JWT token for the user.",
-//  *     @OA\Response(
-//  *         response=200,
-//  *         description="JWT token generated successfully"
-//  *     )
-//  * )
-//  */
-    
     public function __invoke(Request $request, Response $response): Response{
     
     $body = json_decode($request->getBody()->getContents(), true);
@@ -68,6 +34,7 @@ class Login extends Base
         if ($user->id === null) {
             return $this->jsonResponse($response, 'error', "User not found", 404);
         }
+
         if ($user->google_id === null || $user->google_id !== $userinfo['id']) {
             $user->updateGoogleId($userinfo['id']);
             $this->getUserService()->Update($user, $userinfo['email']);
@@ -77,8 +44,7 @@ class Login extends Base
         $payload = [
             'user_email' => $userinfo['email'],
             'exp' => time() + 3600,
-            'user_id'=> $updatedUser->id,
-            'user_roleId' => $updatedUser->roleId,
+            'role' => $updatedUser->roleId,
         ];
         $header = [
             'kid' => $_SERVER['KID'] ?? 'DEV',
@@ -89,7 +55,7 @@ class Login extends Base
         $response->getBody()->write($responseData);
     } catch (\Exception $e) {
         $response->getBody()->write('Error: ' . $e->getMessage());
-        return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
+        return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
     }
 
     return $response->withHeader('Content-Type', 'application/json');

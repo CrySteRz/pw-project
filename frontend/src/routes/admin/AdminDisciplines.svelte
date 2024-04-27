@@ -1,18 +1,22 @@
 <script>
     import { onMount } from 'svelte';
     import AdminLayout from './AdminLayout.svelte';
+    import getCookie from '../../lib/getCookie.js';
     let disciplines = [];
     let disciplineTypes = [];
     let deletingDiscipline = {'name': ''};
     let updatingDiscipline = {'name': ''};
 
-
+    let token = getCookie('jwt');
 	// all disciplines
 	// http://localhost:8081/disciplines/
 	onMount(() => {
-      // Fetch all disciplines
-      fetch('http://localhost:8081/disciplines/')
-            .then(response => response.json())
+        fetch('http://localhost:8081/disciplines/', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+    }
+})
+.then(response => response.json())
             .then(data => {
                 disciplines = data.message;
             })
@@ -20,7 +24,12 @@
                 console.error("Error:", error);
             });
         
-        fetch('http://localhost:8081/disciplines/get-types')
+        fetch('http://localhost:8081/disciplines/get-types',
+        {
+        headers: {
+            'Authorization': `Bearer ${token}`
+    }
+})
             .then(response => response.json())
             .then(data => {
                 disciplineTypes = data.message;
@@ -34,7 +43,8 @@
         const response = await fetch('http://localhost:8081/disciplines/', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(disciplineDto)
         });
@@ -83,7 +93,8 @@
         const response = await fetch(`http://localhost:8081/disciplines/${updatingDiscipline.id}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(disciplineDto)
         });
@@ -103,7 +114,8 @@
         const response = await fetch(`http://localhost:8081/disciplines/${deletingDiscipline.id}`, {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         }
         });
 

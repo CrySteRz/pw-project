@@ -7,6 +7,9 @@ namespace App\Middleware;
 use App\Exception\Auth;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 
 abstract class Base
 {
@@ -22,11 +25,32 @@ abstract class Base
     {
         try {
             $decoded = JWT::decode($token, new Key($this->publicKey, 'RS256')); 
-            $exp = $decoded->exp ?? null; //Expiration time, se face check daca tokenul a expirat direct in decode dar daca vrem sa facem ceva cu el mai tarziu e bine sa il luam
-            $user_id = $decoded->user_id ?? null; //User id luat de la google deci unic da inca nu stiu ce facem cu el
+            if (!isset($decoded->exp) || !isset($decoded->user_email)) {
+                throw new Auth('Forbidden: you are not authorized.', 403);
+            }
+            if ($decoded->exp < time()) {
+                throw new Auth('Forbidden: you are not authorized.', 403);
+            }
             return $decoded;
+            
         } catch (\UnexpectedValueException $e) {
             throw new Auth('Forbidden: you are not authorized. ' . $e->getMessage(), 403);
         }
     }
+
+    protected function verifyToken(Request $request): object
+    {
+        $jwtHeader = $request->getHeaderLine('Authorization');
+        if (! $jwtHeader) {
+            throw new \App\Exception\Auth('JWT Token required.', 400);
+        }
+        $jwt = explode('Bearer ', $jwtHeader);
+        if (! isset($jwt[1])) {
+            throw new \App\Exception\Auth('JWT Token invalid.', 400);
+        }
+        $decoded = (object) $this->checkToken($jwt[1]);
+        return $decoded;
+    }
+
+    
 }

@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "daisyui": "^4.10.2",
+    "fs": "^0.0.1-security",
+    "jwt-decode": "^4.0.0",
     "simply-svelte-autocomplete": "^1.4.0",
     "svelte-routing": "^2.12.0"
   }
