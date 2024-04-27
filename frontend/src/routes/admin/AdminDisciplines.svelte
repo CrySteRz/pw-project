@@ -1,16 +1,23 @@
 <script>
     import { onMount } from 'svelte';
     import AdminLayout from './AdminLayout.svelte';
-    import getCookie from '../../lib/getCookie.js';
+    import { getCookie, fetchWithAuth } from '../../lib/utils.js';
     let disciplines = [];
     let disciplineTypes = [];
     let deletingDiscipline = {'name': ''};
     let updatingDiscipline = {'name': ''};
 
     let token = getCookie('jwt');
-	// all disciplines
-	// http://localhost:8081/disciplines/
+    
 	onMount(() => {
+        fetchWithAuth ('http://localhost:8081/disciplines/')
+            .then(response => response.json())
+            .then(data => {
+                disciplines = data.message;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
         fetch('http://localhost:8081/disciplines/', {
         headers: {
             'Authorization': `Bearer ${token}`

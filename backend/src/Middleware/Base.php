@@ -26,15 +26,15 @@ abstract class Base
         try {
             $decoded = JWT::decode($token, new Key($this->publicKey, 'RS256')); 
             if (!isset($decoded->exp) || !isset($decoded->user_email)) {
-                throw new Auth('Forbidden: you are not authorized.', 403);
+                throw new Auth('Forbidden: you are not authorized.', 401);
             }
             if ($decoded->exp < time()) {
-                throw new Auth('Forbidden: you are not authorized.', 403);
+                throw new Auth('Forbidden: you are not authorized.', 401);
             }
             return $decoded;
             
         } catch (\UnexpectedValueException $e) {
-            throw new Auth('Forbidden: you are not authorized. ' . $e->getMessage(), 403);
+            throw new Auth('Forbidden: you are not authorized. ' . $e->getMessage(), 401);
         }
     }
 
@@ -42,11 +42,11 @@ abstract class Base
     {
         $jwtHeader = $request->getHeaderLine('Authorization');
         if (! $jwtHeader) {
-            throw new \App\Exception\Auth('JWT Token required.', 400);
+            throw new \App\Exception\Auth('JWT Token required.', 401);
         }
         $jwt = explode('Bearer ', $jwtHeader);
         if (! isset($jwt[1])) {
-            throw new \App\Exception\Auth('JWT Token invalid.', 400);
+            throw new \App\Exception\Auth('JWT Token invalid.', 401);
         }
         $decoded = (object) $this->checkToken($jwt[1]);
         return $decoded;
