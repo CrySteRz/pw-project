@@ -47,6 +47,15 @@ function checkJwt(role) {
   return true;
 }
 
+//parse token and return data object
+function jwtData(token) {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+}
+
 function redirectToLogin() {
   document.cookie = "jwt=; Max-Age=0; path=/"; // Clear the JWT cookie
   window.location.href = "/login"; // Redirect to login
