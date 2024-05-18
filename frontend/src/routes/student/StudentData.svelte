@@ -1,20 +1,20 @@
 <script>
 	import { onMount } from 'svelte';
     import StudentLayout from './StudentLayout.svelte';
+	import { getCookie, fetchWithAuth } from '../../lib/utils.js';
 
 	let studentData = "Loading...";
 
 	onMount(() => {
-		fetch('http://localhost:8081/students/data?email=user1@example.com')
-			.then(response => response.json())
-			.then(data => {
-				studentData = data.message;
-				// @ts-ignore
-				studentData.birthDate = new Date(studentData.birthDate).toLocaleDateString();
-			})
-			.catch(error => {
-				studentData = "Error: " + error;
-			});
+		fetchWithAuth('/students/data?email=cristian.gusatu@e-uvt.ro')
+        .then(response => response.json())
+        .then(data => {
+            studentData = data.message;
+			studentData.birthDate = new Date (studentData.birthDate).toLocaleDateString();
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
 	});
 </script>
 
