@@ -61,4 +61,4 @@ function redirectToLogin() {
   window.location.href = "/login"; // Redirect to login
 }
 
-export { fetchWithAuth, getCookie, checkJwt };
+export { fetchWithAuth, getCookie, checkJwt, jwtData };
