@@ -93,10 +93,10 @@ final class UserRepository extends BaseRepository
             address = :address,
             sex = :sex,
             CNP = :CNP,
-            roleId = :roleId,
-            google_id = :google_id
+            roleId = :roleId
             WHERE email = :oldEmail";
     
+    $user = $this->buildUser($user);
     $stmt = $this->getDb()->prepare($sql);
     $stmt->bindParam(':email', $user->email);
     $stmt->bindParam(':name', $user->name);
@@ -109,7 +109,6 @@ final class UserRepository extends BaseRepository
     $stmt->bindParam(':sex', $user->sex, \PDO::PARAM_BOOL);
     $stmt->bindParam(':CNP', $user->CNP);
     $stmt->bindParam(':roleId', $user->roleId, \PDO::PARAM_INT);
-    $stmt->bindParam(':google_id', $user->google_id);
     $stmt->bindParam(':oldEmail', $email);
     $stmt->execute();
     
@@ -129,6 +128,7 @@ final class UserRepository extends BaseRepository
     private function buildUser(array $row): UserData
     {
         $user = new UserData();
+        if (isset($row['id']))
         $user->setId((int)$row['id']);
         $user->updateEmail($row['email']);
         $user->updateRoleId((int)$row['roleId']);
@@ -141,7 +141,9 @@ final class UserRepository extends BaseRepository
         $user->updateAddress($row['address']);
         $user->updateSex((bool)$row['sex']);
         $user->updateCNP($row['CNP']);
-        $user->updateGoogleId($row['google_id']);
+        if (isset($row['google_id'])) {
+            $user->updateGoogleId($row['google_id']);
+        }
         return $user;
     }
   

@@ -13,7 +13,12 @@ $settings = require __DIR__ . '/Settings.php';
 $app = new \Slim\App($settings);
 
 
-$app->add(new \CorsSlim\CorsSlim());
+$corsOptions = array(
+    "allowMethods" => array("POST, GET, PUT, DELETE, OPTIONS, PATCH"),
+    );
+$app->add(new \CorsSlim\CorsSlim($corsOptions));
+
+
 $container = $app->getContainer();
 
 require_once __DIR__ . '/Dependencies.php';

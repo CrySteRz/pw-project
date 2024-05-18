@@ -37,6 +37,7 @@ return static function ($app) {
     $app->group('/teachers', function () use ($app): void {
         $app->patch('/{id}', Grade\Update::class);
     });
+    // ->add(new TeacherAuth());
 
     $app->group('/students', function () use ($app): void {
         $app->get('/data', User\GetUserByEmail::class);
@@ -45,10 +46,11 @@ return static function ($app) {
     })->add(new StudentAuth());
     
     $app->group('/users', function () use ($app): void {
-        $app->post('', User\Create::class);
-        $app->patch('', User\Update::class);
-        $app->delete('', User\Delete::class);
+        $app->post('/', User\Create::class);
+        $app->patch('/', User\Update::class);
+        $app->delete('/', User\Delete::class);
     });
+    // ->add(new AdminAuth());
    
     $app->group('/grades', function () use ($app): void {
         $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
