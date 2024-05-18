@@ -47,7 +47,6 @@ function checkJwt(role) {
   return true;
 }
 
-//parse token and return data object
 function jwtData(token) {
   try {
     return JSON.parse(atob(token.split(".")[1]));
