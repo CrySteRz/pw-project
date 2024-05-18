@@ -47,9 +47,10 @@ function checkJwt(role) {
   return true;
 }
 
-//parse token and return data object
-function jwtData(token) {
+function jwtData() {
   try {
+    const token = getCookie("jwt");
+    console.log("jwtData", JSON.parse(atob(token.split(".")[1])));
     return JSON.parse(atob(token.split(".")[1]));
   } catch (e) {
     return null;

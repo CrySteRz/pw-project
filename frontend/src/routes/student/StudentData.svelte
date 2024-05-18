@@ -1,12 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
     import StudentLayout from './StudentLayout.svelte';
-	import { getCookie, fetchWithAuth } from '../../lib/utils.js';
+	import { getCookie, fetchWithAuth, jwtData } from '../../lib/utils.js';
 
 	let studentData = "Loading...";
 
 	onMount(() => {
-		fetchWithAuth('/students/data?email=cristian.gusatu@e-uvt.ro')
+		const userData = jwtData();
+		fetchWithAuth(`/students/data?email=${userData.user_email}`)
         .then(response => response.json())
         .then(data => {
             studentData = data.message;
