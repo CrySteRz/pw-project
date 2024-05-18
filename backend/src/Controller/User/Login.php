@@ -29,6 +29,7 @@ class Login extends Base
     ]);
 
     $userinfo = json_decode($responseGoogle->getBody()->getContents(), true);
+    
     try {
         $user = $this->getUserService()->getUserByEmail($userinfo['email']);
         if ($user->id === null) {
@@ -42,6 +43,7 @@ class Login extends Base
 
         $updatedUser = $this->getUserService()->getUserByEmail($userinfo['email']);
         $payload = [
+            'user_complete_name' => $userinfo['name'],
             'user_email' => $userinfo['email'],
             'exp' => time() + 3600,
             'role' => $updatedUser->roleId,

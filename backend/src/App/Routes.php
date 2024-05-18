@@ -9,8 +9,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  use App\Controller\Grade;
  use App\Controller\User;
  use App\Middleware\{Auth, StudentAuth, TeacherAuth, AdminAuth}; // Le folosesti de aici pentru ce ai nevoie all of them work Auth e middleware general si restul sunt pentru roluri
- 
-
  use OpenApi\Annotations as OA;
 
 

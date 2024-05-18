@@ -6,60 +6,49 @@
     let disciplineTypes = [];
     let deletingDiscipline = {'name': ''};
     let updatingDiscipline = {'name': ''};
-
     let token = getCookie('jwt');
     
 	onMount(() => {
-        fetchWithAuth ('http://localhost:8081/disciplines/')
-            .then(response => response.json())
-            .then(data => {
-                disciplines = data.message;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-        fetch('http://localhost:8081/disciplines/', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-    }
-})
-.then(response => response.json())
-            .then(data => {
-                disciplines = data.message;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-        
-        fetch('http://localhost:8081/disciplines/get-types',
-        {
-        headers: {
-            'Authorization': `Bearer ${token}`
-    }
-})
-            .then(response => response.json())
-            .then(data => {
-                disciplineTypes = data.message;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    fetchWithAuth('/disciplines/')
+        .then(response => response.json())
+        .then(data => {
+            disciplines = data.message;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
 
-    async function createDiscipline(disciplineDto) {
-        const response = await fetch('http://localhost:8081/disciplines/', {
+    fetchWithAuth('/disciplines/')
+        .then(response => response.json())
+        .then(data => {
+            disciplines = data.message;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+
+    fetchWithAuth('/disciplines/get-types')
+        .then(response => response.json())
+        .then(data => {
+            disciplineTypes = data.message;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+});
+
+async function createDiscipline(disciplineDto) {
+    const response = await fetchWithAuth('/disciplines/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(disciplineDto)
-        });
-
-        if (!response.ok) {
+    });
+    if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
-        }
     }
+}
 
     function GetDisciplineDto(event){
         let disciplineDto = {};
@@ -96,40 +85,38 @@
     }
 
     async function handleUpdate(event){
-        let disciplineDto = GetDisciplineDto(event);
-        const response = await fetch(`http://localhost:8081/disciplines/${updatingDiscipline.id}`, {
+    let disciplineDto = GetDisciplineDto(event);
+    const response = await fetchWithAuth(`/disciplines/${updatingDiscipline.id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(disciplineDto)
-        });
+    });
 
-        if (!response.ok) {
+    if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        // console.log(data);
-        window.location.reload();
     }
 
+    const data = await response.json();
+    // console.log(data);
+    window.location.reload();
+}
 
 
-    async function deleteDiscipline() {
-        const response = await fetch(`http://localhost:8081/disciplines/${deletingDiscipline.id}`, {
+
+async function deleteDiscipline() {
+    const response = await fetchWithAuth(`/disciplines/${deletingDiscipline.id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
         }
-        });
+    });
 
-        if (!response.ok) {
+    if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
-        }
     }
+}
 
   function openRemoveModal(disciplineDto){
         deletingDiscipline = disciplineDto;

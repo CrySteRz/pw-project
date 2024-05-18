@@ -1,5 +1,10 @@
 <script>
+	import { onMount } from "svelte";
 	import AdminMenu from "../../lib/components/AdminMenu.svelte";
+	import { checkJwt } from "../../lib/utils";
+	onMount(() => {
+		checkJwt(1);
+	});
 </script>
 
 <div class="app">
@@ -7,7 +12,7 @@
 		<div class="card container myGlassEffect">
 			<div class="card-header">
 				<div class="loggedInHeader px-8 myGlassEffect">
-					<h1> Salut, Admin</h1>
+					<h1> Salut, Admin</h1>	
 					<div>
 						<button class="btnLocalization">en</button>
 						<button class="btnLocalization">ro</button>

@@ -1,10 +1,9 @@
+const BASE_URL = "http://localhost:8081";
 async function fetchWithAuth(url, options = {}) {
   let token = getCookie("jwt");
   options.headers = options.headers || {};
   options.headers["Authorization"] = `Bearer ${token}`;
-
-  const response = await fetch(url, options);
-
+  const response = await fetch(`${BASE_URL}${url}`, options);
   if (response.status === 401) {
     document.cookie = "jwt=; Max-Age=0; path=/";
     window.location.href = "/login";
@@ -27,18 +26,16 @@ function getCookie(name) {
   return cookieValue;
 }
 
-function checkJwt() {
-  //NU STIU DACA MERGE YET, IT SHOULD THO
+function checkJwt(role) {
   const token = getCookie("jwt");
   if (!token) {
     redirectToLogin();
     return false;
   }
-
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
     const isExpired = payload.exp < Date.now() / 1000;
-    if (isExpired) {
+    if (isExpired || payload.role !== role) {
       redirectToLogin();
       return false;
     }
