@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Discipline;
+namespace App\Service;
 
 use App\Entity\Discipline;
 use App\Exception\Discipline as DisciplineException;

@@ -6,9 +6,9 @@ namespace App\Controller\User;
 
 use App\Controller\BaseController;
 use App\Exception\User;
-use App\Service\User\UserService;
-use App\Service\Discipline\DisciplineService;
-use App\Service\Grade\GradeService;
+use App\Service\UserService;
+use App\Service\DisciplineService;
+use App\Service\GradeService;
 
 abstract class Base extends BaseController
 {

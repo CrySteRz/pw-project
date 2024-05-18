@@ -6,7 +6,7 @@ namespace App\Controller\Discipline;
 
 use App\Controller\BaseController;
 use App\Exception\Discipline;
-use App\Service\Discipline\DisciplineService;
+use App\Service\DisciplineService;
 
 /**
  * @OA\Server(url="http://localhost:8080")

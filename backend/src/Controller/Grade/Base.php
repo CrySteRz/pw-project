@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Grade;
 
 use App\Controller\BaseController;
-use App\Service\Grade\GradeService;
+use App\Service\GradeService;
 
 abstract class Base extends BaseController
 {

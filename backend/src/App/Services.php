@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Service\Discipline\DisciplineService;
-use App\Service\Grade\GradeService;
-use App\Service\User\UserService;
+use App\Service\DisciplineService;
+use App\Service\GradeService;
+use App\Service\UserService;
 
 use Psr\Container\ContainerInterface;
 

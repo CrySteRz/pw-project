@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Grade;
+namespace App\Service;
 
 use App\Entity\Grade;
 use App\Exception\Grade as GradeException;
