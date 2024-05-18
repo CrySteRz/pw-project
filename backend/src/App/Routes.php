@@ -9,6 +9,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  use App\Controller\Grade;
  use App\Controller\User;
  use App\Middleware\{Auth, StudentAuth, TeacherAuth, AdminAuth}; // Le folosesti de aici pentru ce ai nevoie all of them work Auth e middleware general si restul sunt pentru roluri
+ 
+
  use OpenApi\Annotations as OA;
 
 
@@ -16,37 +18,44 @@ return static function ($app) {
     $app->get('/', '\App\Controller\DefaultController:getHelp');
     $app->post('/login', User\Login::class);
     $app->get('/openapi', '\App\Controller\DefaultController:getOpenApiDefinition');
-    $app->group('/students', function () use ($app): void {
-        $app->get('/', User\GetAllStudents::class);
-        $app->get('/data', User\GetUserByEmail::class);
-        $app->get('/disciplines', User\getDisciplinesByUserEmail::class);
-        $app->get('/grades', User\GetAllGradesByUserEmail::class);
-    })->add(new StudentAuth());
-    $app->group('/teachers', function () use ($app): void {
-        $app->get('/', User\GetAllTeachers::class);
-        $app->get('/{discipline_id}', User\GetOneTeacherByDiscipline::class);
+
+    $app->group('/admin', function () use ($app): void {
+        $app->get('/students', User\GetAllStudents::class);
+        $app->get('/teachers', User\GetAllTeachers::class);
+        $app->get('/disciplines', Discipline\GetAll::class);
+        $app->get('/grades', User\GetAllTeachers::class);
     });
-    $app->group('/users', function () use ($app): void {
-        $app->get('/', User\GetAll::class);
-        $app->post('/', User\Create::class);
-        $app->patch('', User\Update::class);
-    $app->delete('', User\Delete::class);
-    });
+    // ->add(new AdminAuth());
+
     $app->group('/disciplines', function () use ($app): void {
-        $app->get('/', Discipline\GetAll::class);
-        $app->get('/get-types', Discipline\GetDisciplineTypes::class);
-        //$app->get('/{id}', Discipline\GetOne::class); to be done
         $app->post('/', Discipline\Create::class);
         $app->patch('/{id}', Discipline\Update::class);
         $app->delete('/{id}', Discipline\Delete::class);
     });
-    // returneaza un json la grade cu examen, marire si restanta 
-    $app->group('/grades', function () use ($app): void {
-        $app->get('/', Grade\GetAll::class);
-        $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
-        $app->post('/', Grade\Create::class);
+    // ->add(new AdminAuth());
+
+    $app->group('/teachers', function () use ($app): void {
         $app->patch('/{id}', Grade\Update::class);
-        $app->delete('/{id}', Grade\Delete::class);
+    });
+
+    $app->group('/students', function () use ($app): void {
+        $app->get('/data', User\GetUserByEmail::class);
+        $app->get('/disciplines', User\getDisciplinesByUserEmail::class);
+        $app->get('/grades', User\GetAllGradesByUserEmail::class);
+    })->add(new StudentAuth());
+    
+    $app->group('/users', function () use ($app): void {
+        $app->post('', User\Create::class);
+        $app->patch('', User\Update::class);
+        $app->delete('', User\Delete::class);
+    });
+   
+    $app->group('/grades', function () use ($app): void {
+        $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
+    });
+
+    $app->group('/disciplines', function () use ($app): void {
+        $app->get('/get-types', Discipline\GetDisciplineTypes::class);
     });
     return $app;
 };

@@ -81,7 +81,7 @@
     let updateInputDatas = JSON.parse(JSON.stringify(inputDatas))
     
     onMount(async () => {
-        const response = await fetchWithAuth('/teachers/');
+        const response = await fetchWithAuth('/admin/teachers');
         const data = await response.json();
         students = data.message;
     });

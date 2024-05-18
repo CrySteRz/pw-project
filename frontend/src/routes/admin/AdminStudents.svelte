@@ -81,7 +81,7 @@
     let updateInputDatas = JSON.parse(JSON.stringify(inputDatas))
     
     onMount(async () => {
-        const response = await fetchWithAuth('/students/');
+        const response = await fetchWithAuth('/admin/students');
         const data = await response.json();
         students = data.message;
     });
@@ -163,7 +163,7 @@
 
     async function handleUpdate(event){
         let studentDto = GetStudentDto(event);
-        const response = await fetchWithAuth(`/users?email=${studentDto.email}`, {
+        const response = await fetchWithAuth(`/admin/students?email=${studentDto.email}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'

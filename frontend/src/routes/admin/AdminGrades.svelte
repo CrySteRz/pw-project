@@ -15,7 +15,7 @@
 	// /grades/
 	onMount(() => {
       // Fetch all disciplines
-      fetchWithAuth('/grades/')
+      fetchWithAuth('/admin/grades')
             .then(response => response.json())
             .then(data => {
                 grades = data.message;
@@ -25,7 +25,7 @@
             });
 
         // Fetch all students
-        fetchWithAuth('/students/')
+        fetchWithAuth('/admin/students')
             .then(response => response.json())
             .then(data => {
                 studentsEmails = data.message.map(user => user.email);
@@ -35,7 +35,7 @@
             });
 
         // Fetch all disciplines
-        fetchWithAuth('/disciplines/')
+        fetchWithAuth('/admin/disciplines')
             .then(response => response.json())
             .then(data => {
                 disciplineNames = data.message.map(discipline => discipline.name);

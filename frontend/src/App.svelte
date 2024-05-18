@@ -8,6 +8,7 @@
 
   } from './routes';
     import HomeStudent from './routes/student/HomeStudent.svelte';
+    import Logout from './routes/login/Logout.svelte';
     
   export let url = "";
 
@@ -40,6 +41,7 @@
     <Route path="/student/grades" component={StudentGrades} />
     <Route path="/student" component={HomeStudent} />
     <Route path="/login" component={Login} />
+    <Route path="/logout" component={Logout} />
     <Route path="/login/callback" component={Callback} />
     <Route path="/"><Home /></Route>
 

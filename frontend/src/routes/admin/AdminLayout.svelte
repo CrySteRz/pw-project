@@ -3,7 +3,7 @@
 	import AdminMenu from "../../lib/components/AdminMenu.svelte";
 	import { checkJwt } from "../../lib/utils";
 	onMount(() => {
-		checkJwt(1);
+		// checkJwt(1);
 	});
 </script>
 

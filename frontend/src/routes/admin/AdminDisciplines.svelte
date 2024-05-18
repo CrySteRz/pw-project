@@ -9,7 +9,7 @@
     let token = getCookie('jwt');
     
 	onMount(() => {
-    fetchWithAuth('/disciplines/')
+    fetchWithAuth('/admin/disciplines')
         .then(response => response.json())
         .then(data => {
             disciplines = data.message;
@@ -18,14 +18,6 @@
             console.error("Error:", error);
         });
 
-    fetchWithAuth('/disciplines/')
-        .then(response => response.json())
-        .then(data => {
-            disciplines = data.message;
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
 
     fetchWithAuth('/disciplines/get-types')
         .then(response => response.json())
