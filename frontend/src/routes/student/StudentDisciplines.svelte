@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import StudentLayout from './StudentLayout.svelte';
-
+    import { fetchWithAuth, jwtData } from '../../lib/utils';
 
 	let activeButton = 'mine';
     let disciplines = [];
@@ -15,10 +15,11 @@
 
 
 	// all disciplines
-	// http://localhost:8081/disciplines/
+	// /disciplines/
 	onMount(() => {
       // Fetch all disciplines
-      fetch('http://localhost:8081/disciplines/')
+      const studentData = jwtData();
+      fetchWithAuth('/disciplines/')
             .then(response => response.json())
             .then(data => {
                 disciplines = data.message;
@@ -28,7 +29,7 @@
             });
 
     // Fetch my disciplines
-    fetch('http://localhost:8081/students/disciplines?email=user1@example.com')
+    fetchWithAuth(`/students/disciplines?email=${studentData.user_email}`)
         .then(response => response.json())
         .then(data => {
             myDisciplines = data.message;

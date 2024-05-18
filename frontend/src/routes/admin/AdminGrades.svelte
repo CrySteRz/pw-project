@@ -2,6 +2,7 @@
    import { onMount } from 'svelte';
    import AutoComplete from 'simply-svelte-autocomplete'
     import AdminLayout from './AdminLayout.svelte';
+    import {  fetchWithAuth } from '../../lib/utils.js';
     let studentsEmails = [];
     let disciplineNames = [];
     let grades = [];
@@ -11,10 +12,10 @@
     const handleAutocompleteDiscipline = (e) => {selectedDiscipline = e }
 
 	// all grades
-	// http://localhost:8081/grades/
+	// /grades/
 	onMount(() => {
       // Fetch all disciplines
-      fetch('http://localhost:8081/grades/')
+      fetchWithAuth('/grades/')
             .then(response => response.json())
             .then(data => {
                 grades = data.message;
@@ -24,7 +25,7 @@
             });
 
         // Fetch all students
-        fetch('http://localhost:8081/students/')
+        fetchWithAuth('/students/')
             .then(response => response.json())
             .then(data => {
                 studentsEmails = data.message.map(user => user.email);
@@ -34,7 +35,7 @@
             });
 
         // Fetch all disciplines
-        fetch('http://localhost:8081/disciplines/')
+        fetchWithAuth('/disciplines/')
             .then(response => response.json())
             .then(data => {
                 disciplineNames = data.message.map(discipline => discipline.name);
@@ -46,7 +47,7 @@
     });
 
     async function createGrade(gradeDto) {
-        const response = await fetch('http://localhost:8081/grades/', {
+        const response = await fetchWithAuth('/grades/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

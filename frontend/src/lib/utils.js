@@ -50,7 +50,6 @@ function checkJwt(role) {
 function jwtData() {
   try {
     const token = getCookie("jwt");
-    console.log("jwtData", JSON.parse(atob(token.split(".")[1])));
     return JSON.parse(atob(token.split(".")[1]));
   } catch (e) {
     return null;
@@ -62,4 +61,4 @@ function redirectToLogin() {
   window.location.href = "/login"; // Redirect to login
 }
 
-export { fetchWithAuth, getCookie, checkJwt, jwtData };
+export { fetchWithAuth, getCookie, checkJwt, jwtData , redirectToLogin};

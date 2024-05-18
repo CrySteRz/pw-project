@@ -1,9 +1,10 @@
 <script>
+    import { fetchWithAuth } from "../../lib/utils";
     import StudentLayout from "./StudentLayout.svelte";
 
     let grades = [];
 
-    fetch('http://localhost:8081/students/grades?email=user1@example.com')
+    fetchWithAuth('/students/grades?email=user1@example.com')
         .then(response => response.json())
         .then(data => grades = data.message);
 </script>

@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+    import {  fetchWithAuth } from '../../lib/utils.js';
     import AdminLayout from './AdminLayout.svelte';
 
 	let students = [];
@@ -80,13 +81,13 @@
     let updateInputDatas = JSON.parse(JSON.stringify(inputDatas))
     
     onMount(async () => {
-        const response = await fetch('http://localhost:8081/teachers/');
+        const response = await fetchWithAuth('/teachers/');
         const data = await response.json();
         students = data.message;
     });
 
     async function createStudent(studentDto) {
-        const response = await fetch('http://localhost:8081/users/', {
+        const response = await fetchWithAuth('/users/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -161,7 +162,7 @@
 
     async function handleUpdate(event){
         let studentDto = GetStudentDto(event);
-        const response = await fetch(`http://localhost:8081/users?email=${studentDto.email}`, {
+        const response = await fetchWithAuth(`/users?email=${studentDto.email}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -181,7 +182,7 @@
     let deletingStudent = {'email' : ''};
 
     async function deleteStudent() {
-    const response = await fetch(`http://localhost:8081/users?email=${deletingStudent.email}`, {
+    const response = await fetchWithAuth(`/users?email=${deletingStudent.email}`, {
       method: 'DELETE',
     });
 

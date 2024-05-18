@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
     import StudentLayout from './StudentLayout.svelte';
-	import { getCookie, fetchWithAuth, jwtData } from '../../lib/utils.js';
+	import { fetchWithAuth, jwtData } from '../../lib/utils.js';
 
 	let studentData = "Loading...";
 

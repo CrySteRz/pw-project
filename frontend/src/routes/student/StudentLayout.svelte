@@ -1,9 +1,11 @@
 <script>
 	import HeaderStudentWeb from '../../lib/components/HeaderStudentWeb.svelte';
 	import ContextMenu from '../../lib/components/ContextMenu.svelte';
-	import { checkJwt } from "../../lib/utils";
+	import { checkJwt, jwtData } from "../../lib/utils";
 	import { onMount } from "svelte";
+	let studentData = {};
 	onMount(() => {
+		studentData = jwtData();
 		checkJwt(3);
 	});
 </script>
@@ -13,7 +15,7 @@
 			<div class="card container myGlassEffect">
 				<div class="card-header">
 					<div class="loggedInHeader px-8 myGlassEffect">
-						<h1>Salut, Cristian-Alexandru</h1>
+						<h1>Salut, {studentData.user_complete_name}</h1>
 						<div>
 							<button class="btnLocalization">en</button>
 							<button class="btnLocalization">ro</button>
