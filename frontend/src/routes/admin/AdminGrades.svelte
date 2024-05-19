@@ -1,93 +1,25 @@
 <script>
-   import { onMount } from 'svelte';
-   import AutoComplete from 'simply-svelte-autocomplete'
-    import AdminLayout from './AdminLayout.svelte';
-    import {  fetchWithAuth } from '../../lib/utils.js';
-    let studentsEmails = [];
-    let disciplineNames = [];
+    import { fetchWithAuth, jwtData } from "../../lib/utils";
+    import AdminLayout from "./AdminLayout.svelte";
+
     let grades = [];
-    let selectedUser = '';
-    let selectedDiscipline = '';
-    const handleAutocompleteUser = (e) => {selectedUser = e }
-    const handleAutocompleteDiscipline = (e) => {selectedDiscipline = e }
-
-	// all grades
-	// /grades/
-	onMount(() => {
-      // Fetch all disciplines
-      fetchWithAuth('/admin/grades')
-            .then(response => response.json())
-            .then(data => {
-                grades = data.message;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-
-        // Fetch all students
-        fetchWithAuth('/admin/students')
-            .then(response => response.json())
-            .then(data => {
-                studentsEmails = data.message.map(user => user.email);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-
-        // Fetch all disciplines
-        fetchWithAuth('/admin/disciplines')
-            .then(response => response.json())
-            .then(data => {
-                disciplineNames = data.message.map(discipline => discipline.name);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-  
-    });
-
-    async function createGrade(gradeDto) {
-        const response = await fetchWithAuth('/grades/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(gradeDto)
-        });
-
-        if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-        }
-    }
-    function handleSubmit(event) {
-    event.preventDefault();
-    
-    let gradeDto = {};
-
-    createGrade(gradeDto)
-    .then(e => { 
-        window.location.reload();
-        console.log('Success:', e);
-    })
-    .catch(e => console.error('There was a problem with the request.', e));
-    // close the dialog
-    document.getElementById('my_modal_1').close();
-    
-  }
+    const studentData = jwtData();
+    fetchWithAuth(`/admin/grades?email=${studentData.user_email}`)
+        .then(response => response.json())
+        .then(data => grades = data.message);
 </script>
 
 <svelte:head>
     <title>Home</title>
     <meta name="description" content="Svelte demo app" />
 </svelte:head>
+
 <AdminLayout>
-<section class="flex flex-col gap-2">
-	<div class="flex gap-2">
-		<button class="btn btn-primary rounded" onclick="my_modal_1.showModal()">create</button>
-	</div>
+<section>
     <table>
         <thead>
             <tr>
+                <th>Student email</th>
                 <th>Discipline Name</th>
                 <th>Exam Date</th>
                 <th>Grade Value</th>
@@ -96,8 +28,9 @@
             </tr>
         </thead>
         <tbody>
-            {#each grades as grade (grade.email)}
+            {#each grades as grade, index (index)}
                 <tr>
+                    <td>{grade.email}</td>
                     <td>{grade.disciplineName}</td>
                     <td>{grade.examDate}</td>
                     <td>{grade.gradeValue}</td>
@@ -108,46 +41,8 @@
         </tbody>
     </table>
 </section>
-<dialog id="my_modal_1" class="modal">
-    <div class="modal-box w-11/12 max-w-5xl">
-      <h3 class="font-bold text-lg">Create student entry</h3>
-        <form method="dialog" class="modal-backdrop w-full" on:submit={handleSubmit}>
-            <div class="grid grid-cols-2 gap-2 mb-2 text-black">
-
-            <label class="input input-bordered flex items-center gap-2 text-black">
-                Grade
-                <input id="input_grade" type="text" value="" 
-                class="grow" placeholder="9" />
-            </label>
-
-              {#if studentsEmails.length > 0}
-                <AutoComplete className="w-full svelte-autocomplete" options={studentsEmails} 
-                onSubmit={handleAutocompleteUser} selectedValue={selectedUser}
-                keepValueOnSubmit={true}
-                />
-            {/if}
-            {#if disciplineNames.length > 0}
-            <AutoComplete className="w-full svelte-autocomplete" options={disciplineNames} 
-            onSubmit={handleAutocompleteDiscipline} selectedValue={selectedDiscipline}
-            keepValueOnSubmit={true}
-            />
-                {/if}
-
-              <select id="input_exam"  class="select select-bordered w-full">
-                <option disabled selected>Exam date</option>
-                <option value="1">2</option>
-                <option value="2">1</option>
-                <option value="3">3 </option>
-              </select>
-        </div>
-        <div>
-            <button class="btn btn-secondary">Close</button>
-            <button class="btn btn-primary" type="submit">Create</button>
-        </div>
-        </form>
-    </div>
-  </dialog>
 </AdminLayout>
+
 <style>
 	table {
         width: 100%;
@@ -160,5 +55,4 @@
     th {
         background-color: #f2f2f2;
     }
-   
 </style>

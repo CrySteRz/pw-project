@@ -157,13 +157,13 @@
             el.value = student[el.DtoField];
         })
         updateInputDatas = updateInputDatas;
-        console.log(updateInputDatas)
         document.getElementById('update_modal').showModal();
     }
 
     async function handleUpdate(event){
         let studentDto = GetStudentDto(event);
-        const response = await fetchWithAuth(`/admin/students?email=${studentDto.email}`, {
+        console.log(studentDto);
+        const response = await fetchWithAuth(`/users/?email=${studentDto.email}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -183,7 +183,7 @@
     let deletingStudent = {'email' : ''};
 
     async function deleteStudent() {
-    const response = await fetchWithAuth(`/users?email=${deletingStudent.email}`, {
+    const response = await fetchWithAuth(`/users/?email=${deletingStudent.email}`, {
       method: 'DELETE',
     });
 
@@ -202,10 +202,8 @@
 
     function handleDelete(){
         deleteStudent()
-        .then(e => console.log(e))
+        .then(e => window.location.reload())
         .catch(e => console.error('There was a problem with the request.', e));
-
-        window.location.reload();
     }
 </script>
 

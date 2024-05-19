@@ -23,7 +23,7 @@ return static function ($app) {
         $app->get('/students', User\GetAllStudents::class);
         $app->get('/teachers', User\GetAllTeachers::class);
         $app->get('/disciplines', Discipline\GetAll::class);
-        $app->get('/grades', User\GetAllTeachers::class);
+        $app->get('/grades', Grade\GetAll::class);
     });
     // ->add(new AdminAuth());
 

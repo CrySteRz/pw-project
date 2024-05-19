@@ -1,10 +1,10 @@
 <script>
-    import { fetchWithAuth } from "../../lib/utils";
+    import { fetchWithAuth, jwtData } from "../../lib/utils";
     import StudentLayout from "./StudentLayout.svelte";
 
     let grades = [];
-
-    fetchWithAuth('/students/grades?email=user1@example.com')
+    const studentData = jwtData();
+    fetchWithAuth(`/students/grades?email=${studentData.user_email}`)
         .then(response => response.json())
         .then(data => grades = data.message);
 </script>
@@ -27,7 +27,7 @@
             </tr>
         </thead>
         <tbody>
-            {#each grades as grade (grade.email)}
+            {#each grades as grade, index (index)}
                 <tr>
                     <td>{grade.disciplineName}</td>
                     <td>{grade.examDate}</td>

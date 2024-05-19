@@ -96,7 +96,9 @@ final class UserRepository extends BaseRepository
             roleId = :roleId
             WHERE email = :oldEmail";
     
-    $user = $this->buildUser($user);
+    if (is_array($user))
+        $user = $this->buildUser($user);
+
     $stmt = $this->getDb()->prepare($sql);
     $stmt->bindParam(':email', $user->email);
     $stmt->bindParam(':name', $user->name);

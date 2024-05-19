@@ -10,6 +10,27 @@
   }
 </script>
 
-<button on:click={signInWithGoogle}>
-  Sign in with Google
-</button>
+<div class="loginContainer">
+  <div class="card container myGlassEffect py-12">
+    <div class="flex items-center justify-center flex-col gap-2">
+      <h1 class="text-2xl">Welcome to WebStudent</h1>
+      <button class="btn"  on:click={signInWithGoogle}>
+        Sign in with Google
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+		background-image: url('/cool-background2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100vh;
+  }
+</style>

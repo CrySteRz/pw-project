@@ -117,10 +117,10 @@ async function deleteDiscipline() {
 
     function handleDelete(){
         deleteDiscipline()
-        .then(e => console.log(e))
+        .then(e => window.location.reload())
         .catch(e => console.error('There was a problem with the request.', e));
 
-        window.location.reload();
+        
     }
 
 </script>
