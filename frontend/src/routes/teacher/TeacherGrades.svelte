@@ -1,12 +1,16 @@
 <script>
+    import { onMount } from "svelte";
     import { fetchWithAuth, jwtData } from "../../lib/utils";
     import TeacherLayout from "./TeacherLayout.svelte";
 
     let grades = [];
+    let grade_id = -1;
     const studentData = jwtData();
-    fetchWithAuth(`/grades/?teacher_email=${studentData.user_email}`)
-        .then(response => response.json())
-        .then(data => grades = data.message);
+    onMount(() => {
+            fetchWithAuth(`/grades/?teacher_email=${studentData.user_email}`)
+                .then(response => response.json())
+                .then(data => grades = data.message);
+    })
 
 
     function handleSubmit(event) {
@@ -15,7 +19,7 @@
         const new_grade = document.getElementById('input_new_grade').value;
         const dto = {};
         dto.new_grade = new_grade;
-        dto.grade_id = 1;
+        dto.grade_id = grade_id;
         fetchWithAuth('/grades/', {
             method: 'PATCH',
             headers: {
@@ -29,7 +33,8 @@
             });
     }
 
-    const openModal = () => {
+    const openModal = (grade) => {
+        grade_id = grade.id;
         document.getElementById('modal_update_grade').showModal();
     }
 </script>
@@ -63,7 +68,7 @@
                     <td>{grade.credits}</td>
                     <td>{grade.credits * grade.gradeValue}</td>
                     <td>
-                        <button class="btn btn-outline" on:click={openModal}>update grade</button>
+                        <button class="btn btn-outline" on:click={() => openModal(grade)}>update grade</button>
                     </td>
                 </tr>
             {/each}

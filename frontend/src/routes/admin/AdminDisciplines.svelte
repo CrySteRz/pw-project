@@ -64,8 +64,11 @@ async function createDiscipline(disciplineDto) {
             event.target['input_credits'].value);
         disciplineDto.idDiscipline = Number.parseInt(
             event.target['input_disciplineType'].value);
-        disciplineDto.examDate = event.target['date_input_exam'].value;
-        disciplineDto.examDate = new Date(disciplineDto.examDate).toISOString();
+        if(event.target['date_input_exam']){
+            console.log(event.target['date_input_exam']);
+            disciplineDto.examDate = event.target['date_input_exam'].value;
+            disciplineDto.examDate = new Date(disciplineDto.examDate).toISOString();
+        }
 
         disciplineDto.teacher_email = selectedTeacherEmail;
         return disciplineDto;

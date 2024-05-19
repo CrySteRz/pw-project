@@ -13,10 +13,11 @@ class TeacherAuth extends Base
         Response $response,
         Route $next
     ): ResponseInterface {
+        $data = $request->getParsedBody();
         $decoded = $this->verifyToken($request);
         if ($decoded->role !== 2) {
             throw new \App\Exception\Auth('Unauthorized. Teacher role required.', 403);
         }
-        return $next($request->withParsedBody($decoded), $response);
+        return $next($request->withParsedBody($data), $response);
     }
 }

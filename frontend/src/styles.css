@@ -29,3 +29,8 @@ border: 1px solid rgba(255, 255, 255, 0.3);
     height: 100%;
 }
 
+
+.ActualContent section{
+    overflow: auto;
+    height: 450px;
+}
