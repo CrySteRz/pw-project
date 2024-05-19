@@ -25,7 +25,7 @@ return static function ($app) {
 
     $app->group('/disciplines', function () use ($app): void {
         $app->get('/', Discipline\GetAll::class);
-    });
+    })->add(new Auth());
 
     $app->group('/disciplines', function () use ($app): void {
         $app->post('/', Discipline\Create::class);
@@ -46,7 +46,7 @@ return static function ($app) {
         $app->post('/', User\Create::class);
         $app->patch('/', User\Update::class);
         $app->delete('/', User\Delete::class);
-    });
+    })->add(new AdminAuth());
    
     $app->group('/grades', function () use ($app): void {
         $app->patch('/', Grade\Update::class);
@@ -55,10 +55,10 @@ return static function ($app) {
     $app->group('/grades', function () use ($app): void {
         $app->get('/', Grade\GetAll::class);
         $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
-    }); // mw pt authentication
+    })->add(new Auth());
 
     $app->group('/disciplines', function () use ($app): void {
         $app->get('/get-types', Discipline\GetDisciplineTypes::class);
-    });
+    })->add(new Auth());
     return $app;
 };

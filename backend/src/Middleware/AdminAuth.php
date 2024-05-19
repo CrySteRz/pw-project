@@ -13,10 +13,11 @@ class AdminAuth extends Auth
         Response $response,
         Route $next
     ): ResponseInterface {
+        $user = $request->getParsedBody();
         $decoded = $this->verifyToken($request);
         if ($decoded->role !== 1) {
             throw new \App\Exception\Auth('Unauthorized. Admin role required.', 403);
         }
-        return $next($request->withParsedBody($decoded), $response);
+         return $next($request->withParsedBody($user), $response);
     }
 }
