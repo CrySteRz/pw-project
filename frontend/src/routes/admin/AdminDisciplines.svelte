@@ -77,7 +77,7 @@ async function createDiscipline(disciplineDto) {
     let disciplineDto = GetDisciplineDto(event);
     createDiscipline(disciplineDto)
     .then(e => { 
-        // window.location.reload();
+        window.location.reload();
         console.log('Success:', e);
     })
     .catch(e => console.error('There was a problem with the request.', e));

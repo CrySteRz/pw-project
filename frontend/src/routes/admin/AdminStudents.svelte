@@ -87,6 +87,7 @@
     });
 
     async function createStudent(studentDto) {
+        console.log(studentDto);
         const response = await fetchWithAuth('/users/', {
       method: 'POST',
       headers: {
