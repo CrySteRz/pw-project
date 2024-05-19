@@ -110,7 +110,7 @@ $db->exec($insertRoleStudent);
 // Inserting users with different roles
 $insertUser1 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(1, 'ionut.blidaru02@e-uvt.ro', 3, 'Ionut', 'Blidaru', '1990-01-01T00:00:00+01:00', 'Romania', 'Timis', 'Timisoara', 'Oak Street 432', 0, '202035675542')";
 $insertUser2 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(2, 'cristian.gusatu02@e-uvt.ro', 3, 'Cristian', 'Gusatu', '1990-01-01T00:00:00+01:00', 'Romania', 'Timis', 'Timisoara', 'Daliei 2', 0, '074242422222')";
-$insertUser3 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(3, 'user3@example.com', 1, 'User', 'Three', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890123')";
+$insertUser3 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(3, 'cristian.gusatu02@gmail.com', 1, 'User', 'Three', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890123')";
 $insertUser5 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(4, 'bbub2242@gmail.com', 2, 'User', 'Five', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890125')";
 $insertUser4 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(5, 'user4@example.com', 2, 'User', 'Four', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890124')";
 

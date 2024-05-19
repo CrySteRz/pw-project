@@ -29,6 +29,10 @@ final class GradeService extends Base
         return $grade;
     }
 
+    public function PatchGrade($new_grade, $grade_id){
+        $this->getGradeRepository()->PatchGrade($new_grade, $grade_id);
+    }
+
     /**
      * @param array<string> $input
      */

@@ -12,7 +12,7 @@ final class GradeRepository extends BaseRepository
 
     public function getFiltered(?string $student_email = null, ?string $teacher_email = null): array
     {
-        $query = 'SELECT Grade.value, Student.email AS student_email, Teacher.email AS teacher_email,
+        $query = 'SELECT Grade.id as grade_id, Grade.value, Student.email AS student_email, Teacher.email AS teacher_email,
                     Exam.examDate AS exam_examDate, Discipline.name AS discipline_name, Discipline.credits AS discipline_credits
                     FROM `Grade`
                     INNER JOIN User AS Student ON Grade.idUser = Student.id
@@ -37,7 +37,7 @@ final class GradeRepository extends BaseRepository
             $query .= ' WHERE ' . implode(' AND ', $conditions);
         }
 
-        $query .= ' GROUP BY student_email, discipline_name, exam_examDate, Grade.value, discipline_credits';
+        $query .= ' GROUP BY  Grade.id, student_email, discipline_name, exam_examDate, Grade.value, discipline_credits';
         $query .= ' ORDER BY Grade.id';
         $statement = $this->getDb()->prepare($query);
         $statement->execute($params);
@@ -71,6 +71,15 @@ final class GradeRepository extends BaseRepository
             $statement->bindParam(':userId', $id_stud);
             $statement->execute();
         }
+    }
+
+
+    public function PatchGrade($new_grade, $grade_id){
+        $query = "UPDATE Grade SET value = :new_grade WHERE id = :grade_id";
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam(':new_grade', $new_grade);
+        $statement->bindParam(':grade_id', $grade_id);
+        $statement->execute();
     }
 
     public function getAllGradesByUserId(int $userId) : array
@@ -138,8 +147,9 @@ final class GradeRepository extends BaseRepository
 
     private function buildGradeDto(array $grade): GradeDto
     {
-
         $gradeDto = new GradeDto();
+        $gradeId = intval($grade['grade_id']);
+        $gradeDto->setId($gradeId);
         $gradeDto->setEmail($grade['student_email']);
         $gradeDto->setExamDate($grade['exam_examDate']);
         $gradeDto->setDisciplineName($grade['discipline_name']);

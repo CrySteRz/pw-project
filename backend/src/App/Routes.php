@@ -21,24 +21,24 @@ return static function ($app) {
 
     $app->group('/teachers', function () use ($app): void {
         $app->get('/', User\GetAllTeachers::class);
-    });
-    // ->add(new AdminAuth());
+    })->add(new AdminAuth());
 
     $app->group('/disciplines', function () use ($app): void {
         $app->get('/', Discipline\GetAll::class);
+    });
+
+    $app->group('/disciplines', function () use ($app): void {
         $app->post('/', Discipline\Create::class);
         $app->patch('/{id}', Discipline\Update::class);
         $app->delete('/{id}', Discipline\Delete::class);
-    });
-    // ->add(new AdminAuth());
+    })->add(new AdminAuth());
 
-    $app->group('/teachers', function () use ($app): void {
-        $app->patch('/{id}', Grade\Update::class);
-    });
-    // ->add(new TeacherAuth());
+
+    $app->group('/students',function () use ($app): void {
+        $app->get('/', User\GetAllStudents::class);
+    })->add(new AdminAuth());
 
     $app->group('/students', function () use ($app): void {
-        $app->get('/', User\GetAllStudents::class);
         $app->get('/data', User\GetUserByEmail::class);
     })->add(new StudentAuth());
     
@@ -47,12 +47,15 @@ return static function ($app) {
         $app->patch('/', User\Update::class);
         $app->delete('/', User\Delete::class);
     });
-    // ->add(new AdminAuth());
    
+    $app->group('/grades', function () use ($app): void {
+        $app->patch('/', Grade\Update::class);
+    })->add(new TeacherAuth());
+
     $app->group('/grades', function () use ($app): void {
         $app->get('/', Grade\GetAll::class);
         $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
-    });
+    }); // mw pt authentication
 
     $app->group('/disciplines', function () use ($app): void {
         $app->get('/get-types', Discipline\GetDisciplineTypes::class);

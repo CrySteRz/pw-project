@@ -6,11 +6,23 @@ namespace App\Dtos;
 
 final class GradeDto
 {
+
+    public int $id;
     public string $email;
     public string $examDate;
     public string $disciplineName;
     public int  $gradeValue;
     public int $credits;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
     public function getEmail(): string
     {
