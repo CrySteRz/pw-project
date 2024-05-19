@@ -1,10 +1,10 @@
 <script>
     import { fetchWithAuth, jwtData } from "../../lib/utils";
-    import AdminLayout from "./AdminLayout.svelte";
+    import TeacherLayout from "./TeacherLayout.svelte";
 
     let grades = [];
     const studentData = jwtData();
-    fetchWithAuth(`/grades/`)
+    fetchWithAuth(`/grades/?teacher_email=${studentData.user_email}`)
         .then(response => response.json())
         .then(data => grades = data.message);
 </script>
@@ -14,7 +14,7 @@
     <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<AdminLayout>
+<TeacherLayout>
 <section>
     <table>
         <thead>
@@ -41,7 +41,7 @@
         </tbody>
     </table>
 </section>
-</AdminLayout>
+</TeacherLayout>
 
 <style>
 	table {

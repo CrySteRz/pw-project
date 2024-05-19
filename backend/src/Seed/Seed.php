@@ -111,8 +111,8 @@ $db->exec($insertRoleStudent);
 $insertUser1 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(1, 'ionut.blidaru02@e-uvt.ro', 3, 'Ionut', 'Blidaru', '1990-01-01T00:00:00+01:00', 'Romania', 'Timis', 'Timisoara', 'Oak Street 432', 0, '202035675542')";
 $insertUser2 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(2, 'cristian.gusatu02@e-uvt.ro', 3, 'Cristian', 'Gusatu', '1990-01-01T00:00:00+01:00', 'Romania', 'Timis', 'Timisoara', 'Daliei 2', 0, '074242422222')";
 $insertUser3 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(3, 'user3@example.com', 1, 'User', 'Three', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890123')";
-$insertUser4 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(4, 'user4@example.com', 2, 'User', 'Four', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890124')";
-$insertUser5 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(5, 'user5@example.com', 2, 'User', 'Five', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890125')";
+$insertUser5 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(4, 'bbub2242@gmail.com', 2, 'User', 'Five', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890125')";
+$insertUser4 = "INSERT INTO User (id, email, roleId, name, surname, birthDate, country, state, city, address, sex, CNP) VALUES(5, 'user4@example.com', 2, 'User', 'Four', '1990-01-01T00:00:00+01:00', 'Country', 'State', 'City', 'Street 123', 0, '1234567890124')";
 
 $db->exec($insertUser1);
 $db->exec($insertUser2);
@@ -192,6 +192,11 @@ $insertUserDiscipline6 = "INSERT INTO users_has_disciplines (id_user, id_discipl
 $insertUserDiscipline7 = "INSERT INTO users_has_disciplines (id_user, id_discipline) VALUES (1, 4)";
 $insertUserDiscipline8 = "INSERT INTO users_has_disciplines (id_user, id_discipline) VALUES (2, 4)";
 
+$insertUserDiscipline9 = "INSERT INTO users_has_disciplines (id_user, id_discipline) VALUES (4, 1)";
+$insertUserDiscipline10 = "INSERT INTO users_has_disciplines (id_user, id_discipline) VALUES (4, 2)";
+$insertUserDiscipline11 = "INSERT INTO users_has_disciplines (id_user, id_discipline) VALUES (4, 5)";
+
+
 $db->exec($insertUserDiscipline1);
 $db->exec($insertUserDiscipline2);
 $db->exec($insertUserDiscipline3);
@@ -200,6 +205,11 @@ $db->exec($insertUserDiscipline5);
 $db->exec($insertUserDiscipline6);
 $db->exec($insertUserDiscipline7);
 $db->exec($insertUserDiscipline8);
+
+$db->exec($insertUserDiscipline8);
+$db->exec($insertUserDiscipline9);
+$db->exec($insertUserDiscipline10);
+$db->exec($insertUserDiscipline11);
 
 
 

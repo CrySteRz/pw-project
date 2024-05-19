@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
-    import StudentLayout from './StudentLayout.svelte';
     import { fetchWithAuth, jwtData } from '../../lib/utils';
+    import TeacherLayout from './TeacherLayout.svelte';
 
 	let activeButton = 'mine';
     let disciplines = [];
@@ -29,7 +29,7 @@
             });
 
     // Fetch my disciplines
-    fetchWithAuth(`/disciplines/?student_email=${studentData.user_email}`)
+    fetchWithAuth(`/disciplines/?teacher_email=${studentData.user_email}`)
         .then(response => response.json())
         .then(data => {
             myDisciplines = data.message;
@@ -46,7 +46,7 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<StudentLayout>
+<TeacherLayout>
 
     <section class="flex flex-col gap-2">
         <div class="button-group">
@@ -99,7 +99,7 @@
         {/if}
         
     </section>
-</StudentLayout>
+</TeacherLayout>
     
     <style>
         .button-group {

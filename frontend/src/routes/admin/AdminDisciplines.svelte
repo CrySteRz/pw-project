@@ -9,7 +9,7 @@
     let token = getCookie('jwt');
     
 	onMount(() => {
-    fetchWithAuth('/admin/disciplines')
+    fetchWithAuth('/disciplines/')
         .then(response => response.json())
         .then(data => {
             disciplines = data.message;

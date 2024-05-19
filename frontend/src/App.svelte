@@ -9,6 +9,9 @@
   } from './routes';
     import HomeStudent from './routes/student/HomeStudent.svelte';
     import Logout from './routes/login/Logout.svelte';
+    import HomeTeacher from './routes/teacher/HomeTeacher.svelte';
+    import TeacherDiscipline from './routes/teacher/TeacherDiscipline.svelte';
+    import TeacherGrades from './routes/teacher/TeacherGrades.svelte';
     
   export let url = "";
 
@@ -40,6 +43,9 @@
     <Route path="/student/disciplines" component={StudentDisciplines} />
     <Route path="/student/grades" component={StudentGrades} />
     <Route path="/student" component={HomeStudent} />
+    <Route path="/teacher" component={HomeTeacher} />
+    <Route path="/teacher/disciplines" component={TeacherDiscipline} />
+    <Route path="/teacher/grades" component={TeacherGrades} />
     <Route path="/login" component={Login} />
     <Route path="/logout" component={Logout} />
     <Route path="/login/callback" component={Callback} />

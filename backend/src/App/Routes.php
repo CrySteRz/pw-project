@@ -22,12 +22,11 @@ return static function ($app) {
     $app->group('/admin', function () use ($app): void {
         $app->get('/students', User\GetAllStudents::class);
         $app->get('/teachers', User\GetAllTeachers::class);
-        $app->get('/disciplines', Discipline\GetAll::class);
-        $app->get('/grades', Grade\GetAll::class);
     });
     // ->add(new AdminAuth());
 
     $app->group('/disciplines', function () use ($app): void {
+        $app->get('/', Discipline\GetAll::class);
         $app->post('/', Discipline\Create::class);
         $app->patch('/{id}', Discipline\Update::class);
         $app->delete('/{id}', Discipline\Delete::class);
@@ -41,8 +40,6 @@ return static function ($app) {
 
     $app->group('/students', function () use ($app): void {
         $app->get('/data', User\GetUserByEmail::class);
-        $app->get('/disciplines', User\getDisciplinesByUserEmail::class);
-        $app->get('/grades', User\GetAllGradesByUserEmail::class);
     })->add(new StudentAuth());
     
     $app->group('/users', function () use ($app): void {
@@ -53,6 +50,7 @@ return static function ($app) {
     // ->add(new AdminAuth());
    
     $app->group('/grades', function () use ($app): void {
+        $app->get('/', Grade\GetAll::class);
         $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
     });
 

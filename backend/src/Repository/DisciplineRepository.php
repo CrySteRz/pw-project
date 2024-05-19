@@ -12,11 +12,35 @@ final class DisciplineRepository extends BaseRepository
     /**
      * @return array<string>
      */
-    public function getAllDisciplines(): array
+    public function getFiltered(?string $student_email = null, ?string $teacher_email = null): array
     {
-        $query = 'SELECT * FROM `Discipline` ORDER BY `id`';
+        $query = 'SELECT DISTINCT D.* FROM `Discipline` D
+        LEFT JOIN `users_has_disciplines` UHD ON D.id = UHD.id_discipline
+        LEFT JOIN `User` U ON UHD.id_user = U.id';
+        $params = [];
+        $conditions = [];
+
+        if ($student_email) {
+        $conditions[] = 'U.email = :student_email AND U.roleId = :student_roleId';
+        $params[':student_email'] = $student_email;
+        $params[':student_roleId'] = 3; // Assuming 1 is the roleId for students
+        }
+
+        if ($teacher_email) {
+        $conditions[] = 'U.email = :teacher_email AND U.roleId = :teacher_roleId';
+        $params[':teacher_email'] = $teacher_email;
+        $params[':teacher_roleId'] = 2; // Assuming 2 is the roleId for teachers
+        }
+
+        if ($conditions) {
+        $query .= ' WHERE ' . implode(' OR ', $conditions);
+        }
+
+        $query .= ' ORDER BY D.id';
+
+
         $statement = $this->getDb()->prepare($query);
-        $statement->execute();
+        $statement->execute($params);
         return (array) $statement->fetchAll();
     }
 

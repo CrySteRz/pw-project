@@ -10,15 +10,37 @@ use App\Dtos\GradeDto;
 final class GradeRepository extends BaseRepository
 {
 
-    public function getAllGrades(): array
+    public function getFiltered(?string $student_email = null, ?string $teacher_email = null): array
     {
-        $query = 'SELECT * FROM `Grade`
-        INNER JOIN User ON Grade.idUser = User.id
-        INNER JOIN Exam ON Grade.idExam = Exam.id
-        INNER JOIN Discipline ON Exam.idDiscipline = Discipline.id 
-        ORDER BY `id`';
+        $query = 'SELECT Grade.value, Student.email AS student_email, Teacher.email AS teacher_email,
+                    Exam.examDate AS exam_examDate, Discipline.name AS discipline_name, Discipline.credits AS discipline_credits
+                    FROM `Grade`
+                    INNER JOIN User AS Student ON Grade.idUser = Student.id
+                    INNER JOIN Exam ON Grade.idExam = Exam.id
+                    INNER JOIN Discipline ON Exam.idDiscipline = Discipline.id
+                    INNER JOIN users_has_disciplines UHD ON Discipline.id = UHD.id_discipline
+                    INNER JOIN User AS Teacher ON UHD.id_user = Teacher.id';
+        $params = [];
+        $conditions = [];
+
+        if ($student_email) {
+            $conditions[] = 'Student.email = :student_email';
+            $params[':student_email'] = $student_email;
+        }
+
+        if ($teacher_email) {
+            $conditions[] = 'Teacher.email = :teacher_email';
+            $params[':teacher_email'] = $teacher_email;
+        }
+
+        if ($conditions) {
+            $query .= ' WHERE ' . implode(' AND ', $conditions);
+        }
+
+        $query .= ' GROUP BY student_email, discipline_name, exam_examDate, Grade.value, discipline_credits';
+        $query .= ' ORDER BY Grade.id';
         $statement = $this->getDb()->prepare($query);
-        $statement->execute();
+        $statement->execute($params);
         $grades =  $statement->fetchAll();
         $gradeDtos = [];
         foreach ($grades as $grade) {
@@ -90,35 +112,15 @@ final class GradeRepository extends BaseRepository
         $statement->execute();
     }
 
-    public function getAllGradesByUserEmail(string $email) : array {
-        $query = "
-            SELECT Grade.*, User.email, Exam.examDate, Discipline.name, Discipline.credits
-            FROM Grade
-            INNER JOIN User ON Grade.idUser = User.id
-            INNER JOIN Exam ON Grade.idExam = Exam.id
-            INNER JOIN Discipline ON Exam.idDiscipline = Discipline.id
-            WHERE User.email = :email
-        ";
-        $statement = $this->getDb()->prepare($query);
-        $statement->bindParam(':email', $email);
-        $statement->execute();
-        $grades = $statement->fetchAll();
-        $gradeDtos = [];
-        foreach ($grades as $grade) {
-            $gradeDtos[] = $this->buildGradeDto($grade);
-        }
-        return $gradeDtos;
-    }
-
     private function buildGradeDto(array $grade): GradeDto
     {
 
         $gradeDto = new GradeDto();
-        $gradeDto->setEmail($grade['email'])
-                ->setExamDate($grade['examDate'])
-                ->setDisciplineName($grade['name'])
-                ->setGradeValue(intval($grade['value']))
-                ->setCredits(intval($grade['credits']));
+        $gradeDto->setEmail($grade['student_email']);
+        $gradeDto->setExamDate($grade['exam_examDate']);
+        $gradeDto->setDisciplineName($grade['discipline_name']);
+        $gradeDto->setGradeValue(intval($grade['value']));
+        $gradeDto->setCredits(intval($grade['discipline_credits']));
         return $gradeDto;
     }
 

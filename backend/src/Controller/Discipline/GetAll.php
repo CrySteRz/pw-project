@@ -32,9 +32,9 @@ final class GetAll extends Base
 {
     public function __invoke(Request $request, Response $response): Response
     {
-        //TODO: add pagination 
-        // $userId = $this->getAndValidateUserId($input);
-        $disciplines = $this->getDisciplineService()->getAll();
+        $student_email= $request->getQueryParams()['student_email'] ?? null;
+        $teacher_email= $request->getQueryParams()['teacher_email'] ?? null;
+        $disciplines = $this->getDisciplineService()->getFiltered($student_email, $teacher_email);
 
         return $this->jsonResponse($response, 'success', $disciplines, 200);
     }

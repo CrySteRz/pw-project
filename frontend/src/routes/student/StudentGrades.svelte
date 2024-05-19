@@ -4,7 +4,7 @@
 
     let grades = [];
     const studentData = jwtData();
-    fetchWithAuth(`/students/grades?email=${studentData.user_email}`)
+    fetchWithAuth(`/grades/?student_email=${studentData.user_email}`)
         .then(response => response.json())
         .then(data => grades = data.message);
 </script>

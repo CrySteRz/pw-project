@@ -23,9 +23,9 @@ final class DisciplineService extends Base
     /**
      * @return array<string>
      */
-    public function getAll(): array
+    public function getFiltered(?string $student_email, ?string $teacher_email): array
     {
-        return $this->getDisciplineRepository()->getAllDisciplines();
+        return $this->getDisciplineRepository()->getFiltered($student_email, $teacher_email);
     }
 
     public function getOne(int $disciplineId): object
