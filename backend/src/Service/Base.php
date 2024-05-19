@@ -11,13 +11,16 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Entity\Grade;
 use App\Repository\GradeRepository;
+use App\Entity\Exam;
+use App\Repository\ExamRepository;
 
 
 abstract class Base extends BaseService
 {
 
     public function __construct(
-        protected DisciplineRepository $disciplineRepository
+        protected DisciplineRepository $disciplineRepository,
+        protected ExamRepository $examRepository
     ) {
     }
 
@@ -36,4 +39,8 @@ abstract class Base extends BaseService
         return $this->userRepository;
     }
 
+    protected function getExamRepository(): ExamRepository
+    {
+        return $this->examRepository;
+    }
 }

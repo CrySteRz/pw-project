@@ -8,7 +8,7 @@ final class Exam
 {
     private int $id;
     private int $idDiscipline;
-    private date $examDate;
+    private \DateTime $examDate;
 
 
     public function toJson(): object
@@ -22,12 +22,18 @@ final class Exam
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getIdDiscipline(): int
     {
         return $this->idDiscipline;
     }
 
-    public function getExamDate(): DateTime
+    public function getExamDate(): \DateTime
     {
         return $this->examDate;
     }
@@ -38,7 +44,7 @@ final class Exam
         return $this;
     }
 
-    public function updateExamDate(DateTime $examDate): self
+    public function updateExamDate(\DateTime $examDate): self
     {
         $this->examDate = $examDate;
         return $this;

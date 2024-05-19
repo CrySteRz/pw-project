@@ -2,11 +2,17 @@
     import { onMount } from 'svelte';
     import AdminLayout from './AdminLayout.svelte';
     import { getCookie, fetchWithAuth } from '../../lib/utils.js';
+    import { DateInput } from 'date-picker-svelte'
+    import AutoComplete from "simple-svelte-autocomplete"
+	let examDate = new Date();
+
     let disciplines = [];
     let disciplineTypes = [];
     let deletingDiscipline = {'name': ''};
     let updatingDiscipline = {'name': ''};
     let token = getCookie('jwt');
+    let teacherEmails = [];
+let selectedTeacherEmail = '';
     
 	onMount(() => {
     fetchWithAuth('/disciplines/')
@@ -23,6 +29,15 @@
         .then(response => response.json())
         .then(data => {
             disciplineTypes = data.message;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+
+    fetchWithAuth('/teachers/')
+        .then(response => response.json())
+        .then(data => {
+            teacherEmails = data.message.map(teacher => teacher.email);
         })
         .catch(error => {
             console.error("Error:", error);
@@ -49,17 +64,20 @@ async function createDiscipline(disciplineDto) {
             event.target['input_credits'].value);
         disciplineDto.idDiscipline = Number.parseInt(
             event.target['input_disciplineType'].value);
+        disciplineDto.examDate = event.target['date_input_exam'].value;
+        disciplineDto.examDate = new Date(disciplineDto.examDate).toISOString();
+
+        disciplineDto.teacher_email = selectedTeacherEmail;
         return disciplineDto;
     }
 
-    function handleSubmit(event) {
+    function handleCreate(event) {
     event.preventDefault();
     
     let disciplineDto = GetDisciplineDto(event);
-
     createDiscipline(disciplineDto)
     .then(e => { 
-        window.location.reload();
+        // window.location.reload();
         console.log('Success:', e);
     })
     .catch(e => console.error('There was a problem with the request.', e));
@@ -162,10 +180,10 @@ async function deleteDiscipline() {
             </tbody>
         </table>    
 </section>
-<dialog id="my_modal_1" class="modal">
-    <div class="modal-box w-11/12 max-w-5xl">
+<dialog id="my_modal_1" class="modal" >
+    <div class="modal-box w-11/12 max-w-5xl " style="height:50vh"> 
       <h3 class="font-bold text-lg">Create student entry</h3>
-        <form method="dialog" class="modal-backdrop w-full" on:submit={handleSubmit}>
+        <form method="dialog" class="modal-backdrop w-full" on:submit={handleCreate}>
             <div class="grid grid-cols-2 gap-2 mb-2 ">
             <label class="input input-bordered flex items-center gap-2 text-black">
                 Discipline Name
@@ -178,12 +196,6 @@ async function deleteDiscipline() {
                 <input id="input_credits" type="text" value="" 
                 class="grow" placeholder="5" />
             </label>
-            <!-- <select id="input_disciplineType"  class="select select-bordered w-full">
-                <option disabled selected>Discipline type</option>
-                <option value="1">Optionala</option>
-                <option value="2">Facultativa</option>
-                <option value="3">Obligatorie </option>
-              </select> -->
 
               <select id="input_disciplineType"  class="select select-bordered w-full">
                 <option disabled selected>Discipline type</option>
@@ -191,8 +203,15 @@ async function deleteDiscipline() {
                     <option value={disciplineType.id}>{disciplineType.type}</option>
                 {/each}
               </select>
+              <DateInput id="date_input_exam" bind:value={examDate} />
+              <AutoComplete items="{teacherEmails}" bind:selectedItem="{selectedTeacherEmail}" />
+            </div>
+        <div class="h-full text-black bg-yellow-200 p-8 mb-2">
+            BUDGET PLACEHOLDER:
+            There is a problem with the date picker and new dialog component. z-index does not work as expected.
+            The dialog is implemented as always being on top layer.
         </div>
-        <div>
+        <div class="flex justify-end gap-2 mt-2">
             <button class="btn btn-secondary">Close</button>
             <button class="btn btn-primary" type="submit">Create</button>
         </div>
@@ -264,4 +283,5 @@ async function deleteDiscipline() {
     th {
         background-color: #f2f2f2;
     }
+    
 </style>

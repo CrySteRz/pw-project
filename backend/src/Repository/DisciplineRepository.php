@@ -85,6 +85,22 @@ final class DisciplineRepository extends BaseRepository
         return $discipline;
     }
 
+    public function AddTeacher($teacher_email, $disciplineId){
+        // Get the userId associated with the teacher_email
+        $query = "SELECT id FROM User WHERE email = :email";
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam(':email', $teacher_email);
+        $statement->execute();
+        $userId = $statement->fetchColumn();
+
+        // Insert a new row into the users_has_disciplines table
+        $query = "INSERT INTO users_has_disciplines (id_user, id_discipline) VALUES (:userId, :disciplineId)";
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam(':userId', $userId);
+        $statement->bindParam(':disciplineId', $disciplineId);
+        $statement->execute();
+    }
+
     public function update(Discipline $discipline, int $disciplineId): Discipline
     {
         $query = "UPDATE Discipline SET name = :name, idDiscipline = :idDiscipline, credits = :credits WHERE id = :disciplineId";

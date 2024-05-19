@@ -7,11 +7,16 @@ namespace App\Service;
 use App\Entity\Discipline;
 use App\Exception\Discipline as DisciplineException;
 use App\Repository\DisciplineRepository;
-
+use App\Entity\Exam;
+use App\Repository\ExamRepository;
+use App\Entity\Grade;
+use App\Repository\GradeRepository;
 final class DisciplineService extends Base
 {
     public function __construct(
-        protected DisciplineRepository $disciplineRepository
+        protected DisciplineRepository $disciplineRepository,
+        protected ExamRepository $examRepository,
+        protected GradeRepository $gradeRepository
     ) {
     }
 
@@ -40,8 +45,16 @@ final class DisciplineService extends Base
     public function create(array $input): object
     {
         $data = json_decode((string) json_encode($input), false);
+        $data->examDate = new \DateTime($data->examDate);
         $discipline = $this->createDiscipline($data);
         $discipline = $this->getDisciplineRepository()->create($discipline);
+        $this->getDisciplineRepository()->AddTeacher($data->teacher_email, $discipline->getId());
+        $exam = new Exam();
+        $exam->updateExamDate($data->examDate);
+        $exam->updateIdDiscipline($discipline->getId());
+        $exam = $this->getExamRepository()->create($exam);
+        $this->getGradeRepository()->FillGradesForExam($exam);
+
         return $discipline;
     }
 

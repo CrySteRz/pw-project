@@ -11,7 +11,9 @@ use Psr\Container\ContainerInterface;
 $container['discipline_service'] = static fn (
     ContainerInterface $container
 ): DisciplineService => new DisciplineService(
-    $container->get('discipline_repository')
+    $container->get('discipline_repository'),
+    $container->get('exam_repository'),
+    $container->get('grade_repository')
 );
 
 $container['grade_service'] = static fn (

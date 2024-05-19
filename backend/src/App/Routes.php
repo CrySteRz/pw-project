@@ -19,9 +19,8 @@ return static function ($app) {
     $app->post('/login', User\Login::class);
     $app->get('/openapi', '\App\Controller\DefaultController:getOpenApiDefinition');
 
-    $app->group('/admin', function () use ($app): void {
-        $app->get('/students', User\GetAllStudents::class);
-        $app->get('/teachers', User\GetAllTeachers::class);
+    $app->group('/teachers', function () use ($app): void {
+        $app->get('/', User\GetAllTeachers::class);
     });
     // ->add(new AdminAuth());
 
@@ -39,6 +38,7 @@ return static function ($app) {
     // ->add(new TeacherAuth());
 
     $app->group('/students', function () use ($app): void {
+        $app->get('/', User\GetAllStudents::class);
         $app->get('/data', User\GetUserByEmail::class);
     })->add(new StudentAuth());
     

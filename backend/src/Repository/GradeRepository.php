@@ -49,6 +49,30 @@ final class GradeRepository extends BaseRepository
         return $gradeDtos;
     }
 
+
+    public function FillGradesForExam($exam){
+        // Fetch all users that are students
+        $query = "SELECT id FROM User WHERE roleId = 3";
+        $statement = $this->getDb()->prepare($query);
+        $statement->execute();
+        $students = $statement->fetchAll();
+
+        // Insert a new row into the grades table for each student
+        $query = "INSERT INTO Grade (idUser, idExam, value) VALUES (:userId, :idExam, :value)";
+        $statement = $this->getDb()->prepare($query);
+        $idExam = $exam->getId();
+        $value = 0;
+        $statement->bindParam(':idExam', $idExam);
+        $statement->bindParam(':value', $value);
+
+        
+        foreach ($students as $studentId) {
+            $id_stud = $studentId['id'];
+            $statement->bindParam(':userId', $id_stud);
+            $statement->execute();
+        }
+    }
+
     public function getAllGradesByUserId(int $userId) : array
     {
         $query = "SELECT * FROM Grade WHERE idUser = :userId";
