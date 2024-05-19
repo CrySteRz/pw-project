@@ -6,7 +6,7 @@ namespace App\Dtos;
 
 /**
  * @OA\Schema(
- *     title="User",
+ *     title="UserDTO",
  *     description="User entity",
  *     required={"id", "email", "name", "surname", "birthDate", "country", "state", "city", "address", "sex", "CNP", "roleId", "google_id"}
  * )

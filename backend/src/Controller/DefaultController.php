@@ -14,6 +14,7 @@ final class DefaultController extends BaseController
 
 /**
  * @OA\Get(
+ *    tags={"Default"},
  *     path="/",
  *     summary="Get API version information",
  *     description="Gets the current version of the API along with the timestamp.",

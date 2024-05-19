@@ -9,7 +9,7 @@ use App\Exception\Discipline;
 use App\Service\DisciplineService;
 
 /**
- * @OA\Server(url="http://localhost:8080")
+ * @OA\Server(url="http://localhost:8081")
  * @OA\Info(
  *     title="New StudentWeb",
  *     version="1.0.0",
@@ -22,19 +22,5 @@ abstract class Base extends BaseController
     {
         
         return $this->container->get('discipline_service');
-    }
-
-    /**
-     * @param array<object> $input
-     */
-    protected function getAndValidateUserId(array $input): int
-    {
-        // if (isset($input['decoded']) && isset($input['decoded']->sub)) {
-        //     return (int) $input['decoded']->sub;
-        // }
-
-        // throw new User('Invalid user. Permission failed.', 400);
-
-        return "1234567890";
     }
 }

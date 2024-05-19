@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  use App\Controller\Discipline;
  use App\Controller\Grade;
  use App\Controller\User;
- use App\Middleware\{Auth, StudentAuth, TeacherAuth, AdminAuth}; // Le folosesti de aici pentru ce ai nevoie all of them work Auth e middleware general si restul sunt pentru roluri
+ use App\Middleware\{Auth, StudentAuth, TeacherAuth, AdminAuth};
  
 
  use OpenApi\Annotations as OA;
@@ -54,7 +54,6 @@ return static function ($app) {
 
     $app->group('/grades', function () use ($app): void {
         $app->get('/', Grade\GetAll::class);
-        $app->get('/?studentId={stud_id}&examId={exam_id}', Grade\GetOne::class);
     })->add(new Auth());
 
     $app->group('/disciplines', function () use ($app): void {

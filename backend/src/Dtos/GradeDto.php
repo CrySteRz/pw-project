@@ -4,6 +4,47 @@ declare(strict_types=1);
 
 namespace App\Dtos;
 
+/**
+ * @OA\Schema(
+ *     schema="GradeDTO",
+ *     required={"id", "email", "examDate", "disciplineName", "gradeValue", "credits"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         format="int64",
+ *         description="The unique identifier of the grade"
+ *     ),
+ *     @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         description="The email of the student"
+ *     ),
+ *     @OA\Property(
+ *         property="examDate",
+ *         type="string",
+ *         format="date",
+ *         description="The date of the exam"
+ *     ),
+ *     @OA\Property(
+ *         property="disciplineName",
+ *         type="string",
+ *         description="The name of the discipline"
+ *     ),
+ *     @OA\Property(
+ *         property="gradeValue",
+ *         type="integer",
+ *         format="int64",
+ *         description="The value of the grade"
+ *     ),
+ *     @OA\Property(
+ *         property="credits",
+ *         type="integer",
+ *         format="int64",
+ *         description="The number of credits"
+ *     )
+ * )
+ */
+
 final class GradeDto
 {
 

@@ -8,7 +8,65 @@ use Slim\Http\Response;
 use Google\Client as Google_Client;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client as GuzzleClient;
-class Login extends Base
+
+/**
+ * @OA\Post(
+ *     tags={"Auth"},
+ *     path="/login",
+ *     summary="Login a user",
+ *     description="Logs in a user with the provided Google Auth code.",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="Google Auth code",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 type="object",
+ *                 @OA\Property(
+ *                     property="code",
+ *                     type="string",
+ *                     description="Google Auth code"
+ *                 ),
+ *                 example={"code": "4/aBcD1234efGhIjKlMnOpQRsTuVwXyZ"}
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User logged in successfully",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(
+ *                 property="user_complete_name",
+ *                 type="string"
+ *             ),
+ *             @OA\Property(
+ *                 property="user_email",
+ *                 type="string"
+ *             ),
+ *             @OA\Property(
+ *                 property="exp",
+ *                 type="integer",
+ *                 format="int64"
+ *             ),
+ *             @OA\Property(
+ *                 property="role",
+ *                 type="integer",
+ *                 format="int32"
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Bad request"
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="User not found"
+ *     )
+ * )
+ */
+final class Login extends Base
 {
     public function __invoke(Request $request, Response $response): Response{
     

@@ -4,6 +4,31 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+/**
+ * @OA\Schema(
+ *     schema="Exam",
+ *     required={"id", "idDiscipline", "examDate"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         format="int64",
+ *         description="The unique identifier of the exam"
+ *     ),
+ *     @OA\Property(
+ *         property="idDiscipline",
+ *         type="integer",
+ *         format="int64",
+ *         description="The unique identifier of the discipline"
+ *     ),
+ *     @OA\Property(
+ *         property="examDate",
+ *         type="string",
+ *         format="date",
+ *         description="The date of the exam"
+ *     )
+ * )
+ */
+
 final class Exam
 {
     private int $id;

@@ -10,8 +10,8 @@ use Slim\Http\Response;
 
 /**
  * @OA\Get(
- *     tags={"Users"},
- *     path="/users/teacher",
+ *     tags={"Teachers"},
+ *     path="/teachers/",
  *     summary="Get all teachers",
  *     description="Retrieves a list of all users with the teacher role.",
  *     @OA\Response(

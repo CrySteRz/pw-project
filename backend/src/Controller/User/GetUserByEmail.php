@@ -9,13 +9,13 @@ use Slim\Http\Response;
 
 /**
  * @OA\Get(
- *     tags={"Users"},
- *     path="/users/{id}",
- *     summary="Get user by ID",
+ *     tags={"Students"},
+ *     path="/students/data",
+ *     summary="Get student by email",
  *     description="Retrieves a user by their ID.",
  *     @OA\Parameter(
  *         name="id",
- *         in="path",
+ *         in="query",
  *         required=true,
  *         description="ID of the user to retrieve",
  *         @OA\Schema(
@@ -34,6 +34,7 @@ use Slim\Http\Response;
  *     )
  * )
  */
+
 final class GetUserByEmail extends Base
 {
     public function __invoke(Request $request, Response $response): Response

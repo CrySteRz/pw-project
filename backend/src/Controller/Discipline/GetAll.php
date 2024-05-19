@@ -14,6 +14,20 @@ use Slim\Http\Response;
  *     path="/disciplines/",
  *     summary="Get all disciplines",
  *     description="Retrieves a list of all disciplines.",
+ *     @OA\Parameter(
+ *         name="student_email",
+ *         in="query",
+ *         description="Email of the student",
+ *         required=false,
+ *         @OA\Schema(type="string")
+ *     ),
+ *     @OA\Parameter(
+ *         name="teacher_email",
+ *         in="query",
+ *         description="Email of the teacher",
+ *         required=false,
+ *         @OA\Schema(type="string")
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="List of all disciplines",
@@ -28,6 +42,7 @@ use Slim\Http\Response;
  *     )
  * )
  */
+
 final class GetAll extends Base
 {
     public function __invoke(Request $request, Response $response): Response

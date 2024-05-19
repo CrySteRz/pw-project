@@ -11,12 +11,12 @@ use Slim\Http\Response;
 /**
  * @OA\Delete(
  *     tags={"Users"},
- *     path="/users/{id}",
+ *     path="/users/",
  *     summary="Delete user by ID",
  *     description="Deletes a user by their ID",
  *     @OA\Parameter(
  *         name="id",
- *         in="path",
+ *         in="query",
  *         required=true,
  *         description="ID of the user to delete",
  *         @OA\Schema(type="integer", format="int64")

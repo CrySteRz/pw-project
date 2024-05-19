@@ -4,6 +4,24 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+/**
+ * @OA\Schema(
+ *     schema="DisciplineType",
+ *     required={"id", "type"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         format="int64",
+ *         description="The unique identifier of the discipline type"
+ *     ),
+ *     @OA\Property(
+ *         property="type",
+ *         type="string",
+ *         description="The type of the discipline"
+ *     )
+ * )
+ */
+
 final class DisciplineType
 {
     private int $id;
