@@ -89,4 +89,9 @@ final class GradeService extends Base
         }
         return $grade;
     }
+
+    public function updateWithCsv($csvData) {
+        return $this->getGradeRepository()->updateWithCsv($csvData);
+    }
+
 }

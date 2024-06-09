@@ -50,6 +50,7 @@ return static function ($app) {
    
     $app->group('/grades', function () use ($app): void {
         $app->patch('/', Grade\Update::class);
+        $app->post('/csv', Grade\UpdateWithCsv::class);
     })->add(new TeacherAuth());
 
     $app->group('/grades', function () use ($app): void {

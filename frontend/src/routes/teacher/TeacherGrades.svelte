@@ -37,6 +37,36 @@
         grade_id = grade.id;
         document.getElementById('modal_update_grade').showModal();
     }
+
+    function exportToCSV() {
+    let data = Array.from(document.querySelector('#gradesTableTeacher').rows).map(row => Array.from(row.cells).slice(0, -1).map(cell => cell.innerText));
+    let csvContent = "data:text/csv;charset=utf-8," + data.map(e => e.join(",")).join("\n");
+    let encodedUri = encodeURI(csvContent);
+    let link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "grades.csv");
+    document.body.appendChild(link); // Required for Firefox
+    link.click();  // This will download the data file named "grades.csv".
+    }
+
+    async function importCSV() {
+        const csvFile = document.getElementById('csvFile').files[0];
+        const formData = new FormData();
+        formData.append('file', csvFile);
+
+        const response = await fetchWithAuth('/grades/csv', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+           console.log('Error importing CSV file')
+           console.log(response)
+        }
+
+        window.location.reload();
+    }
+    
 </script>
 
 <svelte:head>
@@ -46,7 +76,13 @@
 
 <TeacherLayout>
 <section>
-    <table>
+    <div class="mb-2 flex gap-2">
+        <button class="btn btn-primary" on:click={exportToCSV}>Export to CSV</button>
+        <button class="btn btn-primary" on:click={() => document.getElementById('importModal').showModal()}>Import from CSV</button>
+
+        </div>
+
+    <table id="gradesTableTeacher">
         <thead>
             <tr>
                 <th>Student email</th>
@@ -91,7 +127,20 @@
         </form>
     </div>
   </dialog>
-
+  <dialog id="importModal" class="modal">
+    <div class="modal-box w-11/12 max-w-md">
+        <form on:submit|preventDefault={importCSV}>
+    <div class="flex flex-col gap-2">
+        <label for="csvFile">Choose a CSV file to import</label>
+    <input type="file" id="csvFile" accept=".csv"/>
+</div>
+<div class="flex justify-end gap-2">
+    <button type="button" class="btn btn-secondary" on:click={() => document.getElementById('importModal').close()}>Close</button>
+    <button class="btn btn-primary">Update</button>
+</div>  
+</form>
+</div>
+</dialog>
 <style>
 	table {
         width: 100%;

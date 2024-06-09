@@ -158,4 +158,63 @@ final class GradeRepository extends BaseRepository
         return $gradeDto;
     }
 
+    public function updateWithCsv($csvData) {
+        // Skip the header row
+        array_shift($csvData);
+
+        foreach ($csvData as $row) {
+            $email = $row[0];
+            $disciplineName = $row[1];
+            $examDate = new \DateTime($row[2]);
+            $gradeValue = intval($row[3]);
+    
+            // Find the id of the User with the given email
+            $query = 'SELECT id FROM User WHERE email = :email';
+            $statement = $this->getDb()->prepare($query);
+            $statement->bindParam('email', $email);
+            $statement->execute();
+            $user = $statement->fetch();
+            $idUser = $user['id'];
+            // print_r("\n\n===START idUser===\n\n");
+            // print_r($idUser);
+            // print_r("\n\n===END idUser===\n\n");
+            // Find the id of the Discipline with the given name
+            $query = 'SELECT id FROM Discipline WHERE name = :name';
+            $statement = $this->getDb()->prepare($query);
+            $statement->bindParam('name', $disciplineName);
+            $statement->execute();
+            $discipline = $statement->fetch();
+            $idDiscipline = $discipline['id'];
+            // print_r("\n\n===START idDiscipline===\n\n");
+            // print_r($idDiscipline);
+            // print_r("\n\n===END idDiscipline===\n\n");
+    
+            // Find the id of the Exam with the given idDiscipline and examDate
+            $query = 'SELECT id FROM Exam WHERE idDiscipline = :idDiscipline AND examDate = :examDate';
+            $statement = $this->getDb()->prepare($query);
+            $statement->bindParam('idDiscipline', $idDiscipline);
+            $examDateString = $examDate->format('Y-m-d');
+            $statement->bindParam('examDate', $examDateString);
+            $statement->execute();
+            $exam = $statement->fetch();
+            // print_r("\n\n===START exam===\n\n");
+            // print_r($exam);
+            // print_r("\n\n \n\n");
+            // print_r($examDateString);
+            // print_r(" ".$idDiscipline);
+            // print_r("\n\n \n\n");
+            // print_r("\n\n===END exam===\n\n");
+            $idExam = $exam['id'];
+    
+            // Update the Grade with the given idUser, idExam, and value
+            $query = 'UPDATE Grade SET value = :value WHERE idUser = :idUser AND idExam = :idExam';
+            $statement = $this->getDb()->prepare($query);
+            $statement->bindParam('value', $gradeValue);
+            $statement->bindParam('idUser', $idUser);
+            $statement->bindParam('idExam', $idExam);
+            $statement->execute();
+        }
+        return "";
+    }
+
 }
