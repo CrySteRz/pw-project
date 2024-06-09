@@ -10,7 +10,7 @@ use Slim\Http\Response;
 /**
  * @OA\Patch(
  *     tags={"Grades"},
- *     path="/grades/update",
+ *     path="/grades/",
  *     summary="Update a grade",
  *     description="Updates a grade with the provided data.",
  *     @OA\RequestBody(

@@ -1,948 +1,998 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "New StudentWeb",
-    "description": "API for maintaining and showing academic status at the university",
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://localhost:8081"
-    }
-  ],
-  "paths": {
-    "/": {
-      "get": {
-        "tags": ["Default"],
-        "summary": "Get API version information",
-        "description": "Gets the current version of the API along with the timestamp.",
-        "operationId": "3caa474211581124fee57069f18130e9",
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "version": {
-                      "type": "string",
-                      "example": "1.0.0"
-                    },
-                    "timestamp": {
-                      "type": "integer",
-                      "example": 1646744833
+    "openapi": "3.0.0",
+    "info": {
+        "title": "New StudentWeb",
+        "description": "API for maintaining and showing academic status at the university",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8081"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "Default"
+                ],
+                "summary": "Get API version information",
+                "description": "Gets the current version of the API along with the timestamp.",
+                "operationId": "3caa474211581124fee57069f18130e9",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "version": {
+                                            "type": "string",
+                                            "example": "1.0.0"
+                                        },
+                                        "timestamp": {
+                                            "type": "integer",
+                                            "example": 1646744833
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                  },
-                  "type": "object"
                 }
-              }
             }
-          }
-        }
-      }
-    },
-    "/disciplines/": {
-      "get": {
-        "tags": ["Disciplines"],
-        "summary": "Get all disciplines",
-        "description": "Retrieves a list of all disciplines.",
-        "operationId": "2e066c598a0c01bbd40a8305608f68f7",
-        "parameters": [
-          {
-            "name": "student_email",
-            "in": "query",
-            "description": "Email of the student",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "teacher_email",
-            "in": "query",
-            "description": "Email of the teacher",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of all disciplines",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Discipline"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      },
-      "post": {
-        "tags": ["Disciplines"],
-        "summary": "Create a new discipline",
-        "description": "Creates a new discipline with the provided data.",
-        "operationId": "17f0f213d8c3facf5a72ee97c26f2a9a",
-        "requestBody": {
-          "description": "Discipline data to create",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Discipline"
-              }
-            }
-          }
         },
-        "responses": {
-          "200": {
-            "description": "Discipline created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Discipline"
+        "/disciplines/": {
+            "get": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Get all disciplines",
+                "description": "Retrieves a list of all disciplines.",
+                "operationId": "2e066c598a0c01bbd40a8305608f68f7",
+                "parameters": [
+                    {
+                        "name": "student_email",
+                        "in": "query",
+                        "description": "Email of the student",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "teacher_email",
+                        "in": "query",
+                        "description": "Email of the teacher",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all disciplines",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Discipline"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
                 }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/disciplines/{id}": {
-      "delete": {
-        "tags": ["Disciplines"],
-        "summary": "Delete discipline by ID",
-        "description": "Deletes a discipline by its ID.",
-        "operationId": "8ebf3d03e218b984e6048e683b3e87ca",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of the discipline to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Discipline deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Discipline"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Discipline not found"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Disciplines"],
-        "summary": "Partially update discipline by ID",
-        "description": "Updates a discipline by its ID.",
-        "operationId": "0b532224b607050756734b24b95c027a",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of the discipline",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Discipline object to be updated",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Discipline"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Discipline updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Discipline"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Discipline not found"
-          }
-        }
-      }
-    },
-    "/discipline/get-types": {
-      "get": {
-        "tags": ["Disciplines"],
-        "summary": "Get all discipline types",
-        "description": "Retrieves a list of all discipline types.",
-        "operationId": "6fe3380ff9f14878dd07a7fface683f1",
-        "responses": {
-          "200": {
-            "description": "List of all discipline types",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DisciplineType"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/grades/": {
-      "get": {
-        "tags": ["Grades"],
-        "summary": "Get all grades",
-        "description": "Retrieves a list of all grades, optionally filtered by student and teacher email.",
-        "operationId": "ff46eb2b94d0c77157e789cfca0fd2fa",
-        "parameters": [
-          {
-            "name": "student_email",
-            "in": "query",
-            "description": "Email of the student",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "teacher_email",
-            "in": "query",
-            "description": "Email of the teacher",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of all grades",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Grade"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/grades/update": {
-      "patch": {
-        "tags": ["Grades"],
-        "summary": "Update a grade",
-        "description": "Updates a grade with the provided data.",
-        "operationId": "9d57ebfdfc42f618e2265077b062a87c",
-        "requestBody": {
-          "description": "Grade data to update",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Grade"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Grade updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Grade"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "Grade not found"
-          }
-        }
-      }
-    },
-    "/users/": {
-      "post": {
-        "tags": ["Users"],
-        "summary": "Create a new user",
-        "description": "Creates a new user with the provided data.",
-        "operationId": "2f08ed52263612a5e06a991f39aadaa6",
-        "requestBody": {
-          "description": "User data to create",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Users"],
-        "summary": "Delete user by ID",
-        "description": "Deletes a user by their ID",
-        "operationId": "268afe7dff73419e20757c256320c031",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "description": "ID of the user to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Users"],
-        "summary": "Update a user",
-        "description": "Updates a user with the provided data.",
-        "operationId": "e8b5531a5a433e38c1c0ec3018f45e7d",
-        "parameters": [
-          {
-            "name": "email",
-            "in": "query",
-            "description": "Email of the user to update",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "User data to update",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      }
-    },
-    "/students/": {
-      "get": {
-        "tags": ["Students"],
-        "summary": "Get all students",
-        "description": "Retrieves a list of all users with the student role.",
-        "operationId": "bf05430e093f0b959801f3266963889f",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "No students found"
-          }
-        }
-      }
-    },
-    "/teachers/": {
-      "get": {
-        "tags": ["Teachers"],
-        "summary": "Get all teachers",
-        "description": "Retrieves a list of all users with the teacher role.",
-        "operationId": "dfe21381eaa87163939349a9a8f796f4",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "No teachers found"
-          }
-        }
-      }
-    },
-    "/students/data": {
-      "get": {
-        "tags": ["Students"],
-        "summary": "Get student by email",
-        "description": "Retrieves a user by their ID.",
-        "operationId": "628771e10b54b308b2c5d11e288467c9",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "description": "ID of the user to retrieve",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      }
-    },
-    "/login": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Login a user",
-        "description": "Logs in a user with the provided Google Auth code.",
-        "operationId": "bf34df40214ff5292d2ced0a491d9017",
-        "requestBody": {
-          "description": "Google Auth code",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "code": {
-                    "description": "Google Auth code",
-                    "type": "string"
-                  }
+            },
+            "post": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Create a new discipline",
+                "description": "Creates a new discipline with the provided data.",
+                "operationId": "17f0f213d8c3facf5a72ee97c26f2a9a",
+                "requestBody": {
+                    "description": "Discipline data to create",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Discipline"
+                            }
+                        }
+                    }
                 },
-                "type": "object",
-                "example": {
-                  "code": "4/aBcD1234efGhIjKlMnOpQRsTuVwXyZ"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User logged in successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "user_complete_name": {
-                      "type": "string"
+                "responses": {
+                    "200": {
+                        "description": "Discipline created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
                     },
-                    "user_email": {
-                      "type": "string"
-                    },
-                    "exp": {
-                      "type": "integer",
-                      "format": "int64"
-                    },
-                    "role": {
-                      "type": "integer",
-                      "format": "int32"
+                    "400": {
+                        "description": "Bad request"
                     }
-                  },
-                  "type": "object"
                 }
-              }
             }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "User not found"
-          }
+        },
+        "/disciplines/{id}": {
+            "delete": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Delete discipline by ID",
+                "description": "Deletes a discipline by its ID.",
+                "operationId": "8ebf3d03e218b984e6048e683b3e87ca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the discipline to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Discipline deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Discipline not found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Partially update discipline by ID",
+                "description": "Updates a discipline by its ID.",
+                "operationId": "0b532224b607050756734b24b95c027a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the discipline",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Discipline object to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Discipline"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Discipline updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Discipline not found"
+                    }
+                }
+            }
+        },
+        "/discipline/get-types": {
+            "get": {
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Get all discipline types",
+                "description": "Retrieves a list of all discipline types.",
+                "operationId": "6fe3380ff9f14878dd07a7fface683f1",
+                "responses": {
+                    "200": {
+                        "description": "List of all discipline types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DisciplineType"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/grades/": {
+            "get": {
+                "tags": [
+                    "Grades"
+                ],
+                "summary": "Get all grades",
+                "description": "Retrieves a list of all grades, optionally filtered by student and teacher email.",
+                "operationId": "ff46eb2b94d0c77157e789cfca0fd2fa",
+                "parameters": [
+                    {
+                        "name": "student_email",
+                        "in": "query",
+                        "description": "Email of the student",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "teacher_email",
+                        "in": "query",
+                        "description": "Email of the teacher",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all grades",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Grade"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Grades"
+                ],
+                "summary": "Update a grade",
+                "description": "Updates a grade with the provided data.",
+                "operationId": "082f5074e96f28ff2178acacc5f8c382",
+                "requestBody": {
+                    "description": "Grade data to update",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Grade"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Grade updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Grade"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Grade not found"
+                    }
+                }
+            }
+        },
+        "/users/": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "description": "Creates a new user with the provided data.",
+                "operationId": "2f08ed52263612a5e06a991f39aadaa6",
+                "requestBody": {
+                    "description": "User data to create",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user by ID",
+                "description": "Deletes a user by their ID",
+                "operationId": "268afe7dff73419e20757c256320c031",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID of the user to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update a user",
+                "description": "Updates a user with the provided data.",
+                "operationId": "e8b5531a5a433e38c1c0ec3018f45e7d",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email of the user to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "User data to update",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/students/": {
+            "get": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Get all students",
+                "description": "Retrieves a list of all users with the student role.",
+                "operationId": "bf05430e093f0b959801f3266963889f",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No students found"
+                    }
+                }
+            }
+        },
+        "/teachers/": {
+            "get": {
+                "tags": [
+                    "Teachers"
+                ],
+                "summary": "Get all teachers",
+                "description": "Retrieves a list of all users with the teacher role.",
+                "operationId": "dfe21381eaa87163939349a9a8f796f4",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No teachers found"
+                    }
+                }
+            }
+        },
+        "/students/data": {
+            "get": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Get student by email",
+                "description": "Retrieves a user by their ID.",
+                "operationId": "628771e10b54b308b2c5d11e288467c9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID of the user to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login a user",
+                "description": "Logs in a user with the provided Google Auth code.",
+                "operationId": "bf34df40214ff5292d2ced0a491d9017",
+                "requestBody": {
+                    "description": "Google Auth code",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "code": {
+                                        "description": "Google Auth code",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "code": "4/aBcD1234efGhIjKlMnOpQRsTuVwXyZ"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user_complete_name": {
+                                            "type": "string"
+                                        },
+                                        "user_email": {
+                                            "type": "string"
+                                        },
+                                        "exp": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        },
+                                        "role": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
         }
-      }
+    },
+    "components": {
+        "schemas": {
+            "DisciplineTypeDTO": {
+                "required": [
+                    "id",
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the discipline type",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "type": {
+                        "description": "The type of the discipline",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "GradeDTO": {
+                "required": [
+                    "id",
+                    "email",
+                    "examDate",
+                    "disciplineName",
+                    "gradeValue",
+                    "credits"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the grade",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "email": {
+                        "description": "The email of the student",
+                        "type": "string"
+                    },
+                    "examDate": {
+                        "description": "The date of the exam",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "disciplineName": {
+                        "description": "The name of the discipline",
+                        "type": "string"
+                    },
+                    "gradeValue": {
+                        "description": "The value of the grade",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "credits": {
+                        "description": "The number of credits",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "type": "object"
+            },
+            "UserData": {
+                "title": "UserDTO",
+                "description": "User entity",
+                "required": [
+                    "id",
+                    "email",
+                    "name",
+                    "surname",
+                    "birthDate",
+                    "country",
+                    "state",
+                    "city",
+                    "address",
+                    "sex",
+                    "CNP",
+                    "roleId",
+                    "google_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier for the user",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "email": {
+                        "description": "The email address of the user",
+                        "type": "string",
+                        "example": "john.doe@example.com",
+                        "nullable": true
+                    },
+                    "name": {
+                        "description": "The first name of the user",
+                        "type": "string",
+                        "example": "John",
+                        "nullable": true
+                    },
+                    "surname": {
+                        "description": "The last name of the user",
+                        "type": "string",
+                        "example": "Doe",
+                        "nullable": true
+                    },
+                    "birthDate": {
+                        "description": "The birth date of the user",
+                        "type": "string",
+                        "example": "1990-01-01",
+                        "nullable": true
+                    },
+                    "country": {
+                        "description": "The country of the user",
+                        "type": "string",
+                        "example": "United States",
+                        "nullable": true
+                    },
+                    "state": {
+                        "description": "The state of the user",
+                        "type": "string",
+                        "example": "California",
+                        "nullable": true
+                    },
+                    "city": {
+                        "description": "The city of the user",
+                        "type": "string",
+                        "example": "Los Angeles",
+                        "nullable": true
+                    },
+                    "address": {
+                        "description": "The address of the user",
+                        "type": "string",
+                        "example": "123 Main Street",
+                        "nullable": true
+                    },
+                    "sex": {
+                        "description": "The sex of the user",
+                        "type": "boolean",
+                        "example": true,
+                        "nullable": true
+                    },
+                    "CNP": {
+                        "description": "The CNP (personal identification number) of the user",
+                        "type": "string",
+                        "example": "1234567890123",
+                        "nullable": true
+                    },
+                    "roleId": {
+                        "description": "The role ID of the user",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "google_id": {
+                        "description": "The google unique id of the user",
+                        "type": "string",
+                        "example": "7182471293561238974102742010457",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Discipline": {
+                "title": "Discipline",
+                "description": "Discipline entity",
+                "required": [
+                    "id",
+                    "name",
+                    "credits"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier for the discipline",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "The name of the discipline",
+                        "type": "string"
+                    },
+                    "credits": {
+                        "description": "The number of credits associated with the discipline",
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "idDiscipline": {
+                        "description": "The unique identifier for the discipline (if different from 'id')",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1001
+                    }
+                },
+                "type": "object"
+            },
+            "DisciplineType": {
+                "required": [
+                    "id",
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the discipline type",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "type": {
+                        "description": "The type of the discipline",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Exam": {
+                "required": [
+                    "id",
+                    "idDiscipline",
+                    "examDate"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the exam",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "idDiscipline": {
+                        "description": "The unique identifier of the discipline",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "examDate": {
+                        "description": "The date of the exam",
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object"
+            },
+            "Grade": {
+                "title": "Grade",
+                "description": "Grade entity",
+                "required": [
+                    "id",
+                    "idExam",
+                    "idUser",
+                    "value"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier for the grade",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "idExam": {
+                        "description": "The unique identifier for the exam associated with the grade",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1001
+                    },
+                    "idUser": {
+                        "description": "The unique identifier for the user associated with the grade",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 2001
+                    },
+                    "value": {
+                        "description": "The value of the grade",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 85
+                    }
+                },
+                "type": "object"
+            },
+            "Role": {
+                "required": [
+                    "id",
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the role",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "type": {
+                        "description": "The type of the role",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User entity",
+                "required": [
+                    "id",
+                    "email",
+                    "name",
+                    "surname",
+                    "birthDate",
+                    "country",
+                    "state",
+                    "city",
+                    "address",
+                    "sex",
+                    "CNP",
+                    "roleId",
+                    "google_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier for the user",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "email": {
+                        "description": "The email address of the user",
+                        "type": "string",
+                        "example": "john.doe@example.com",
+                        "nullable": true
+                    },
+                    "name": {
+                        "description": "The first name of the user",
+                        "type": "string",
+                        "example": "John",
+                        "nullable": true
+                    },
+                    "surname": {
+                        "description": "The last name of the user",
+                        "type": "string",
+                        "example": "Doe",
+                        "nullable": true
+                    },
+                    "birthDate": {
+                        "description": "The birth date of the user",
+                        "type": "string",
+                        "example": "1990-01-01",
+                        "nullable": true
+                    },
+                    "country": {
+                        "description": "The country of the user",
+                        "type": "string",
+                        "example": "United States",
+                        "nullable": true
+                    },
+                    "state": {
+                        "description": "The state of the user",
+                        "type": "string",
+                        "example": "California",
+                        "nullable": true
+                    },
+                    "city": {
+                        "description": "The city of the user",
+                        "type": "string",
+                        "example": "Los Angeles",
+                        "nullable": true
+                    },
+                    "address": {
+                        "description": "The address of the user",
+                        "type": "string",
+                        "example": "123 Main Street",
+                        "nullable": true
+                    },
+                    "sex": {
+                        "description": "The sex of the user",
+                        "type": "boolean",
+                        "example": true,
+                        "nullable": true
+                    },
+                    "CNP": {
+                        "description": "The CNP (personal identification number) of the user",
+                        "type": "string",
+                        "example": "1234567890123",
+                        "nullable": true
+                    },
+                    "roleId": {
+                        "description": "The role ID of the user",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "google_id": {
+                        "description": "The google unique id of the user",
+                        "type": "string",
+                        "example": "7182471293561238974102742010457",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            }
+        }
     }
-  },
-  "components": {
-    "schemas": {
-      "DisciplineTypeDTO": {
-        "required": ["id", "type"],
-        "properties": {
-          "id": {
-            "description": "The unique identifier of the discipline type",
-            "type": "integer",
-            "format": "int64"
-          },
-          "type": {
-            "description": "The type of the discipline",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "GradeDTO": {
-        "required": [
-          "id",
-          "email",
-          "examDate",
-          "disciplineName",
-          "gradeValue",
-          "credits"
-        ],
-        "properties": {
-          "id": {
-            "description": "The unique identifier of the grade",
-            "type": "integer",
-            "format": "int64"
-          },
-          "email": {
-            "description": "The email of the student",
-            "type": "string"
-          },
-          "examDate": {
-            "description": "The date of the exam",
-            "type": "string",
-            "format": "date"
-          },
-          "disciplineName": {
-            "description": "The name of the discipline",
-            "type": "string"
-          },
-          "gradeValue": {
-            "description": "The value of the grade",
-            "type": "integer",
-            "format": "int64"
-          },
-          "credits": {
-            "description": "The number of credits",
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "type": "object"
-      },
-      "UserData": {
-        "title": "UserDTO",
-        "description": "User entity",
-        "required": [
-          "id",
-          "email",
-          "name",
-          "surname",
-          "birthDate",
-          "country",
-          "state",
-          "city",
-          "address",
-          "sex",
-          "CNP",
-          "roleId",
-          "google_id"
-        ],
-        "properties": {
-          "id": {
-            "description": "The unique identifier for the user",
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "nullable": true
-          },
-          "email": {
-            "description": "The email address of the user",
-            "type": "string",
-            "example": "john.doe@example.com",
-            "nullable": true
-          },
-          "name": {
-            "description": "The first name of the user",
-            "type": "string",
-            "example": "John",
-            "nullable": true
-          },
-          "surname": {
-            "description": "The last name of the user",
-            "type": "string",
-            "example": "Doe",
-            "nullable": true
-          },
-          "birthDate": {
-            "description": "The birth date of the user",
-            "type": "string",
-            "example": "1990-01-01",
-            "nullable": true
-          },
-          "country": {
-            "description": "The country of the user",
-            "type": "string",
-            "example": "United States",
-            "nullable": true
-          },
-          "state": {
-            "description": "The state of the user",
-            "type": "string",
-            "example": "California",
-            "nullable": true
-          },
-          "city": {
-            "description": "The city of the user",
-            "type": "string",
-            "example": "Los Angeles",
-            "nullable": true
-          },
-          "address": {
-            "description": "The address of the user",
-            "type": "string",
-            "example": "123 Main Street",
-            "nullable": true
-          },
-          "sex": {
-            "description": "The sex of the user",
-            "type": "boolean",
-            "example": true,
-            "nullable": true
-          },
-          "CNP": {
-            "description": "The CNP (personal identification number) of the user",
-            "type": "string",
-            "example": "1234567890123",
-            "nullable": true
-          },
-          "roleId": {
-            "description": "The role ID of the user",
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "nullable": true
-          },
-          "google_id": {
-            "description": "The google unique id of the user",
-            "type": "string",
-            "example": "7182471293561238974102742010457",
-            "nullable": true
-          }
-        },
-        "type": "object"
-      },
-      "Discipline": {
-        "title": "Discipline",
-        "description": "Discipline entity",
-        "required": ["id", "name", "credits"],
-        "properties": {
-          "id": {
-            "description": "The unique identifier for the discipline",
-            "type": "integer",
-            "format": "int64",
-            "example": 1
-          },
-          "name": {
-            "description": "The name of the discipline",
-            "type": "string"
-          },
-          "credits": {
-            "description": "The number of credits associated with the discipline",
-            "type": "integer",
-            "example": 3
-          },
-          "idDiscipline": {
-            "description": "The unique identifier for the discipline (if different from 'id')",
-            "type": "integer",
-            "format": "int64",
-            "example": 1001
-          }
-        },
-        "type": "object"
-      },
-      "DisciplineType": {
-        "required": ["id", "type"],
-        "properties": {
-          "id": {
-            "description": "The unique identifier of the discipline type",
-            "type": "integer",
-            "format": "int64"
-          },
-          "type": {
-            "description": "The type of the discipline",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "Exam": {
-        "required": ["id", "idDiscipline", "examDate"],
-        "properties": {
-          "id": {
-            "description": "The unique identifier of the exam",
-            "type": "integer",
-            "format": "int64"
-          },
-          "idDiscipline": {
-            "description": "The unique identifier of the discipline",
-            "type": "integer",
-            "format": "int64"
-          },
-          "examDate": {
-            "description": "The date of the exam",
-            "type": "string",
-            "format": "date"
-          }
-        },
-        "type": "object"
-      },
-      "Grade": {
-        "title": "Grade",
-        "description": "Grade entity",
-        "required": ["id", "idExam", "idUser", "value"],
-        "properties": {
-          "id": {
-            "description": "The unique identifier for the grade",
-            "type": "integer",
-            "format": "int64",
-            "example": 1
-          },
-          "idExam": {
-            "description": "The unique identifier for the exam associated with the grade",
-            "type": "integer",
-            "format": "int64",
-            "example": 1001
-          },
-          "idUser": {
-            "description": "The unique identifier for the user associated with the grade",
-            "type": "integer",
-            "format": "int64",
-            "example": 2001
-          },
-          "value": {
-            "description": "The value of the grade",
-            "type": "integer",
-            "format": "int64",
-            "example": 85
-          }
-        },
-        "type": "object"
-      },
-      "Role": {
-        "required": ["id", "type"],
-        "properties": {
-          "id": {
-            "description": "The unique identifier of the role",
-            "type": "integer",
-            "format": "int64"
-          },
-          "type": {
-            "description": "The type of the role",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "User": {
-        "title": "User",
-        "description": "User entity",
-        "required": [
-          "id",
-          "email",
-          "name",
-          "surname",
-          "birthDate",
-          "country",
-          "state",
-          "city",
-          "address",
-          "sex",
-          "CNP",
-          "roleId",
-          "google_id"
-        ],
-        "properties": {
-          "id": {
-            "description": "The unique identifier for the user",
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "nullable": true
-          },
-          "email": {
-            "description": "The email address of the user",
-            "type": "string",
-            "example": "john.doe@example.com",
-            "nullable": true
-          },
-          "name": {
-            "description": "The first name of the user",
-            "type": "string",
-            "example": "John",
-            "nullable": true
-          },
-          "surname": {
-            "description": "The last name of the user",
-            "type": "string",
-            "example": "Doe",
-            "nullable": true
-          },
-          "birthDate": {
-            "description": "The birth date of the user",
-            "type": "string",
-            "example": "1990-01-01",
-            "nullable": true
-          },
-          "country": {
-            "description": "The country of the user",
-            "type": "string",
-            "example": "United States",
-            "nullable": true
-          },
-          "state": {
-            "description": "The state of the user",
-            "type": "string",
-            "example": "California",
-            "nullable": true
-          },
-          "city": {
-            "description": "The city of the user",
-            "type": "string",
-            "example": "Los Angeles",
-            "nullable": true
-          },
-          "address": {
-            "description": "The address of the user",
-            "type": "string",
-            "example": "123 Main Street",
-            "nullable": true
-          },
-          "sex": {
-            "description": "The sex of the user",
-            "type": "boolean",
-            "example": true,
-            "nullable": true
-          },
-          "CNP": {
-            "description": "The CNP (personal identification number) of the user",
-            "type": "string",
-            "example": "1234567890123",
-            "nullable": true
-          },
-          "roleId": {
-            "description": "The role ID of the user",
-            "type": "integer",
-            "format": "int64",
-            "example": 1,
-            "nullable": true
-          },
-          "google_id": {
-            "description": "The google unique id of the user",
-            "type": "string",
-            "example": "7182471293561238974102742010457",
-            "nullable": true
-          }
-        },
-        "type": "object"
-      }
-    }
-  }
 }
